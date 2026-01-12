@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/* Custom Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Custom CSS Variables */
+:root {
+  --color-crimson: #c41e3a;
+  --color-deep-crimson: #8b1629;
+  --color-charcoal: #2d2d2d;
+  --color-titanium: #c4cdbe;
+  --color-mist: #8b8b8b;
+  --color-platinum: #e8e8e8;
+  --color-bg: #f4f5f3;
+  --color-teal: #0d7377;
+  --color-gold: #b8860b;
+  --color-slate: #4a5568;
+  --color-positive: #2d7a4f;
+
+  --font-playfair: 'Playfair Display', serif;
+  --font-crimson: 'Crimson Text', Georgia, serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+/* Background Colors */
+@utility bg-crimson {
+  background-color: var(--color-crimson);
+}
+
+@utility bg-deep-crimson {
+  background-color: var(--color-deep-crimson);
+}
+
+@utility bg-charcoal {
+  background-color: var(--color-charcoal);
+}
+
+@utility bg-titanium {
+  background-color: var(--color-titanium);
+}
+
+@utility bg-platinum {
+  background-color: var(--color-platinum);
+}
+
+@utility bg-bg {
+  background-color: var(--color-bg);
+}
+
+@utility bg-teal {
+  background-color: var(--color-teal);
+}
+
+@utility bg-gold {
+  background-color: var(--color-gold);
+}
+
+@utility bg-slate {
+  background-color: var(--color-slate);
+}
+
+@utility bg-positive {
+  background-color: var(--color-positive);
+}
+
+@utility bg-mist {
+  background-color: var(--color-mist);
+}
+
+/* Text Colors */
+@utility text-crimson {
+  color: var(--color-crimson);
+}
+
+@utility text-deep-crimson {
+  color: var(--color-deep-crimson);
+}
+
+@utility text-charcoal {
+  color: var(--color-charcoal);
+}
+
+@utility text-titanium {
+  color: var(--color-titanium);
+}
+
+@utility text-mist {
+  color: var(--color-mist);
+}
+
+@utility text-platinum {
+  color: var(--color-platinum);
+}
+
+@utility text-teal {
+  color: var(--color-teal);
+}
+
+@utility text-gold {
+  color: var(--color-gold);
+}
+
+@utility text-positive {
+  color: var(--color-positive);
+}
+
+/* Border Colors */
+@utility border-crimson {
+  border-color: var(--color-crimson);
+}
+
+@utility border-platinum {
+  border-color: var(--color-platinum);
+}
+
+@utility border-charcoal {
+  border-color: var(--color-charcoal);
+}
+
+@utility border-teal {
+  border-color: var(--color-teal);
+}
+
+@utility border-gold {
+  border-color: var(--color-gold);
+}
+
+@utility border-t-teal {
+  border-top-color: var(--color-teal);
+}
+
+@utility border-t-gold {
+  border-top-color: var(--color-gold);
+}
+
+@utility border-t-crimson {
+  border-top-color: var(--color-crimson);
+}
+
+@utility border-l-crimson {
+  border-left-color: var(--color-crimson);
+}
+
+/* Fonts */
+@utility font-playfair {
+  font-family: var(--font-playfair);
+}
+
+@utility font-crimson {
+  font-family: var(--font-crimson);
+}
+
+@utility font-inter {
+  font-family: var(--font-inter);
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-crimson);
+  background-color: var(--color-bg);
+  color: #0f0f0f;
+  line-height: 1.7;
+  font-size: 18px;
+}
+
+/* Animation for spinning rings */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Custom shadow for crimson hover effect - applied via regular CSS */
+.shadow-crimson-glow {
+  box-shadow: 0 10px 25px rgba(196, 30, 58, 0.4);
+}

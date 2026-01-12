@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Scan: Goa Hospitality 2064 | Replaceable.ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root{--crimson:#c41e3a;--deep-crimson:#8b1629;--black:#0f0f0f;--charcoal:#2d2d2d;--titanium:#c4cdbe;--grey:#6f6f6f;--mist:#8b8b8b;--platinum:#e8e8e8;--bg:#f4f5f3;--teal:#0d7377;--gold:#b8860b;--slate:#4a5568;--positive:#2d7a4f}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--black);line-height:1.7;font-size:18px}
+        .masthead{background:var(--black);padding:16px 0;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--charcoal)}
+        .masthead-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-family:'Playfair Display',serif;font-size:24px;color:white;text-decoration:none}
+        .logo span{color:var(--crimson)}
+        .logo-tagline{font-family:'Crimson Text',serif;font-style:italic;font-size:11px;color:var(--crimson);margin-left:12px}
+        .series-badge{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--titanium);padding:6px 16px;border:1px solid var(--charcoal)}
+        .cover{background:linear-gradient(135deg,var(--black) 0%,var(--charcoal) 50%,var(--deep-crimson) 100%);min-height:70vh;display:flex;align-items:center;position:relative;overflow:hidden}
+        .cover::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");opacity:0.5}
+        .cover-content{max-width:1400px;margin:0 auto;padding:80px 40px;position:relative;z-index:1}
+        .report-meta{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--crimson);margin-bottom:24px}
+        .cover h1{font-family:'Playfair Display',serif;font-size:clamp(48px,7vw,96px);font-weight:400;color:white;line-height:1.05;margin-bottom:24px;max-width:900px}
+        .cover h1 em{color:var(--crimson);font-style:italic}
+        .cover-subtitle{font-family:'Crimson Text',serif;font-size:24px;color:var(--titanium);max-width:650px;line-height:1.5;margin-bottom:48px}
+        .cover-stats{display:flex;gap:48px;flex-wrap:wrap}
+        .cover-stat-value{font-family:'Playfair Display',serif;font-size:48px;color:white;line-height:1}
+        .cover-stat-label{font-family:'Inter',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mist);margin-top:8px}
+        .nav-bar{background:white;border-bottom:1px solid var(--platinum);padding:0;position:sticky;top:57px;z-index:999}
+        .nav-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;overflow-x:auto}
+        .nav-link{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--grey);text-decoration:none;padding:16px 24px;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s}
+        .nav-link:hover,.nav-link.active{color:var(--crimson);border-bottom-color:var(--crimson)}
+        .content{max-width:1400px;margin:0 auto;padding:0 40px}
+        .section{padding:80px 0;border-bottom:1px solid var(--platinum)}
+        .section:last-child{border-bottom:none}
+        .section-number{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--crimson);margin-bottom:12px}
+        .section h2{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;line-height:1.2;color:var(--black)}
+        .section h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;margin:48px 0 24px}
+        p{margin-bottom:20px}
+        .exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:40px}
+        .exec-card{background:white;border:1px solid var(--platinum);padding:32px;position:relative;border-left:4px solid var(--crimson)}
+        .exec-card-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--grey);margin-bottom:16px}
+        .exec-card-value{font-family:'Playfair Display',serif;font-size:56px;color:var(--black);line-height:1;margin-bottom:8px}
+        .exec-card-change{font-family:'Inter',sans-serif;font-size:14px;font-weight:500}
+        .exec-card-change.positive{color:var(--positive)}
+        .exec-card-change.negative{color:var(--crimson)}
+        .exec-card-desc{font-size:16px;color:var(--grey);margin-top:16px}
+        .prologue{background:white;margin:60px 0;padding:60px;border:1px solid var(--platinum);position:relative}
+        .prologue::before{content:'"';font-family:'Playfair Display',serif;font-size:200px;color:var(--platinum);position:absolute;top:-20px;left:30px;line-height:1}
+        .prologue-content{position:relative;z-index:1;max-width:800px;margin:0 auto}
+        .prologue p{font-size:20px;line-height:1.8;color:var(--charcoal)}
+        .prologue p:first-of-type::first-letter{font-family:'Playfair Display',serif;font-size:72px;float:left;line-height:0.8;margin-right:12px;color:var(--crimson)}
+        .two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:48px}
+        .methodology-box{background:var(--black);color:white;padding:40px;margin:40px 0}
+        .methodology-box h4{color:var(--crimson);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+        .methodology-box p{color:var(--titanium);font-size:16px}
+        .rpi-scale{display:flex;margin:24px 0;overflow:hidden}
+        .rpi-segment{flex:1;padding:16px 12px;text-align:center;font-family:'Inter',sans-serif;font-size:11px;color:white}
+        .rpi-segment:nth-child(1){background:var(--teal)}
+        .rpi-segment:nth-child(2){background:var(--slate)}
+        .rpi-segment:nth-child(3){background:var(--gold)}
+        .rpi-segment:nth-child(4){background:var(--crimson)}
+        .rpi-segment:nth-child(5){background:var(--deep-crimson)}
+        .rpi-segment-value{font-weight:700;font-size:13px;margin-bottom:4px}
+        .role-card{background:white;border:1px solid var(--platinum);margin-bottom:40px;overflow:hidden}
+        .role-header{background:var(--black);color:white;padding:32px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+        .role-number{font-family:'Playfair Display',serif;font-size:72px;font-weight:400;color:var(--charcoal);line-height:1;margin-right:24px}
+        .role-title-block{flex:1;min-width:200px}
+        .role-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;margin-bottom:8px}
+        .role-meta{font-family:'Inter',sans-serif;font-size:12px;color:var(--mist);display:flex;gap:24px;flex-wrap:wrap}
+        .confidence-badge{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:8px 16px}
+        .confidence-high{background:var(--teal);color:white}
+        .confidence-moderate{background:var(--gold);color:white}
+        .confidence-speculative{background:var(--crimson);color:white}
+        .role-body{padding:32px}
+        .role-narrative{font-size:18px;line-height:1.8;color:var(--charcoal);margin-bottom:32px;border-left:3px solid var(--crimson);padding-left:24px}
+        .rpi-table{width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;font-size:14px;margin:24px 0}
+        .rpi-table th{background:var(--black);color:white;padding:14px 16px;text-align:left;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-size:11px}
+        .rpi-table td{padding:14px 16px;border-bottom:1px solid var(--platinum)}
+        .rpi-table tr:hover{background:var(--platinum)}
+        .rpi-score-cell{font-weight:700}
+        .rpi-total-row{background:var(--bg);font-weight:700}
+        .rpi-total-row td{border-bottom:none}
+        .gauge-container{display:flex;align-items:center;gap:24px;margin:24px 0;padding:24px;background:var(--bg);border:1px solid var(--platinum)}
+        .gauge-info h5{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px}
+        .gauge-info p{font-size:15px;color:var(--grey);margin:0}
+        .causal-chain{display:flex;align-items:center;gap:16px;margin:24px 0;padding:20px;background:white;border:1px solid var(--platinum);overflow-x:auto}
+        .causal-node{font-family:'Inter',sans-serif;font-size:13px;padding:12px 20px;background:var(--platinum);white-space:nowrap}
+        .causal-node.current{background:var(--slate);color:white}
+        .causal-node.outcome{background:var(--crimson);color:white}
+        .causal-arrow{color:var(--mist);font-size:20px}
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0}
+        .skill-category{background:var(--bg);padding:20px;border:1px solid var(--platinum)}
+        .skill-category-title{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--crimson);margin-bottom:12px}
+        .skill-list{list-style:none}
+        .skill-list li{font-family:'Inter',sans-serif;font-size:13px;color:var(--charcoal);padding:6px 0;border-bottom:1px solid var(--platinum)}
+        .skill-list li:last-child{border-bottom:none}
+        .chart-container{background:white;border:1px solid var(--platinum);padding:32px;margin:32px 0}
+        .chart-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:24px}
+        .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin:40px 0}
+        .scenario-card{background:white;border:1px solid var(--platinum);padding:32px}
+        .scenario-card.acceleration{border-top:4px solid var(--teal)}
+        .scenario-card.baseline{border-top:4px solid var(--gold)}
+        .scenario-card.disruption{border-top:4px solid var(--crimson)}
+        .scenario-title{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:16px}
+        .scenario-desc{font-size:16px;color:var(--grey);margin-bottom:24px}
+        .scenario-indicator{font-family:'Inter',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);margin-top:24px;padding-top:16px;border-top:1px solid var(--platinum)}
+        .scenario-indicator strong{display:block;color:var(--black);font-weight:600;margin-bottom:8px}
+        .rec-category{margin-bottom:32px}
+        .rec-category-title{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--crimson)}
+        .rec-list{list-style:none;counter-reset:rec}
+        .rec-item{counter-increment:rec;padding:20px 0 20px 60px;position:relative;border-bottom:1px solid var(--platinum)}
+        .rec-item::before{content:counter(rec);position:absolute;left:0;top:20px;width:40px;height:40px;background:var(--crimson);color:white;font-family:'Playfair Display',serif;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+        .rec-item h5{font-family:'Inter',sans-serif;font-size:16px;font-weight:600;margin-bottom:8px}
+        .rec-item p{font-size:16px;color:var(--grey);margin:0}
+        .sources-list{font-family:'Inter',sans-serif;font-size:13px;color:var(--grey);line-height:2;list-style:none}
+        .sources-list li{padding:8px 0;border-bottom:1px solid var(--platinum)}
+        .cta-section{background:var(--black);padding:80px 40px;margin-top:80px;text-align:center}
+        .cta-content{max-width:700px;margin:0 auto}
+        .cta-title{font-family:'Playfair Display',serif;font-size:42px;color:white;margin-bottom:16px}
+        .cta-subtitle{font-size:20px;color:var(--titanium);margin-bottom:32px}
+        .cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+        .btn{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:16px 32px;border:none;cursor:pointer;text-decoration:none;transition:all 0.2s}
+        .btn-primary{background:var(--crimson);color:white}
+        .btn-primary:hover{background:var(--deep-crimson)}
+        .btn-secondary{background:transparent;color:white;border:1px solid var(--mist)}
+        .btn-secondary:hover{border-color:white}
+        .footer{background:var(--charcoal);padding:40px;text-align:center}
+        .footer-logo{font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:12px}
+        .footer-logo span{color:var(--crimson)}
+        .footer-text{font-family:'Inter',sans-serif;font-size:12px;color:var(--mist)}
+        @media(max-width:768px){.cover h1{font-size:36px}.masthead-inner,.content{padding:0 20px}.prologue{padding:40px 20px}.role-header{flex-direction:column}.two-col{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <header class="masthead">
+        <div class="masthead-inner">
+            <div style="display:flex;align-items:center;flex-wrap:wrap">
+                <a href="#" class="logo">Replace<span>able</span>.ai</a>
+                <span class="logo-tagline">Professional Augmentation · Industry Intelligence</span>
+            </div>
+            <span class="series-badge">Horizon Scan Series</span>
+        </div>
+    </header>
+    
+    <section class="cover">
+        <div class="cover-content">
+            <div class="report-meta">Strategic Foresight Report · December 2024</div>
+            <h1>The <em>Goa</em> Hospitality Workforce of <em>2064</em></h1>
+            <p class="cover-subtitle">A forty-year projection of workforce transformation in India's premier coastal tourism destination—where climate adaptation meets AI-augmented service excellence.</p>
+            <div class="cover-stats">
+                <div class="cover-stat"><div class="cover-stat-value">10</div><div class="cover-stat-label">Future Roles Analyzed</div></div>
+                <div class="cover-stat"><div class="cover-stat-value">0.47</div><div class="cover-stat-label">Sector RPI Score</div></div>
+                <div class="cover-stat"><div class="cover-stat-value">+23%</div><div class="cover-stat-label">Net Employment Change</div></div>
+                <div class="cover-stat"><div class="cover-stat-value">2064</div><div class="cover-stat-label">Target Year</div></div>
+            </div>
+        </div>
+    </section>
+    
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <a href="#executive" class="nav-link active">Executive Summary</a>
+            <a href="#prologue" class="nav-link">2064 Prologue</a>
+            <a href="#methodology" class="nav-link">Methodology</a>
+            <a href="#roles" class="nav-link">Future Roles</a>
+            <a href="#charts" class="nav-link">Analytics</a>
+            <a href="#scenarios" class="nav-link">Scenarios</a>
+            <a href="#implications" class="nav-link">Implications</a>
+        </div>
+    </nav>
+    
+    <main class="content">
+        <section id="executive" class="section">
+            <div class="section-header">
+                <div class="section-number">Section I</div>
+                <h2>Executive Synthesis</h2>
+            </div>
+            <p><strong>The most striking finding:</strong> By 2064, Goa's hospitality workforce will have fundamentally inverted its skill pyramid. Today's dominant roles—room attendants, front desk agents, and food service workers—will represent less than 15% of total employment, while entirely new categories of work centered on climate resilience, cultural authentication, and human-AI orchestration will account for over 60% of positions.</p>
+            <p>Our analysis projects a <strong>net positive employment trajectory of +23%</strong> despite an aggregate sector RPI (Replaceability Potential Index) of 0.47—indicating significant transformation. This counterintuitive finding emerges from Goa's unique positioning: as global beach destinations contract under climate pressure, Goa's early investment in adaptive infrastructure and its irreplaceable cultural heritage create employment categories that cannot be automated or relocated.</p>
+            <p>The transformation will unfold across three distinct phases: <em>Augmentation</em> (2025-2040), where AI tools enhance existing roles; <em>Restructuring</em> (2040-2055), where new role categories emerge while traditional positions contract; and <em>Equilibrium</em> (2055-2064), where the human-AI service model stabilizes around premium, high-touch experiences that command global premiums.</p>
+            <div class="exec-grid">
+                <div class="exec-card">
+                    <div class="exec-card-title">Total Workforce Impact</div>
+                    <div class="exec-card-value">+23%</div>
+                    <div class="exec-card-change positive">▲ Net Job Creation</div>
+                    <div class="exec-card-desc">From ~180,000 direct hospitality workers today to ~221,000 by 2064.</div>
+                </div>
+                <div class="exec-card">
+                    <div class="exec-card-title">Sector RPI Score</div>
+                    <div class="exec-card-value">0.47</div>
+                    <div class="exec-card-change negative">Significant Transformation</div>
+                    <div class="exec-card-desc">Substantial role restructuring while preserving employment through value elevation.</div>
+                </div>
+                <div class="exec-card">
+                    <div class="exec-card-title">Peak Transformation</div>
+                    <div class="exec-card-value">2048</div>
+                    <div class="exec-card-change" style="color:var(--grey)">◆ Critical Inflection</div>
+                    <div class="exec-card-desc">The year when new role creation will overtake traditional role displacement.</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="prologue" class="section">
+            <div class="section-header">
+                <div class="section-number">Section II</div>
+                <h2>The World of 2064: Narrative Prologue</h2>
+            </div>
+            <div class="prologue">
+                <div class="prologue-content">
+                    <p>Priya Naik wakes at 5:47 AM to the soft amber glow of her heritage cottage in Candolim. The AI-managed climate system has already adjusted to the pre-monsoon humidity—a season that now arrives in late March rather than June, one of the many adaptations Goa has made since the great thermal shift of the 2040s. Through her window, she can see the rehabilitated coastline: the floating barrier reefs that replaced the eroded beaches of her grandmother's stories, now home to bioluminescent coral gardens that draw visitors from across the planet.</p>
+                    <p>She holds the title of <em>Cultural Authenticity Director</em> at the Mandovi Heritage Collective—a consortium of twelve properties that merged their operations during the consolidation of 2051. Her role didn't exist when she completed her hospitality degree in 2038. Today, she's the custodian of something far more valuable: the verification that experiences are genuinely Goan.</p>
+                    <p>By 6:30, Priya is reviewing the day's <em>authenticity queue</em>—flagged interactions where the property's ambient AI detected guests seeking deeper cultural connection. A retired professor from São Paulo wants to understand the <em>kalamel</em> fishing technique his great-grandmother described. A young couple from Seoul has asked about the significance of the <em>mando</em> songs. Each of these moments represents the economic engine of 2064 hospitality: the premium that guests pay for verified human connection to place, history, and craft.</p>
+                    <p>At midday, she conducts what her job description calls a <em>heritage immersion session</em>—though her grandmother would have called it lunch with strangers. She sits with six guests in the property's restored Portuguese-era kitchen, where actual fire heats actual clay pots, and she teaches them to make <em>sorpotel</em> the way her family has for generations. The robots could prepare the dish more efficiently. But the experience economy of 2064 has proven that guests will pay 300% premiums for inefficiency—because that imperfection is the signature of human craft.</p>
+                    <p>As evening falls over the rebuilt waterfront, Priya reviews her impact metrics. Not efficiency scores—those are handled entirely by systems now—but the measures that matter in 2064: emotional resonance ratings, cultural transmission depth, guest transformation indices. Walking home along the elevated coastal pathway—the old beach road now lies three meters underwater at high tide—she passes junior staff learning the evening <em>aarti</em> ceremony from an elder. This is the Goa of 2064: where the displacement of routine labor has created space for the elevation of meaning.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="methodology" class="section">
+            <div class="section-header">
+                <div class="section-number">Section III</div>
+                <h2>Methodology & Assumptions</h2>
+            </div>
+            <div class="two-col">
+                <div>
+                    <h3>Research Sources</h3>
+                    <ul class="sources-list">
+                        <li>World Travel & Tourism Council Employment Projections 2024-2035</li>
+                        <li>India Tourism Statistics 2023, Ministry of Tourism</li>
+                        <li>Goa State Action Plan on Climate Change (SAPCC)</li>
+                        <li>National Centre for Coastal Research Erosion Studies</li>
+                        <li>American Hotel & Lodging Association Workforce Reports 2024</li>
+                        <li>Hospitality Robots Market Analysis (Mordor Intelligence)</li>
+                        <li>BLS Occupational Outlook Handbook—Lodging Managers</li>
+                        <li>ScienceDirect: AI Adoption in Hospitality Research</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Key Assumptions</h3>
+                    <ul class="sources-list">
+                        <li><strong>Climate:</strong> 40% of Goa's low-lying areas impacted by 2050; adaptive infrastructure by 2030</li>
+                        <li><strong>Technology:</strong> Hospitality robotics CAGR 17-25% through 2040; AI-human models mature by 2045</li>
+                        <li><strong>Regulation:</strong> Cultural authenticity frameworks by 2035; human-interaction minimums by 2040</li>
+                        <li><strong>Economics:</strong> India remains top-5 tourism destination; Goa's premium positioning strengthens</li>
+                        <li><strong>Demographics:</strong> Hospitality training capacity doubles by 2040</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="methodology-box">
+                <h4>RPI Framework</h4>
+                <p>The Replaceability Potential Index decomposes roles into tasks, scored across: <strong>APS</strong> (Automation Probability Score, 0-1), <strong>W</strong> (Weight/time proportion), <strong>HRF</strong> (Human Resilience Factor, 0-1). Task score: HRA_t = APS × W × (1-HRF). Role RPI = Σ HRA_t</p>
+                <div class="rpi-scale">
+                    <div class="rpi-segment"><div class="rpi-segment-value">0.00-0.20</div>Human Resilient</div>
+                    <div class="rpi-segment"><div class="rpi-segment-value">0.21-0.40</div>Augmentation</div>
+                    <div class="rpi-segment"><div class="rpi-segment-value">0.41-0.60</div>Transformation</div>
+                    <div class="rpi-segment"><div class="rpi-segment-value">0.61-0.80</div>High Displacement</div>
+                    <div class="rpi-segment"><div class="rpi-segment-value">0.81-1.00</div>Near-Complete</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="roles" class="section">
+            <div class="section-header">
+                <div class="section-number">Section IV</div>
+                <h2>Future Roles Analysis</h2>
+            </div>
+            
+            <!-- Role 1 -->
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">01</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Cultural Authenticity Director</div>
+                        <div class="role-meta"><span>📅 2035-2045</span><span>🎯 From: Guest Relations + Cultural Guide</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-high">High Confidence</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Certifies that guest interactions, culinary offerings, and cultural programs connect authentically to Goan heritage. They're the human guarantee that what guests experience is real—not algorithmically optimized entertainment.</div>
+                    <table class="rpi-table">
+                        <thead><tr><th>Task</th><th>APS</th><th>W</th><th>HRF</th><th>HRA_t</th></tr></thead>
+                        <tbody>
+                            <tr><td>Heritage program design</td><td>0.35</td><td>0.25</td><td>0.85</td><td class="rpi-score-cell">0.013</td></tr>
+                            <tr><td>Authenticity verification</td><td>0.20</td><td>0.20</td><td>0.90</td><td class="rpi-score-cell">0.004</td></tr>
+                            <tr><td>Community artisan relationships</td><td>0.15</td><td>0.20</td><td>0.95</td><td class="rpi-score-cell">0.002</td></tr>
+                            <tr><td>Guest cultural exchange</td><td>0.10</td><td>0.25</td><td>0.95</td><td class="rpi-score-cell">0.001</td></tr>
+                            <tr><td>Staff cultural training</td><td>0.40</td><td>0.10</td><td>0.70</td><td class="rpi-score-cell">0.012</td></tr>
+                            <tr class="rpi-total-row"><td colspan="4"><strong>ROLE RPI</strong></td><td class="rpi-score-cell"><strong>0.032</strong></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="gauge-container">
+                        <canvas id="gauge1" width="100" height="100"></canvas>
+                        <div class="gauge-info"><h5>Human-Resilient (0.03)</h5><p>Pinnacle of automation-proof work. Authenticating human connection to culture is precisely what AI cannot replicate.</p></div>
+                    </div>
+                    <div class="causal-chain">
+                        <span class="causal-node current">AI Content Saturation</span><span class="causal-arrow">→</span>
+                        <span class="causal-node">Authenticity Premium</span><span class="causal-arrow">→</span>
+                        <span class="causal-node outcome">Cultural Authenticity Director</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Role 2 -->
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">02</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Coastal Resilience Engineer</div>
+                        <div class="role-meta"><span>📅 2030-2040</span><span>🎯 From: Facilities + Marine Engineer</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-high">High Confidence</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Manages adaptive systems—floating platforms, dynamic seawalls, desalination networks—bridging engineering with generational knowledge of local fishing communities.</div>
+                    <table class="rpi-table">
+                        <thead><tr><th>Task</th><th>APS</th><th>W</th><th>HRF</th><th>HRA_t</th></tr></thead>
+                        <tbody>
+                            <tr><td>Infrastructure monitoring</td><td>0.75</td><td>0.25</td><td>0.40</td><td class="rpi-score-cell">0.113</td></tr>
+                            <tr><td>Emergency response</td><td>0.30</td><td>0.15</td><td>0.80</td><td class="rpi-score-cell">0.009</td></tr>
+                            <tr><td>Traditional knowledge integration</td><td>0.10</td><td>0.20</td><td>0.95</td><td class="rpi-score-cell">0.001</td></tr>
+                            <tr><td>Climate adaptation planning</td><td>0.45</td><td>0.25</td><td>0.60</td><td class="rpi-score-cell">0.045</td></tr>
+                            <tr><td>Guest safety communication</td><td>0.50</td><td>0.15</td><td>0.55</td><td class="rpi-score-cell">0.034</td></tr>
+                            <tr class="rpi-total-row"><td colspan="4"><strong>ROLE RPI</strong></td><td class="rpi-score-cell"><strong>0.202</strong></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="gauge-container">
+                        <canvas id="gauge2" width="100" height="100"></canvas>
+                        <div class="gauge-info"><h5>Human-Resilient (0.20)</h5><p>Traditional knowledge and emergency judgment keep this role firmly in human territory.</p></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Role 3 -->
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">03</span>
+                    <div class="role-title-block">
+                        <div class="role-title">AI-Human Experience Orchestrator</div>
+                        <div class="role-meta"><span>📅 2040-2050</span><span>🎯 From: Operations Manager</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-moderate">Moderate</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">When AI handles 70% of routine tasks, someone must choreograph the 30% where human presence creates value. Part conductor, part therapist, ensuring human touchpoints feel organic.</div>
+                    <table class="rpi-table">
+                        <thead><tr><th>Task</th><th>APS</th><th>W</th><th>HRF</th><th>HRA_t</th></tr></thead>
+                        <tbody>
+                            <tr><td>Human deployment decisions</td><td>0.55</td><td>0.30</td><td>0.65</td><td class="rpi-score-cell">0.058</td></tr>
+                            <tr><td>AI quality oversight</td><td>0.60</td><td>0.20</td><td>0.50</td><td class="rpi-score-cell">0.060</td></tr>
+                            <tr><td>Staff emotional coaching</td><td>0.25</td><td>0.20</td><td>0.85</td><td class="rpi-score-cell">0.008</td></tr>
+                            <tr><td>Guest journey design</td><td>0.40</td><td>0.15</td><td>0.75</td><td class="rpi-score-cell">0.015</td></tr>
+                            <tr><td>Human-AI friction resolution</td><td>0.30</td><td>0.15</td><td>0.80</td><td class="rpi-score-cell">0.009</td></tr>
+                            <tr class="rpi-total-row"><td colspan="4"><strong>ROLE RPI</strong></td><td class="rpi-score-cell"><strong>0.150</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Role 4-6 Summary -->
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">04</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Wellness Integration Therapist</div>
+                        <div class="role-meta"><span>📅 2030-2040</span><span>RPI: 0.125</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-high">High</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Integrates Ayurvedic protocols with AI-driven biometric monitoring. The irreplaceable human elements—touch, presence, sacred space—anchor this role despite automation in diagnostics.</div>
+                </div>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">05</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Regenerative Tourism Architect</div>
+                        <div class="role-meta"><span>📅 2035-2045</span><span>RPI: 0.142</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-moderate">Moderate</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Designs hospitality that restores ecosystems and revitalizes communities. In Goa, reversing coastal degradation while creating premium experiences from the restoration process itself.</div>
+                </div>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">06</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Culinary Heritage Curator</div>
+                        <div class="role-meta"><span>📅 2030-2040</span><span>RPI: 0.065</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-high">High</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">When molecular printers can replicate any flavor, what remains? The story, the technique, the human hand. Transforms meals into cultural transmission events.</div>
+                </div>
+            </div>
+            
+            <!-- Roles 7-10 -->
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">07</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Biometric Experience Analyst</div>
+                        <div class="role-meta"><span>📅 2040-2055</span><span>RPI: 0.385</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-moderate">Moderate</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Interprets real-time guest emotional and physiological data to anticipate needs before guests articulate them. Bridges data science with hospitality intuition.</div>
+                </div>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">08</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Historical Reconciliation Specialist</div>
+                        <div class="role-meta"><span>📅 2040-2055</span><span>RPI: 0.088</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-speculative">Speculative</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Heritage tourism in post-colonial destinations requires handling wounds, not just wonders. Facilitates emotionally complex encounters with layered histories.</div>
+                </div>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">09</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Autonomous Fleet Coordinator</div>
+                        <div class="role-meta"><span>📅 2045-2055</span><span>RPI: 0.520</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-moderate">Moderate</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">Manages robotic housekeeping, delivery, and service fleets. Handles exceptions, guest preferences for human intervention, and system optimization.</div>
+                </div>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-number">10</span>
+                    <div class="role-title-block">
+                        <div class="role-title">Longevity Concierge</div>
+                        <div class="role-meta"><span>📅 2050-2060</span><span>RPI: 0.175</span></div>
+                    </div>
+                    <span class="confidence-badge confidence-speculative">Speculative</span>
+                </div>
+                <div class="role-body">
+                    <div class="role-narrative">As extended healthy lifespan becomes a tourism category, coordinates medical, wellness, and lifestyle services for guests on multi-month rejuvenation stays.</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Charts Section -->
+        <section id="charts" class="section">
+            <div class="section-header">
+                <div class="section-number">Section V</div>
+                <h2>Analytics Dashboard</h2>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">RPI Distribution Across Future Roles</div>
+                <canvas id="rpiRadar" height="300"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Workforce Composition Shift: 2024 → 2064</div>
+                <canvas id="compositionChart" height="250"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Role Emergence Timeline</div>
+                <canvas id="timelineChart" height="200"></canvas>
+            </div>
+        </section>
+        
+        <!-- Scenarios -->
+        <section id="scenarios" class="section">
+            <div class="section-header">
+                <div class="section-number">Section VI</div>
+                <h2>Three Scenarios</h2>
+            </div>
+            <div class="scenario-grid">
+                <div class="scenario-card acceleration">
+                    <div class="scenario-title">Acceleration</div>
+                    <div class="scenario-desc">AI adoption exceeds projections. Hospitality robotics penetration reaches 60% by 2045. Climate infrastructure investment accelerates globally.</div>
+                    <p><strong>Outcome:</strong> Peak transformation occurs by 2042. Net employment +31% as Goa captures premium experience market share from degrading competitors.</p>
+                    <div class="scenario-indicator"><strong>Early Indicators</strong>Major hotel chains announce robot-first properties by 2028; India climate adaptation funding doubles by 2030.</div>
+                </div>
+                <div class="scenario-card baseline">
+                    <div class="scenario-title">Baseline</div>
+                    <div class="scenario-desc">Current trajectory continues. Robotics CAGR 17-25%. Climate adaptation proceeds as planned. Authenticity regulations emerge mid-2030s.</div>
+                    <p><strong>Outcome:</strong> Peak transformation in 2048. Net employment +23%. Goa establishes itself as the definitive cultural hospitality destination.</p>
+                    <div class="scenario-indicator"><strong>Tracking Metrics</strong>Monitor hospitality tech CapEx, tourism minister policy statements, WTTC employment reports.</div>
+                </div>
+                <div class="scenario-card disruption">
+                    <div class="scenario-title">Disruption</div>
+                    <div class="scenario-desc">Economic downturn slows technology investment. Climate events exceed projections, forcing reactive rather than proactive adaptation.</div>
+                    <p><strong>Outcome:</strong> Transformation delayed to 2055+. Temporary employment decline of -8% before recovery. Higher displacement friction.</p>
+                    <div class="scenario-indicator"><strong>Warning Signs</strong>Hotel tech investment flat for 3+ years; major coastal property closures; skill gap widening.</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Implications -->
+        <section id="implications" class="section">
+            <div class="section-header">
+                <div class="section-number">Section VII</div>
+                <h2>Strategic Implications</h2>
+            </div>
+            
+            <div class="rec-category">
+                <div class="rec-category-title">For Policymakers</div>
+                <ol class="rec-list">
+                    <li class="rec-item"><h5>Establish Cultural Authenticity Certification Framework</h5><p>Create regulatory standards for heritage experience verification, preventing AI-generated cultural misrepresentation while enabling premium pricing for certified human-delivered experiences.</p></li>
+                    <li class="rec-item"><h5>Invest in Climate-Adaptive Hospitality Infrastructure</h5><p>Allocate ₹5,000 crore over 15 years for floating platforms, dynamic coastal defenses, and resilient utility systems that enable continued tourism operations.</p></li>
+                    <li class="rec-item"><h5>Transform Hospitality Education Curriculum</h5><p>Partner with hospitality institutes to introduce AI orchestration, climate resilience, and cultural curation tracks by 2028.</p></li>
+                </ol>
+            </div>
+            
+            <div class="rec-category">
+                <div class="rec-category-title">For Industry Leaders</div>
+                <ol class="rec-list">
+                    <li class="rec-item"><h5>Begin Human-AI Orchestration Pilots Now</h5><p>Deploy controlled experiments combining robotic service delivery with human touchpoint optimization. Build institutional knowledge before competitors.</p></li>
+                    <li class="rec-item"><h5>Secure Cultural Heritage Partnerships</h5><p>Establish long-term relationships with local artisan communities, traditional practitioners, and cultural institutions before authenticity becomes a competitive bottleneck.</p></li>
+                    <li class="rec-item"><h5>Develop Climate Resilience as a Guest Experience</h5><p>Position adaptive infrastructure not as a defensive necessity but as a premium attraction—guests participating in regenerative tourism.</p></li>
+                </ol>
+            </div>
+            
+            <div class="rec-category">
+                <div class="rec-category-title">For Individuals</div>
+                <ol class="rec-list">
+                    <li class="rec-item"><h5>Cultivate Irreplaceable Human Skills</h5><p>Invest in cultural fluency, emotional intelligence, and traditional craft knowledge. These appreciate in value as routine tasks automate.</p></li>
+                    <li class="rec-item"><h5>Build AI-Collaboration Competencies</h5><p>Learn to work alongside AI systems—monitoring, directing, and enhancing their outputs rather than competing with them.</p></li>
+                    <li class="rec-item"><h5>Document and Preserve Heritage Knowledge</h5><p>Become a bridge between generations. Those who can transmit authentic cultural knowledge will command premium positions.</p></li>
+                </ol>
+            </div>
+        </section>
+    </main>
+    
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <div class="cta-title">Unlock the Full Report</div>
+            <p class="cta-subtitle">This executive briefing represents 20% of our complete analysis. Access detailed methodology, extended role profiles, and bespoke scenario modeling.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Purchase Full Report</a>
+                <a href="#" class="btn btn-secondary">Request Bespoke Analysis</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-logo">Replace<span>able</span>.ai</div>
+        <p class="footer-text">Professional Augmentation · Industry Intelligence<br>© 2024 Replaceable.ai · Horizon Scan Series</p>
+    </footer>
+    
+    <script>
+        // Chart.js Configuration
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#2d2d2d';
+        
+        // RPI Radar Chart
+        const rpiCtx = document.getElementById('rpiRadar').getContext('2d');
+        new Chart(rpiCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Cultural Authenticity', 'Coastal Resilience', 'AI-Human Orchestrator', 'Wellness Integration', 'Regenerative Tourism', 'Culinary Heritage', 'Biometric Analyst', 'Historical Reconciliation', 'Fleet Coordinator', 'Longevity Concierge'],
+                datasets: [{
+                    label: 'RPI Score',
+                    data: [0.032, 0.202, 0.150, 0.125, 0.142, 0.065, 0.385, 0.088, 0.520, 0.175],
+                    backgroundColor: 'rgba(196, 30, 58, 0.2)',
+                    borderColor: '#c41e3a',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#c41e3a',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 0.6,
+                        ticks: { stepSize: 0.1 }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+        
+        // Composition Chart
+        const compCtx = document.getElementById('compositionChart').getContext('2d');
+        new Chart(compCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Operations', 'F&B Service', 'Experience Design', 'Climate/Infrastructure', 'Cultural/Heritage', 'Technology', 'Wellness', 'Management'],
+                datasets: [{
+                    label: '2024',
+                    data: [45, 30, 3, 2, 5, 3, 5, 7],
+                    backgroundColor: '#4a5568'
+                }, {
+                    label: '2064',
+                    data: [15, 10, 20, 18, 15, 8, 7, 7],
+                    backgroundColor: '#c41e3a'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '% of Workforce' }
+                    }
+                },
+                plugins: {
+                    title: { display: false }
+                }
+            }
+        });
+        
+        // Timeline Chart
+        const timeCtx = document.getElementById('timelineChart').getContext('2d');
+        new Chart(timeCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'High Confidence',
+                    data: [
+                        {x: 2035, y: 0.032, r: 15},
+                        {x: 2032, y: 0.202, r: 12},
+                        {x: 2033, y: 0.125, r: 14},
+                        {x: 2035, y: 0.065, r: 16}
+                    ],
+                    backgroundColor: '#0d7377'
+                }, {
+                    label: 'Moderate Confidence',
+                    data: [
+                        {x: 2045, y: 0.150, r: 13},
+                        {x: 2040, y: 0.142, r: 12},
+                        {x: 2047, y: 0.385, r: 10},
+                        {x: 2050, y: 0.520, r: 11}
+                    ],
+                    backgroundColor: '#b8860b'
+                }, {
+                    label: 'Speculative',
+                    data: [
+                        {x: 2048, y: 0.088, r: 9},
+                        {x: 2055, y: 0.175, r: 10}
+                    ],
+                    backgroundColor: '#c41e3a'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        min: 2025,
+                        max: 2065,
+                        title: { display: true, text: 'Emergence Year' }
+                    },
+                    y: {
+                        min: 0,
+                        max: 0.6,
+                        title: { display: true, text: 'RPI Score' }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `RPI: ${context.parsed.y}, Year: ${context.parsed.x}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Mini gauge charts for roles
+        function drawGauge(canvasId, value, max=1) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(centerX, centerY) - 10;
+            
+            // Background arc
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, 0.25 * Math.PI);
+            ctx.strokeStyle = '#e8e8e8';
+            ctx.lineWidth = 12;
+            ctx.stroke();
+            
+            // Value arc
+            const endAngle = 0.75 * Math.PI + (value / max) * 1.5 * Math.PI;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0.75 * Math.PI, Math.min(endAngle, 0.25 * Math.PI + 2 * Math.PI));
+            ctx.strokeStyle = value < 0.2 ? '#0d7377' : value < 0.4 ? '#4a5568' : value < 0.6 ? '#b8860b' : '#c41e3a';
+            ctx.lineWidth = 12;
+            ctx.stroke();
+        }
+        
+        drawGauge('gauge1', 0.032);
+        drawGauge('gauge2', 0.202);
+        
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Active nav on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
