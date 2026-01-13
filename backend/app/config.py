@@ -15,7 +15,7 @@ class Settings:
     
     # MongoDB
     MONGODB_URL: str = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
-    DATABASE_NAME: str = os.getenv("DATABASE_NAME", "replaceable_ai")
+    DATABASE_NAME: str = os.getenv("DATABASE_NAME", "replaceable")
     
     # JWT
     SECRET_KEY: str = os.getenv("SECRET_KEY", "your-super-secret-key-change-in-production")

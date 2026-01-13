@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from ..schemas.user import UserCreate, UserLogin, UserResponse, Token
 from ..services.auth_service import AuthService
+from ..dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -39,9 +40,13 @@ async def register(user_data: UserCreate):
         )
 
 @router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user: dict = None):
+async def get_current_user_info(current_user: dict = Depends(get_current_user)):
     """Get current user information."""
-    from ..dependencies import get_current_user
-    from fastapi import Depends
-    # This will be called with dependency injection
-    pass
+    return {
+        "id": str(current_user["_id"]),
+        "email": current_user["email"],
+        "full_name": current_user.get("full_name", ""),
+        "role": current_user.get("role", "user"),
+        "is_active": current_user.get("is_active", True),
+        "created_at": current_user.get("created_at")
+    }

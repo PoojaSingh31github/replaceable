@@ -9,12 +9,23 @@ db = Database()
 
 async def connect_to_database():
     """Connect to MongoDB on startup."""
-    db.client = AsyncIOMotorClient(settings.MONGODB_URL)
-    db.db = db.client[settings.DATABASE_NAME]
-    print(f"Connected to MongoDB database: {settings.DATABASE_NAME}")
-    
-    # Create indexes
-    await create_indexes()
+    try:
+        db.client = AsyncIOMotorClient(
+            settings.MONGODB_URL,
+            serverSelectionTimeoutMS=5000,
+            connectTimeoutMS=5000
+        )
+        # Test the connection
+        await db.client.admin.command('ping')
+        db.db = db.client[settings.DATABASE_NAME]
+        print(f"Connected to MongoDB database: {settings.DATABASE_NAME}")
+        
+        # Create indexes
+        await create_indexes()
+    except Exception as e:
+        print(f"Error: Could not connect to MongoDB: {e}")
+        print("Please check your MONGODB_URL in the .env file")
+        raise
 
 async def close_database_connection():
     """Close MongoDB connection on shutdown."""
@@ -43,10 +54,16 @@ def get_database():
 
 # Collection getters
 def get_users_collection():
+    if db.db is None:
+        return None
     return db.db.users
 
 def get_reports_collection():
+    if db.db is None:
+        return None
     return db.db.reports
 
 def get_consultations_collection():
+    if db.db is None:
+        return None
     return db.db.consultations

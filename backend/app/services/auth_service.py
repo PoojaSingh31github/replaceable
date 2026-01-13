@@ -66,18 +66,25 @@ class AuthService:
         """Ensure at least one admin user exists."""
         from ..config import settings
         
-        users = get_users_collection()
-        admin = await users.find_one({"email": settings.ADMIN_EMAIL})
-        
-        if not admin:
-            user_doc = {
-                "email": settings.ADMIN_EMAIL,
-                "hashed_password": hash_password(settings.ADMIN_PASSWORD),
-                "full_name": "Admin User",
-                "role": "admin",
-                "is_active": True,
-                "created_at": datetime.utcnow(),
-                "updated_at": datetime.utcnow()
-            }
-            await users.insert_one(user_doc)
-            print(f"Created default admin user: {settings.ADMIN_EMAIL}")
+        try:
+            users = get_users_collection()
+            if users is None:
+                print("Database not connected, skipping admin user creation")
+                return
+            
+            admin = await users.find_one({"email": settings.ADMIN_EMAIL})
+            
+            if not admin:
+                user_doc = {
+                    "email": settings.ADMIN_EMAIL,
+                    "hashed_password": hash_password(settings.ADMIN_PASSWORD),
+                    "full_name": "Admin User",
+                    "role": "admin",
+                    "is_active": True,
+                    "created_at": datetime.utcnow(),
+                    "updated_at": datetime.utcnow()
+                }
+                await users.insert_one(user_doc)
+                print(f"Created default admin user: {settings.ADMIN_EMAIL}")
+        except Exception as e:
+            print(f"Warning: Could not ensure admin user: {e}")
