@@ -26,12 +26,14 @@ const AdminDashboard = () => {
 
       // Fetch reports
       const reports = await reportsService.getAllReports();
-      const publishedReports = reports.filter((r) => r.is_published).length;
+      const publishedReports = reports.filter(
+        (r) => r.status === "published"
+      ).length;
 
       // Fetch consultations
       const consultations = await consultationsService.getAllConsultations();
-      const pendingConsultations = consultations.filter(
-        (c) => c.status === "pending"
+      const newConsultations = consultations.filter(
+        (c) => c.status === "new"
       ).length;
       const completedConsultations = consultations.filter(
         (c) => c.status === "completed"
@@ -42,7 +44,7 @@ const AdminDashboard = () => {
         publishedReports,
         draftReports: reports.length - publishedReports,
         totalConsultations: consultations.length,
-        pendingConsultations,
+        pendingConsultations: newConsultations,
         completedConsultations,
       });
 
@@ -202,12 +204,12 @@ const AdminDashboard = () => {
               </thead>
               <tbody>
                 {recentConsultations.map((consultation) => (
-                  <tr key={consultation._id}>
+                  <tr key={consultation.id}>
                     <td className="name-cell">
                       {consultation.first_name} {consultation.last_name}
                     </td>
-                    <td>{consultation.organization}</td>
-                    <td>{consultation.industry}</td>
+                    <td>{consultation.company}</td>
+                    <td>{consultation.industry_sector}</td>
                     <td>{formatDate(consultation.created_at)}</td>
                     <td>
                       <span className={`status-badge ${consultation.status}`}>

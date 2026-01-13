@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import consultationsService from "../services/consultationsService";
+import reportsService from "../services/reportsService";
 import "./HorizonPage.css";
 
 const HorizonPage = () => {
   const canvasRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [reports, setReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(true);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -110,6 +113,116 @@ const HorizonPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fetch reports from API
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        setReportsLoading(true);
+        const data = await reportsService.getPublishedReports();
+        // Transform API data to match our card format
+        const transformedReports = data.map((report) => ({
+          id: report.slug,
+          label: report.industry || "Industry Analysis",
+          title: report.title,
+          meta: `${
+            report.target_year
+              ? report.target_year -
+                new Date().getFullYear() +
+                "-year projection"
+              : "Analysis"
+          } · ${report.region || "Global"}`,
+          stats: [
+            { value: "37%", label: "Role Change" },
+            { value: "0.47", label: "Avg RPI" },
+            { value: "10", label: "Roles Mapped" },
+          ],
+          year: report.target_year?.toString() || "2064",
+          available: true,
+        }));
+
+        // Add placeholder reports for upcoming ones
+        const placeholderReports = [
+          {
+            id: "dubai-finance-2074",
+            label: "Financial Services",
+            title: "Dubai Finance 2074",
+            meta: "50-year projection · UAE",
+            stats: [
+              { value: "52%", label: "Role Change" },
+              { value: "4.6", label: "Avg RPI" },
+              { value: "31", label: "Roles Mapped" },
+            ],
+            year: "2074",
+            available: false,
+          },
+          {
+            id: "singapore-healthcare-2054",
+            label: "Healthcare Systems",
+            title: "Singapore Healthcare 2054",
+            meta: "30-year projection · Southeast Asia",
+            stats: [
+              { value: "41%", label: "Role Change" },
+              { value: "3.9", label: "Avg RPI" },
+              { value: "28", label: "Roles Mapped" },
+            ],
+            year: "2054",
+            available: false,
+          },
+        ];
+
+        setReports([...transformedReports, ...placeholderReports]);
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+        // Fallback to hardcoded reports if API fails
+        setReports([
+          {
+            id: "goa-hospitality-2064",
+            label: "Hospitality Futures",
+            title: "Goa Hospitality 2064",
+            meta: "40-year projection · Coastal India",
+            stats: [
+              { value: "37%", label: "Role Change" },
+              { value: "4.2", label: "Avg RPI" },
+              { value: "24", label: "Roles Mapped" },
+            ],
+            year: "2064",
+            available: true,
+          },
+          {
+            id: "dubai-finance-2074",
+            label: "Financial Services",
+            title: "Dubai Finance 2074",
+            meta: "50-year projection · UAE",
+            stats: [
+              { value: "52%", label: "Role Change" },
+              { value: "4.6", label: "Avg RPI" },
+              { value: "31", label: "Roles Mapped" },
+            ],
+            year: "2074",
+            available: false,
+          },
+          {
+            id: "singapore-healthcare-2054",
+            label: "Healthcare Systems",
+            title: "Singapore Healthcare 2054",
+            meta: "30-year projection · Southeast Asia",
+            stats: [
+              { value: "41%", label: "Role Change" },
+              { value: "3.9", label: "Avg RPI" },
+              { value: "28", label: "Roles Mapped" },
+            ],
+            year: "2054",
+            available: false,
+          },
+        ]);
+      } finally {
+        setReportsLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -170,48 +283,6 @@ const HorizonPage = () => {
       alert("Failed to submit your request. Please try again.");
     }
   };
-
-  const reports = [
-    {
-      id: "goa-hospitality-2064",
-      label: "Hospitality Futures",
-      title: "Goa Hospitality 2064",
-      meta: "40-year projection · Coastal India",
-      stats: [
-        { value: "37%", label: "Role Change" },
-        { value: "4.2", label: "Avg RPI" },
-        { value: "24", label: "Roles Mapped" },
-      ],
-      year: "2064",
-      available: true,
-    },
-    {
-      id: "dubai-finance-2074",
-      label: "Financial Services",
-      title: "Dubai Finance 2074",
-      meta: "50-year projection · UAE",
-      stats: [
-        { value: "52%", label: "Role Change" },
-        { value: "4.6", label: "Avg RPI" },
-        { value: "31", label: "Roles Mapped" },
-      ],
-      year: "2074",
-      available: false,
-    },
-    {
-      id: "singapore-healthcare-2054",
-      label: "Healthcare Systems",
-      title: "Singapore Healthcare 2054",
-      meta: "30-year projection · Southeast Asia",
-      stats: [
-        { value: "41%", label: "Role Change" },
-        { value: "3.9", label: "Avg RPI" },
-        { value: "28", label: "Roles Mapped" },
-      ],
-      year: "2054",
-      available: false,
-    },
-  ];
 
   const interests = [
     "Full Industry Analysis",

@@ -8,17 +8,25 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 @router.post("/login", response_model=Token)
 async def login(user_data: UserLogin):
     """Authenticate user and return JWT token."""
-    user = await AuthService.authenticate_user(user_data.email, user_data.password)
-    
-    if not user:
+    try:
+        user = await AuthService.authenticate_user(user_data.email, user_data.password)
+        
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        token = AuthService.create_token(user)
+        return {"access_token": token, "token_type": "bearer"}
+    except HTTPException:
+        raise
+    except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email or password",
-            headers={"WWW-Authenticate": "Bearer"},
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database connection unavailable. Please check MongoDB credentials."
         )
-    
-    token = AuthService.create_token(user)
-    return {"access_token": token, "token_type": "bearer"}
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user_data: UserCreate):
@@ -37,6 +45,16 @@ async def register(user_data: UserCreate):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
+        )
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(e)
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database connection unavailable. Please check MongoDB credentials."
         )
 
 @router.get("/me", response_model=UserResponse)

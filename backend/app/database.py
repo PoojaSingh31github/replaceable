@@ -25,7 +25,9 @@ async def connect_to_database():
     except Exception as e:
         print(f"Error: Could not connect to MongoDB: {e}")
         print("Please check your MONGODB_URL in the .env file")
-        raise
+        print("IMPORTANT: Update MongoDB credentials in .env file")
+        # Don't raise, allow app to start for testing
+        pass
 
 async def close_database_connection():
     """Close MongoDB connection on shutdown."""

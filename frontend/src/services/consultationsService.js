@@ -3,43 +3,40 @@ import api from "./api";
 export const consultationsService = {
   // Submit consultation request (public)
   async submitConsultation(consultationData) {
-    const response = await api.post("/consultations/", consultationData);
+    const response = await api.post("/consultations/submit", consultationData);
     return response.data;
   },
 
   // Get all consultations (admin)
   async getAllConsultations() {
-    const response = await api.get("/consultations/admin/");
+    const response = await api.get("/consultations/");
     return response.data;
   },
 
   // Get consultation by ID (admin)
   async getConsultationById(consultationId) {
-    const response = await api.get(`/consultations/admin/${consultationId}`);
+    const response = await api.get(`/consultations/${consultationId}`);
     return response.data;
   },
 
   // Update consultation status (admin)
-  async updateConsultationStatus(consultationId, status) {
-    const response = await api.put(
-      `/consultations/admin/${consultationId}/status`,
-      { status }
-    );
+  async updateConsultationStatus(consultationId, status, notes = null) {
+    const response = await api.put(`/consultations/${consultationId}/status`, {
+      status,
+      notes,
+    });
     return response.data;
   },
 
-  // Add notes to consultation (admin)
-  async addNotes(consultationId, notes) {
-    const response = await api.put(
-      `/consultations/admin/${consultationId}/notes`,
-      { notes }
-    );
+  // Update consultation (admin)
+  async updateConsultation(consultationId, data) {
+    const response = await api.put(`/consultations/${consultationId}`, data);
     return response.data;
   },
 
   // Delete consultation (admin)
   async deleteConsultation(consultationId) {
-    const response = await api.delete(`/consultations/admin/${consultationId}`);
+    const response = await api.delete(`/consultations/${consultationId}`);
     return response.data;
   },
 };

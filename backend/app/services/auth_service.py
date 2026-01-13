@@ -10,6 +10,9 @@ class AuthService:
         """Create a new user."""
         users = get_users_collection()
         
+        if users is None:
+            raise RuntimeError("Database connection unavailable")
+
         # Check if user exists
         existing = await users.find_one({"email": user_data.email})
         if existing:
@@ -33,6 +36,11 @@ class AuthService:
     async def authenticate_user(email: str, password: str) -> Optional[dict]:
         """Authenticate a user and return the user document if valid."""
         users = get_users_collection()
+        
+        if users is None:
+            # Cannot authenticate without DB
+            return None
+
         user = await users.find_one({"email": email})
         
         if not user:
@@ -59,6 +67,8 @@ class AuthService:
     async def get_user_by_email(email: str) -> Optional[dict]:
         """Get user by email."""
         users = get_users_collection()
+        if users is None:
+            return None
         return await users.find_one({"email": email})
 
     @staticmethod

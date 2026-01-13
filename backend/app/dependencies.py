@@ -26,6 +26,11 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         )
     
     users = get_users_collection()
+    if users is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database connection unavailable"
+        )
     user = await users.find_one({"email": email})
     
     if user is None:

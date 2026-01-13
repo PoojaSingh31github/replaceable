@@ -27,10 +27,10 @@ const AdminReports = () => {
 
   const handlePublishToggle = async (report) => {
     try {
-      if (report.is_published) {
-        await reportsService.unpublishReport(report._id);
+      if (report.status === "published") {
+        await reportsService.unpublishReport(report.id);
       } else {
-        await reportsService.publishReport(report._id);
+        await reportsService.publishReport(report.id);
       }
       fetchReports();
     } catch (error) {
@@ -67,8 +67,8 @@ const AdminReports = () => {
       report.industry?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter =
       filterStatus === "all" ||
-      (filterStatus === "published" && report.is_published) ||
-      (filterStatus === "draft" && !report.is_published);
+      (filterStatus === "published" && report.status === "published") ||
+      (filterStatus === "draft" && report.status === "draft");
     return matchesSearch && matchesFilter;
   });
 
@@ -132,13 +132,13 @@ const AdminReports = () => {
             className={filterStatus === "published" ? "active" : ""}
             onClick={() => setFilterStatus("published")}
           >
-            Published ({reports.filter((r) => r.is_published).length})
+            Published ({reports.filter((r) => r.status === "published").length})
           </button>
           <button
             className={filterStatus === "draft" ? "active" : ""}
             onClick={() => setFilterStatus("draft")}
           >
-            Drafts ({reports.filter((r) => !r.is_published).length})
+            Drafts ({reports.filter((r) => r.status === "draft").length})
           </button>
         </div>
       </div>
@@ -147,15 +147,15 @@ const AdminReports = () => {
       {filteredReports.length > 0 ? (
         <div className="reports-list">
           {filteredReports.map((report) => (
-            <div key={report._id} className="report-item">
+            <div key={report.id} className="report-item">
               <div className="report-info">
                 <div className="report-meta">
                   <span
                     className={`status-badge ${
-                      report.is_published ? "published" : "draft"
+                      report.status === "published" ? "published" : "draft"
                     }`}
                   >
-                    {report.is_published ? "Published" : "Draft"}
+                    {report.status === "published" ? "Published" : "Draft"}
                   </span>
                   <span className="report-date">
                     {formatDate(report.created_at)}
@@ -164,16 +164,20 @@ const AdminReports = () => {
                 <h3 className="report-title">{report.title}</h3>
                 <p className="report-subtitle">{report.subtitle}</p>
                 <div className="report-details">
-                  <span>{report.industry}</span>
-                  <span>·</span>
-                  <span>{report.region}</span>
-                  <span>·</span>
-                  <span>{report.projection_years}-year projection</span>
+                  {report.industry && <span>{report.industry}</span>}
+                  {report.industry && report.region && <span>·</span>}
+                  {report.region && <span>{report.region}</span>}
+                  {(report.industry || report.region) && report.target_year && (
+                    <span>·</span>
+                  )}
+                  {report.target_year && (
+                    <span>Target: {report.target_year}</span>
+                  )}
                 </div>
               </div>
               <div className="report-actions">
                 <Link
-                  to={`/admin/reports/edit/${report._id}`}
+                  to={`/admin/reports/edit/${report.id}`}
                   className="action-btn edit"
                 >
                   <svg
@@ -189,11 +193,11 @@ const AdminReports = () => {
                 </Link>
                 <button
                   className={`action-btn ${
-                    report.is_published ? "unpublish" : "publish"
+                    report.status === "published" ? "unpublish" : "publish"
                   }`}
                   onClick={() => handlePublishToggle(report)}
                 >
-                  {report.is_published ? (
+                  {report.status === "published" ? (
                     <>
                       <svg
                         viewBox="0 0 24 24"
@@ -223,7 +227,7 @@ const AdminReports = () => {
                 </button>
                 <button
                   className="action-btn delete"
-                  onClick={() => handleDelete(report._id)}
+                  onClick={() => handleDelete(report.id)}
                 >
                   <svg
                     viewBox="0 0 24 24"
