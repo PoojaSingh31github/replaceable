@@ -142,7 +142,6 @@ const HorizonPage = () => {
 
         // Add placeholder reports for upcoming ones
         const placeholderReports = [
-          
           {
             id: "dubai-finance-2074",
             label: "Financial Services",
@@ -295,7 +294,7 @@ const HorizonPage = () => {
       <header className={`masthead ${isScrolled ? "scrolled" : ""}`}>
         <div className="masthead-inner">
           <Link to="/" className="logo">
-            Horizon<span>.</span>
+            Replace<span>able</span>.ai
             <span className="logo-tagline">The Bureau of Role Futures</span>
           </Link>
           <nav className="nav-links">
@@ -437,11 +436,10 @@ const HorizonPage = () => {
                   <span className="rpi-tm">™</span>
                 </div>
                 <p>
-                  The Role Persistence Index measures how likely a role is to
-                  exist in recognizable form across our projection timeline.
-                  Factors include automation potential, human essence
-                  requirements, regulatory frameworks, and historical analog
-                  analysis.
+                  The Replaceability Potential Index. Our proprietary
+                  methodology that decomposes every role into constituent tasks,
+                  scoring each across three dimensions: technical automation
+                  feasibility, time allocation, and irreplaceable human value.
                 </p>
                 <div className="rpi-scale-visual">
                   <div className="rpi-scale-bar">
@@ -452,14 +450,14 @@ const HorizonPage = () => {
                     <div className="rpi-scale-segment"></div>
                   </div>
                   <div className="rpi-scale-labels">
-                    <span>1.0 Highly Volatile</span>
-                    <span>5.0 Deeply Persistent</span>
+                    <span>Human Resilient</span>
+                    <span>Near-Complete Automation</span>
                   </div>
                 </div>
                 <div className="rpi-formula">
-                  <code>
-                    RPI = (HE × 0.35) + (RF × 0.25) + (HA × 0.25) + (AP × 0.15)
-                  </code>
+                  <code>HRA_t = APS × W × (1-HRF)</code>
+                  <br />
+                  <code>Role RPI = Σ HRA_t</code>
                 </div>
               </div>
             </div>
@@ -1011,7 +1009,7 @@ const HorizonPage = () => {
         <div className="footer-content">
           <div className="footer-brand">
             <Link to="/" className="logo">
-              Horizon<span>.</span>
+              Replace<span className="text-crimson">able</span>.ai
             </Link>
             <p>
               The Bureau of Role Futures. Mapping tomorrow's workforce through
@@ -1073,7 +1071,7 @@ const HorizonPage = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2024 Horizon. All rights reserved.</p>
+          <p>&copy; 2024 Replaceable.ai · All rights reserved.</p>
           <p>Privacy Policy · Terms of Service</p>
         </div>
       </footer>

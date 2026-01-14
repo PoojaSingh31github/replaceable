@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 // Public Pages
+import LandingPage from "./pages/LandingPage";
 import HorizonPage from "./pages/HorizonPage";
 import ReportPage from "./pages/ReportPage";
 
@@ -11,8 +12,10 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminRegister from "./pages/admin/AdminRegister";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminNewsNew from "./pages/admin/AdminNewsNew";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminReportNew from "./pages/admin/AdminReportNew";
+import AdminReportEdit from "./pages/admin/AdminReportEdit";
 import AdminConsultations from "./pages/admin/AdminConsultations";
 
 // Components
@@ -27,7 +30,8 @@ function App() {
       <Router>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<HorizonPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/horizon" element={<HorizonPage />} />
           <Route path="/reports/:slug" element={<ReportPage />} />
 
           {/* Admin Routes */}
@@ -38,8 +42,13 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="news/new" element={<AdminNewsNew />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="reports/new" element={<AdminReportNew />} />
+              <Route
+                path="reports/:reportId/edit"
+                element={<AdminReportEdit />}
+              />
               <Route path="consultations" element={<AdminConsultations />} />
             </Route>
           </Route>

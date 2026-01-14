@@ -25,7 +25,7 @@ const AdminLayout = () => {
       <aside className="admin-sidebar">
         <div className="sidebar-header">
           <Link to="/admin/dashboard" className="sidebar-logo">
-            Horizon<span>.</span>
+            Replace<span className="text-crimson">able</span>.ai
           </Link>
           <span className="sidebar-badge">Admin</span>
         </div>
@@ -56,6 +56,23 @@ const AdminLayout = () => {
 
           <div className="nav-section">
             <span className="nav-section-label">Content</span>
+            <Link
+              to="/admin/news"
+              className={`nav-item ${isActive("/admin/news") ? "active" : ""}`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <line x1="7" y1="9" x2="17" y2="9" />
+                <line x1="7" y1="13" x2="17" y2="13" />
+                <line x1="7" y1="17" x2="13" y2="17" />
+              </svg>
+              News & Cards
+            </Link>
             <Link
               to="/admin/reports"
               className={`nav-item ${

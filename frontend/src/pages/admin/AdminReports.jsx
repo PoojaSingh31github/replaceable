@@ -177,7 +177,7 @@ const AdminReports = () => {
               </div>
               <div className="report-actions">
                 <Link
-                  to={`/admin/reports/edit/${report.id}`}
+                  to={`/admin/reports/${report.id}/edit`}
                   className="action-btn edit"
                 >
                   <svg

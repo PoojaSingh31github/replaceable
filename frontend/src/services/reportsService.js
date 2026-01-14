@@ -19,6 +19,12 @@ export const reportsService = {
     return response.data;
   },
 
+  // Get report by ID (admin)
+  async getReportById(reportId) {
+    const response = await api.get(`/reports/${reportId}`);
+    return response.data;
+  },
+
   // Create report (admin)
   async createReport(reportData) {
     const response = await api.post("/reports/", reportData);

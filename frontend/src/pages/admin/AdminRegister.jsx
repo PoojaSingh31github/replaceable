@@ -71,7 +71,7 @@ const AdminRegister = () => {
       <div className="login-container">
         <div className="login-header">
           <h1 className="login-logo">
-            Horizon<span>.</span>
+            Replace<span className="text-crimson">able</span>.ai
           </h1>
           <p className="login-subtitle">Admin Registration</p>
         </div>
@@ -110,7 +110,7 @@ const AdminRegister = () => {
                 className="form-input"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="admin@horizon.com"
+                placeholder="admin@replaceable.ai"
                 required
               />
             </div>

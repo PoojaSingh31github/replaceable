@@ -1374,6 +1374,7 @@
   padding: 16px 20px;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
+  color: var(--charcoal);
   border: 1px solid var(--platinum);
   background: var(--bg);
   transition: all 0.3s;
@@ -1383,6 +1384,7 @@
 .horizon-page .form-input:focus,
 .horizon-page .form-select:focus,
 .horizon-page .form-textarea:focus {
+  color: var(--black);
   border-color: var(--crimson);
   background: white;
   box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);

@@ -33,7 +33,7 @@ const AdminLogin = () => {
       <div className="login-container">
         <div className="login-header">
           <h1 className="login-logo">
-            Horizon<span>.</span>
+            Replace<span className="text-crimson">able</span>.ai
           </h1>
           <p className="login-subtitle">Admin Portal</p>
         </div>
@@ -52,7 +52,7 @@ const AdminLogin = () => {
               className="form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@horizon.com"
+              placeholder="admin@replaceable.ai"
               required
               autoFocus
             />
