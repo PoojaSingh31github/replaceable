@@ -931,23 +931,25 @@ const GoaReport = ({ reportData }) => {
             <h2>Analytics Dashboard</h2>
           </div>
 
-          <div className="chart-container">
-            <div className="chart-title">
-              RPI Distribution Across Future Roles
+          <div className="charts-grid">
+            <div className="chart-container">
+              <div className="chart-title">
+                RPI Distribution Across Future Roles
+              </div>
+              <canvas ref={rpiRadarRef} height="300"></canvas>
             </div>
-            <canvas ref={rpiRadarRef} height="300"></canvas>
-          </div>
 
-          <div className="chart-container">
-            <div className="chart-title">
-              Workforce Composition Shift: 2024 → 2064
+            <div className="chart-container">
+              <div className="chart-title">
+                Workforce Composition Shift: 2024 → 2064
+              </div>
+              <canvas ref={compositionRef} height="250"></canvas>
             </div>
-            <canvas ref={compositionRef} height="250"></canvas>
-          </div>
 
-          <div className="chart-container">
-            <div className="chart-title">Role Emergence Timeline</div>
-            <canvas ref={timelineRef} height="200"></canvas>
+            <div className="chart-container">
+              <div className="chart-title">Role Emergence Timeline</div>
+              <canvas ref={timelineRef} height="200"></canvas>
+            </div>
           </div>
         </section>
 

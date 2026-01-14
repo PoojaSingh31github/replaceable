@@ -142,6 +142,7 @@ const HorizonPage = () => {
 
         // Add placeholder reports for upcoming ones
         const placeholderReports = [
+          
           {
             id: "dubai-finance-2074",
             label: "Financial Services",
@@ -241,22 +242,17 @@ const HorizonPage = () => {
     e.preventDefault();
 
     try {
-      // Build preferred date string
-      const preferredDate =
-        formData.month && formData.day && formData.year
-          ? `${formData.month}/${formData.day}/${formData.year}`
-          : null;
-
       // Prepare data for API
       const consultationData = {
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
-        phone: formData.phone || null,
-        organization: formData.organization,
-        industry: formData.industry,
-        preferred_date: preferredDate,
-        interests: formData.interests,
+        company: formData.organization,
+        industry_sector: formData.industry,
+        preferred_month: formData.month || null,
+        preferred_week: formData.day || null,
+        preferred_time: formData.year || null,
+        packages: formData.interests,
         message: formData.message || null,
       };
 

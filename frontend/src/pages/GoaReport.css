@@ -579,11 +579,29 @@
 }
 
 /* Chart Container */
+.goa-report .charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 32px 0;
+}
+
+@media (min-width: 768px) {
+  .goa-report .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .goa-report .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .goa-report .chart-container {
   background: white;
   border: 1px solid var(--platinum);
   padding: 32px;
-  margin: 32px 0;
 }
 
 .goa-report .chart-title {
