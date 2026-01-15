@@ -1,0 +1,1663 @@
+/* Horizon Page Styles - Exact match to horizon.html */
+
+:root {
+  --crimson: #c41e3a;
+  --deep-crimson: #8b1629;
+  --black: #0f0f0f;
+  --charcoal: #2d2d2d;
+  --titanium: #c4cdbe;
+  --grey: #6f6f6f;
+  --mist: #8b8b8b;
+  --platinum: #e8e8e8;
+  --bg: #f4f5f3;
+  --teal: #0d7377;
+  --gold: #b8860b;
+  --slate: #4a5568;
+}
+
+.horizon-page {
+  font-family: 'Crimson Text', Georgia, serif;
+  background: var(--bg);
+  color: var(--black);
+  line-height: 1.7;
+  font-size: 18px;
+  overflow-x: hidden;
+}
+
+.horizon-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Animated Background Canvas */
+.horizon-page #bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+/* Header */
+.horizon-page .masthead {
+  background: rgba(15, 15, 15, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 16px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s;
+}
+
+.horizon-page .masthead.scrolled {
+  padding: 12px 0;
+  background: rgba(15, 15, 15, 0.98);
+}
+
+.horizon-page .masthead-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.horizon-page .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.horizon-page .logo span { color: var(--crimson); }
+
+.horizon-page .logo-tagline {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--crimson);
+  margin-left: 16px;
+  opacity: 0.9;
+}
+
+.horizon-page .nav-links {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.horizon-page .nav-links a {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--titanium);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.horizon-page .nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--crimson);
+  transition: width 0.3s;
+}
+
+.horizon-page .nav-links a:hover { color: white; }
+.horizon-page .nav-links a:hover::after { width: 100%; }
+
+.horizon-page .nav-cta {
+  background: var(--crimson) !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s !important;
+}
+
+.horizon-page .nav-cta::after { display: none !important; }
+.horizon-page .nav-cta:hover { 
+  background: var(--deep-crimson) !important; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
+}
+
+/* Hero */
+.horizon-page .hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+.horizon-page .hero-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(139, 22, 41, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(13, 115, 119, 0.2) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 20%, rgba(184, 134, 11, 0.15) 0%, transparent 40%);
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.horizon-page .hero-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+.horizon-page .hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 6vw, 84px);
+  font-weight: 400;
+  color: white;
+  line-height: 1.05;
+  margin-bottom: 32px;
+}
+
+.horizon-page .hero-text h1 em {
+  color: var(--crimson);
+  font-style: italic;
+}
+
+.horizon-page .hero-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-size: 24px;
+  color: var(--titanium);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+.horizon-page .hero-distinction {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--mist);
+  padding: 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.horizon-page .hero-distinction strong {
+  color: var(--crimson);
+  font-weight: 600;
+}
+
+.horizon-page .time-range {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(255,255,255,0.03);
+  padding: 24px 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 48px;
+}
+
+.horizon-page .time-range-item {
+  text-align: center;
+}
+
+.horizon-page .time-range-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: white;
+  line-height: 1;
+}
+
+.horizon-page .time-range-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--mist);
+  margin-top: 8px;
+}
+
+.horizon-page .time-range-divider {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--crimson);
+}
+
+.horizon-page .time-range-context {
+  flex: 1;
+  padding-left: 24px;
+  border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.horizon-page .time-range-context p {
+  font-size: 14px;
+  color: var(--titanium);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.horizon-page .hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.horizon-page .btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 18px 36px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.horizon-page .btn-primary {
+  background: var(--crimson);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizon-page .btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.horizon-page .btn-primary:hover::before { left: 100%; }
+
+.horizon-page .btn-primary:hover {
+  background: var(--deep-crimson);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(196, 30, 58, 0.4);
+}
+
+.horizon-page .btn-secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.horizon-page .btn-secondary:hover {
+  border-color: white;
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-2px);
+}
+
+/* Hero Visual - Interactive Timeline */
+.horizon-page .hero-visual {
+  position: relative;
+  height: 500px;
+}
+
+.horizon-page .time-machine {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizon-page .data-streams {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.horizon-page .data-stream {
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--crimson), transparent);
+  animation: stream 3s linear infinite;
+  opacity: 0.3;
+}
+
+@keyframes stream {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.horizon-page .time-machine-core {
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+.horizon-page .time-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 30, 58, 0.3);
+  animation: rotate 20s linear infinite;
+}
+
+.horizon-page .time-ring:nth-child(1) {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.horizon-page .time-ring:nth-child(2) {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  animation-direction: reverse;
+  animation-duration: 15s;
+  border-color: rgba(13, 115, 119, 0.3);
+}
+
+.horizon-page .time-ring:nth-child(3) {
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  animation-duration: 10s;
+  border-color: rgba(184, 134, 11, 0.3);
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.horizon-page .time-core-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(196, 30, 58, 0.8) 0%, rgba(139, 22, 41, 0.4) 50%, transparent 70%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse-core 3s ease-in-out infinite;
+}
+
+@keyframes pulse-core {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+}
+
+.horizon-page .time-core-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.horizon-page .time-years {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--mist);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.horizon-page .time-years.y-2024 { top: 50%; right: calc(100% + 20px); transform: translateY(-50%); }
+.horizon-page .time-years.y-2049 { top: -20px; left: 50%; transform: translateX(-50%); }
+.horizon-page .time-years.y-2074 { top: 50%; left: calc(100% + 20px); transform: translateY(-50%); }
+.horizon-page .time-years.y-2124 { bottom: -20px; left: 50%; transform: translateX(-50%); }
+
+.horizon-page .time-years span {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: white;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Sections */
+.horizon-page .content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.horizon-page .section {
+  padding: 120px 0;
+  position: relative;
+}
+
+.horizon-page .section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--crimson);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.horizon-page .section-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--crimson);
+}
+
+.horizon-page .section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 400;
+  color: var(--black);
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+
+.horizon-page .section h2 em {
+  font-style: italic;
+  color: var(--crimson);
+}
+
+.horizon-page .section-intro {
+  font-size: 22px;
+  color: var(--charcoal);
+  max-width: 800px;
+  line-height: 1.7;
+  margin-bottom: 60px;
+}
+
+/* What Is Section */
+.horizon-page .what-is {
+  background: white;
+  border-top: 1px solid var(--platinum);
+}
+
+.horizon-page .what-is-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+
+.horizon-page .what-is-text p {
+  font-size: 20px;
+  line-height: 1.9;
+  margin-bottom: 28px;
+  color: var(--charcoal);
+}
+
+.horizon-page .what-is-text p:first-of-type::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  float: left;
+  line-height: 0.75;
+  margin-right: 12px;
+  margin-top: 8px;
+  color: var(--crimson);
+}
+
+.horizon-page .rpi-sidebar {
+  position: sticky;
+  top: 120px;
+}
+
+.horizon-page .rpi-card {
+  background: var(--black);
+  color: white;
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizon-page .rpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--gold), var(--crimson));
+}
+
+.horizon-page .rpi-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.horizon-page .rpi-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: white;
+}
+
+.horizon-page .rpi-tm {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--mist);
+  vertical-align: super;
+}
+
+.horizon-page .rpi-card p {
+  font-size: 16px;
+  color: var(--titanium);
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+
+.horizon-page .rpi-scale-visual {
+  margin-bottom: 20px;
+}
+
+.horizon-page .rpi-scale-bar {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 12px;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.horizon-page .rpi-scale-segment {
+  flex: 1;
+  transition: transform 0.3s;
+}
+
+.horizon-page .rpi-scale-segment:hover {
+  transform: scaleY(1.5);
+}
+
+.horizon-page .rpi-scale-segment:nth-child(1) { background: var(--teal); }
+.horizon-page .rpi-scale-segment:nth-child(2) { background: var(--slate); }
+.horizon-page .rpi-scale-segment:nth-child(3) { background: var(--gold); }
+.horizon-page .rpi-scale-segment:nth-child(4) { background: var(--crimson); }
+.horizon-page .rpi-scale-segment:nth-child(5) { background: var(--deep-crimson); }
+
+.horizon-page .rpi-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--mist);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.horizon-page .rpi-formula {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  margin-top: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--titanium);
+}
+
+.horizon-page .rpi-formula code {
+  color: var(--crimson);
+  font-weight: 600;
+}
+
+/* Four Pillars */
+.horizon-page .pillars-section {
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.horizon-page .pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.horizon-page .pillar {
+  padding: 60px 40px;
+  background: white;
+  border-right: 1px solid var(--platinum);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.horizon-page .pillar:last-child { border-right: none; }
+
+.horizon-page .pillar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: var(--black);
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.horizon-page .pillar:hover::before {
+  height: 100%;
+}
+
+.horizon-page .pillar-content {
+  position: relative;
+  z-index: 1;
+}
+
+.horizon-page .pillar-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  color: var(--platinum);
+  line-height: 1;
+  margin-bottom: 24px;
+  transition: color 0.4s;
+}
+
+.horizon-page .pillar:hover .pillar-number {
+  color: var(--crimson);
+}
+
+.horizon-page .pillar-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizon-page .pillar-icon svg {
+  width: 48px;
+  height: 48px;
+  stroke: var(--crimson);
+  stroke-width: 1.5;
+  fill: none;
+  transition: stroke 0.4s;
+}
+
+.horizon-page .pillar:hover .pillar-icon svg {
+  stroke: var(--crimson);
+}
+
+.horizon-page .pillar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--black);
+  margin-bottom: 16px;
+  transition: color 0.4s;
+}
+
+.horizon-page .pillar:hover .pillar-title {
+  color: white;
+}
+
+.horizon-page .pillar-desc {
+  font-size: 16px;
+  color: var(--grey);
+  line-height: 1.7;
+  transition: color 0.4s;
+}
+
+.horizon-page .pillar:hover .pillar-desc {
+  color: var(--titanium);
+}
+
+/* Methodology Section */
+.horizon-page .methodology-section {
+  background: var(--black);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizon-page .methodology-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 10% 90%, rgba(13, 115, 119, 0.2) 0%, transparent 40%),
+    radial-gradient(ellipse at 90% 10%, rgba(184, 134, 11, 0.15) 0%, transparent 40%);
+}
+
+.horizon-page .methodology-section .content {
+  position: relative;
+  z-index: 1;
+}
+
+.horizon-page .methodology-section h2 { color: white; }
+.horizon-page .methodology-section .section-intro { color: var(--titanium); }
+
+.horizon-page .methodology-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 60px;
+}
+
+.horizon-page .methodology-narrative {
+  font-size: 19px;
+  line-height: 1.9;
+  color: var(--titanium);
+}
+
+.horizon-page .methodology-narrative p {
+  margin-bottom: 28px;
+}
+
+.horizon-page .methodology-narrative strong {
+  color: white;
+  font-weight: 600;
+}
+
+.horizon-page .methodology-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.horizon-page .method-layer {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 32px;
+  position: relative;
+  transition: all 0.4s;
+}
+
+.horizon-page .method-layer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--crimson);
+  transform: scaleY(0);
+  transition: transform 0.4s;
+}
+
+.horizon-page .method-layer:hover::before {
+  transform: scaleY(1);
+}
+
+.horizon-page .method-layer:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(196, 30, 58, 0.3);
+}
+
+.horizon-page .method-layer-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: var(--charcoal);
+  line-height: 1;
+  margin-bottom: 12px;
+  transition: color 0.4s;
+}
+
+.horizon-page .method-layer:hover .method-layer-number {
+  color: var(--crimson);
+}
+
+.horizon-page .method-layer-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.horizon-page .method-layer-desc {
+  font-size: 15px;
+  color: var(--mist);
+  line-height: 1.6;
+}
+
+.horizon-page .rpi-formula-box {
+  background: rgba(196, 30, 58, 0.1);
+  border: 1px solid rgba(196, 30, 58, 0.3);
+  padding: 32px;
+  margin-top: 40px;
+}
+
+.horizon-page .rpi-formula-header {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.horizon-page .rpi-formula-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: white;
+}
+
+.horizon-page .rpi-formula-code {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--crimson);
+  background: rgba(0,0,0,0.3);
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+
+.horizon-page .rpi-formula-code code {
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Reports Section */
+.horizon-page .reports-section {
+  background: var(--black);
+  color: white;
+  position: relative;
+}
+
+.horizon-page .reports-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 30% 70%, rgba(139, 22, 41, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(13, 115, 119, 0.1) 0%, transparent 40%);
+}
+
+.horizon-page .reports-section .content {
+  position: relative;
+  z-index: 1;
+}
+
+.horizon-page .reports-section h2 { color: white; }
+.horizon-page .reports-section .section-intro { color: var(--titanium); }
+
+.horizon-page .reports-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.horizon-page .report-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  transition: all 0.4s;
+  position: relative;
+  cursor: pointer;
+}
+
+.horizon-page .report-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--crimson);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+}
+
+.horizon-page .report-card:hover::before {
+  transform: scaleX(1);
+}
+
+.horizon-page .report-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(196, 30, 58, 0.3);
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.horizon-page .report-card-image {
+  height: 200px;
+  background: linear-gradient(135deg, var(--charcoal) 0%, rgba(139, 22, 41, 0.3) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizon-page .report-card-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm20 0a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM10 37a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm10-17h20v20H20V20zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14z' fill='%23ffffff' fill-opacity='0.02'/%3E%3C/svg%3E");
+}
+
+.horizon-page .report-visual {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizon-page .report-visual-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(196, 30, 58, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 30, 58, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.horizon-page .report-visual-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  color: rgba(255,255,255,0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.horizon-page .report-card-content {
+  padding: 32px;
+}
+
+.horizon-page .report-card-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--crimson);
+  margin-bottom: 12px;
+}
+
+.horizon-page .report-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: white;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.horizon-page .report-card-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--mist);
+  margin-bottom: 24px;
+}
+
+.horizon-page .report-card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.horizon-page .report-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: white;
+}
+
+.horizon-page .report-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  color: var(--mist);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.horizon-page .coming-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.1);
+  color: var(--mist);
+  padding: 6px 12px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.horizon-page .report-card.coming-soon {
+  opacity: 0.7;
+}
+
+.horizon-page .report-card.coming-soon:hover {
+  opacity: 1;
+}
+
+/* Enterprise Section */
+.horizon-page .enterprise-section {
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizon-page .enterprise-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--crimson), transparent);
+}
+
+.horizon-page .enterprise-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 80px;
+}
+
+.horizon-page .enterprise-intro {
+  font-size: 22px;
+  color: var(--charcoal);
+  line-height: 1.7;
+}
+
+/* Discretion Banner */
+.horizon-page .discretion-banner {
+  background: var(--black);
+  color: white;
+  padding: 48px 56px;
+  margin-bottom: 80px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.horizon-page .discretion-icon {
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--crimson);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizon-page .discretion-icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--crimson);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.horizon-page .discretion-content h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.horizon-page .discretion-content p {
+  font-size: 16px;
+  color: var(--titanium);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.horizon-page .discretion-badges {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.horizon-page .discretion-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--mist);
+}
+
+/* Packages */
+.horizon-page .packages-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--platinum);
+  margin-bottom: 100px;
+}
+
+.horizon-page .package {
+  padding: 56px 48px;
+  border-right: 1px solid var(--platinum);
+  position: relative;
+  background: white;
+  transition: all 0.4s;
+}
+
+.horizon-page .package:last-child { border-right: none; }
+
+.horizon-page .package:hover {
+  background: var(--bg);
+}
+
+.horizon-page .package.featured {
+  background: var(--black);
+  color: white;
+  margin: -24px 0;
+  padding: 80px 48px;
+  z-index: 1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.horizon-page .package.featured:hover {
+  background: var(--charcoal);
+}
+
+.horizon-page .package-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--crimson);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 8px 20px;
+}
+
+.horizon-page .package-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.horizon-page .package-tagline {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--grey);
+  margin-bottom: 40px;
+}
+
+.horizon-page .package.featured .package-tagline {
+  color: var(--mist);
+}
+
+.horizon-page .package-list {
+  list-style: none;
+  margin-bottom: 40px;
+}
+
+.horizon-page .package-list li {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--platinum);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.horizon-page .package.featured .package-list li {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.horizon-page .package-list li:last-child { border-bottom: none; }
+
+.horizon-page .package-list li::before {
+  content: '✓';
+  color: var(--teal);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.horizon-page .package.featured .package-list li::before {
+  color: var(--crimson);
+}
+
+.horizon-page .package-highlight {
+  background: rgba(196, 30, 58, 0.1);
+  color: var(--crimson);
+  font-weight: 600;
+  padding: 2px 8px;
+  margin-left: 8px;
+  font-size: 11px;
+}
+
+.horizon-page .package.featured .package-highlight {
+  background: rgba(196, 30, 58, 0.3);
+}
+
+.horizon-page .package-cta .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Booking Form Section */
+.horizon-page .booking-section {
+  background: linear-gradient(180deg, var(--bg) 0%, white 100%);
+  padding: 120px 0;
+  position: relative;
+}
+
+.horizon-page .booking-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--platinum);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.horizon-page .booking-header {
+  background: var(--black);
+  color: white;
+  padding: 48px;
+  text-align: center;
+  position: relative;
+}
+
+.horizon-page .booking-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--gold), var(--crimson));
+}
+
+.horizon-page .booking-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.horizon-page .booking-header p {
+  font-size: 16px;
+  color: var(--titanium);
+}
+
+.horizon-page .booking-form {
+  padding: 56px 48px;
+}
+
+.horizon-page .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.horizon-page .form-group {
+  margin-bottom: 24px;
+}
+
+.horizon-page .form-group.full {
+  grid-column: 1 / -1;
+}
+
+.horizon-page .form-label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--charcoal);
+  margin-bottom: 10px;
+}
+
+.horizon-page .form-input,
+.horizon-page .form-select,
+.horizon-page .form-textarea {
+  width: 100%;
+  padding: 16px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--charcoal);
+  border: 1px solid var(--platinum);
+  background: var(--bg);
+  transition: all 0.3s;
+  outline: none;
+}
+
+.horizon-page .form-input:focus,
+.horizon-page .form-select:focus,
+.horizon-page .form-textarea:focus {
+  color: var(--black);
+  border-color: var(--crimson);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+}
+
+.horizon-page .form-input.error,
+.horizon-page .form-select.error,
+.horizon-page .form-textarea.error {
+  border-color: #c41e3a;
+  background-color: rgba(196, 30, 58, 0.05);
+}
+
+.horizon-page .form-input.error:focus,
+.horizon-page .form-select.error:focus,
+.horizon-page .form-textarea.error:focus {
+  border-color: #c41e3a;
+  box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15);
+}
+
+.horizon-page .error-message {
+  display: block;
+  color: #c41e3a;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.horizon-page .form-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.horizon-page .form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236f6f6f' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+
+.horizon-page .date-picker-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.horizon-page .form-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.horizon-page .form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--bg);
+  border: 1px solid var(--platinum);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.horizon-page .form-checkbox:hover {
+  border-color: var(--crimson);
+}
+
+.horizon-page .form-checkbox.selected {
+  background: rgba(196, 30, 58, 0.05);
+  border-color: var(--crimson);
+}
+
+.horizon-page .form-checkbox input {
+  display: none;
+}
+
+.horizon-page .checkbox-indicator {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--platinum);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.horizon-page .form-checkbox.selected .checkbox-indicator {
+  background: var(--crimson);
+  border-color: var(--crimson);
+}
+
+.horizon-page .checkbox-indicator::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.horizon-page .form-checkbox.selected .checkbox-indicator::after {
+  opacity: 1;
+}
+
+.horizon-page .checkbox-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--charcoal);
+}
+
+.horizon-page .form-submit {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.horizon-page .form-submit .btn {
+  min-width: 280px;
+}
+
+.horizon-page .form-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--mist);
+  margin-top: 16px;
+}
+
+.horizon-page .nda-note {
+  background: var(--bg);
+  border: 1px solid var(--platinum);
+  padding: 20px 24px;
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.horizon-page .nda-note svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--teal);
+  stroke-width: 1.5;
+  fill: none;
+  flex-shrink: 0;
+}
+
+.horizon-page .nda-note p {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--grey);
+  margin: 0;
+}
+
+/* Footer */
+.horizon-page .footer {
+  background: var(--black);
+  padding: 80px 40px 40px;
+}
+
+.horizon-page .footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 80px;
+}
+
+.horizon-page .footer-brand p {
+  font-size: 16px;
+  color: var(--mist);
+  line-height: 1.7;
+  margin: 24px 0;
+  max-width: 300px;
+}
+
+.horizon-page .footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.horizon-page .footer-social a {
+  width: 44px;
+  height: 44px;
+  background: var(--charcoal);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.horizon-page .footer-social a:hover {
+  background: var(--crimson);
+  transform: translateY(-2px);
+}
+
+.horizon-page .footer-column h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: white;
+  margin-bottom: 28px;
+}
+
+.horizon-page .footer-column ul { list-style: none; }
+
+.horizon-page .footer-column li { margin-bottom: 14px; }
+
+.horizon-page .footer-column a {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--mist);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.horizon-page .footer-column a:hover { color: white; }
+
+.horizon-page .footer-bottom {
+  max-width: 1400px;
+  margin: 60px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid var(--charcoal);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.horizon-page .footer-bottom p {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--mist);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .horizon-page .hero-content { grid-template-columns: 1fr; gap: 60px; }
+  .horizon-page .hero-visual { display: none; }
+  .horizon-page .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .horizon-page .pillar { border-bottom: 1px solid var(--platinum); }
+}
+
+@media (max-width: 1024px) {
+  .horizon-page .what-is-grid { grid-template-columns: 1fr; gap: 60px; }
+  .horizon-page .rpi-sidebar { position: static; }
+  .horizon-page .packages-wrapper { grid-template-columns: 1fr; }
+  .horizon-page .package { border-right: none; border-bottom: 1px solid var(--platinum); }
+  .horizon-page .package:last-child { border-bottom: none; }
+  .horizon-page .package.featured { margin: 0; padding: 56px 48px; }
+  .horizon-page .reports-grid { grid-template-columns: 1fr; }
+  .horizon-page .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .horizon-page .methodology-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .horizon-page .masthead-inner { padding: 0 20px; }
+  .horizon-page .nav-links { display: none; }
+  .horizon-page .hero-content, .horizon-page .content { padding-left: 20px; padding-right: 20px; }
+  .horizon-page .section { padding: 80px 0; }
+  .horizon-page .section h2 { font-size: 36px; }
+  .horizon-page .pillars-grid { grid-template-columns: 1fr; }
+  .horizon-page .form-row { grid-template-columns: 1fr; }
+  .horizon-page .form-checkbox-group { grid-template-columns: 1fr; }
+  .horizon-page .footer-content { grid-template-columns: 1fr; }
+  .horizon-page .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .horizon-page .time-range { flex-direction: column; text-align: center; }
+  .horizon-page .time-range-context { border-left: none; padding-left: 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .horizon-page .discretion-banner { grid-template-columns: 1fr; text-align: center; }
+  .horizon-page .discretion-icon { margin: 0 auto; }
+}

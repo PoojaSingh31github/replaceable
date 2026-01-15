@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Scan Series | Replaceable.ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --crimson: #c41e3a;
+            --deep-crimson: #8b1629;
+            --black: #0f0f0f;
+            --charcoal: #2d2d2d;
+            --titanium: #c4cdbe;
+            --grey: #6f6f6f;
+            --mist: #8b8b8b;
+            --platinum: #e8e8e8;
+            --bg: #f4f5f3;
+            --teal: #0d7377;
+            --gold: #b8860b;
+            --slate: #4a5568;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background: var(--bg);
+            color: var(--black);
+            line-height: 1.7;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        
+        /* Header */
+        .masthead {
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 16px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        
+        .masthead.scrolled {
+            padding: 12px 0;
+            background: rgba(15, 15, 15, 0.98);
+        }
+        
+        .masthead-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        
+        .logo span { color: var(--crimson); }
+        
+        .logo-tagline {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            font-size: 11px;
+            color: var(--crimson);
+            margin-left: 16px;
+            opacity: 0.9;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--titanium);
+            text-decoration: none;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--crimson);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover { color: white; }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .nav-cta {
+            background: var(--crimson) !important;
+            color: white !important;
+            padding: 12px 24px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s !important;
+        }
+        
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover { 
+            background: var(--deep-crimson) !important; 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
+        }
+        
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(139, 22, 41, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(13, 115, 119, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 20%, rgba(184, 134, 11, 0.15) 0%, transparent 40%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(52px, 6vw, 84px);
+            font-weight: 400;
+            color: white;
+            line-height: 1.05;
+            margin-bottom: 32px;
+        }
+        
+        .hero-text h1 em {
+            color: var(--crimson);
+            font-style: italic;
+        }
+        
+        .hero-subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 24px;
+            color: var(--titanium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .hero-distinction {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--mist);
+            padding: 20px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .hero-distinction strong {
+            color: var(--crimson);
+            font-weight: 600;
+        }
+        
+        .time-range {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            background: rgba(255,255,255,0.03);
+            padding: 24px 32px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 48px;
+        }
+        
+        .time-range-item {
+            text-align: center;
+        }
+        
+        .time-range-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: white;
+            line-height: 1;
+        }
+        
+        .time-range-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--mist);
+            margin-top: 8px;
+        }
+        
+        .time-range-divider {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--crimson);
+        }
+        
+        .time-range-context {
+            flex: 1;
+            padding-left: 24px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .time-range-context p {
+            font-size: 14px;
+            color: var(--titanium);
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 18px 36px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--crimson);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before { left: 100%; }
+        
+        .btn-primary:hover {
+            background: var(--deep-crimson);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(196, 30, 58, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-secondary:hover {
+            border-color: white;
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Visual - Interactive Timeline */
+        .hero-visual {
+            position: relative;
+            height: 500px;
+        }
+        
+        .timeline-visualization {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                var(--slate) 10%, 
+                var(--gold) 40%,
+                var(--crimson) 70%,
+                var(--deep-crimson) 100%
+            );
+            transform: translateX(-50%);
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .timeline-marker:nth-child(2) { animation-delay: 0.5s; }
+        .timeline-marker:nth-child(3) { animation-delay: 1s; }
+        .timeline-marker:nth-child(4) { animation-delay: 1.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-8px); }
+        }
+        
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--crimson);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(196, 30, 58, 0.5);
+            position: relative;
+        }
+        
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(196, 30, 58, 0.3);
+            border-radius: 50%;
+            animation: pulse 2s ease-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+        
+        .timeline-card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 24px;
+            width: 220px;
+            transition: all 0.3s;
+        }
+        
+        .timeline-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--crimson);
+            transform: scale(1.02);
+        }
+        
+        .timeline-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 4px;
+        }
+        
+        .timeline-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--crimson);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--mist);
+            line-height: 1.4;
+        }
+        
+        /* Sections */
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+        
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--crimson);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--crimson);
+        }
+        
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 400;
+            color: var(--black);
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+        
+        .section h2 em {
+            font-style: italic;
+            color: var(--crimson);
+        }
+        
+        .section-intro {
+            font-size: 22px;
+            color: var(--charcoal);
+            max-width: 800px;
+            line-height: 1.7;
+            margin-bottom: 60px;
+        }
+        
+        /* What Is Section */
+        .what-is {
+            background: white;
+            border-top: 1px solid var(--platinum);
+        }
+        
+        .what-is-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 100px;
+            align-items: start;
+        }
+        
+        .what-is-text p {
+            font-size: 20px;
+            line-height: 1.9;
+            margin-bottom: 28px;
+            color: var(--charcoal);
+        }
+        
+        .what-is-text p:first-of-type::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            float: left;
+            line-height: 0.75;
+            margin-right: 12px;
+            margin-top: 8px;
+            color: var(--crimson);
+        }
+        
+        .rpi-sidebar {
+            position: sticky;
+            top: 120px;
+        }
+        
+        .rpi-card {
+            background: var(--black);
+            color: white;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--gold), var(--crimson));
+        }
+        
+        .rpi-header {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .rpi-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: white;
+        }
+        
+        .rpi-tm {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--mist);
+            vertical-align: super;
+        }
+        
+        .rpi-card p {
+            font-size: 16px;
+            color: var(--titanium);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+        
+        .rpi-scale-visual {
+            margin-bottom: 20px;
+        }
+        
+        .rpi-scale-bar {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 12px;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .rpi-scale-segment {
+            flex: 1;
+            transition: transform 0.3s;
+        }
+        
+        .rpi-scale-segment:hover {
+            transform: scaleY(1.5);
+        }
+        
+        .rpi-scale-segment:nth-child(1) { background: var(--teal); }
+        .rpi-scale-segment:nth-child(2) { background: var(--slate); }
+        .rpi-scale-segment:nth-child(3) { background: var(--gold); }
+        .rpi-scale-segment:nth-child(4) { background: var(--crimson); }
+        .rpi-scale-segment:nth-child(5) { background: var(--deep-crimson); }
+        
+        .rpi-scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            color: var(--mist);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .rpi-formula {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            margin-top: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--titanium);
+        }
+        
+        .rpi-formula code {
+            color: var(--crimson);
+            font-weight: 600;
+        }
+        
+        /* Four Pillars */
+        .pillars-section {
+            background: var(--bg);
+            overflow: hidden;
+        }
+        
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+        
+        .pillar {
+            padding: 60px 40px;
+            background: white;
+            border-right: 1px solid var(--platinum);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .pillar:last-child { border-right: none; }
+        
+        .pillar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: var(--black);
+            transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+        }
+        
+        .pillar:hover::before {
+            height: 100%;
+        }
+        
+        .pillar-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .pillar-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            color: var(--platinum);
+            line-height: 1;
+            margin-bottom: 24px;
+            transition: color 0.4s;
+        }
+        
+        .pillar:hover .pillar-number {
+            color: var(--crimson);
+        }
+        
+        .pillar-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pillar-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--crimson);
+            stroke-width: 1.5;
+            fill: none;
+            transition: stroke 0.4s;
+        }
+        
+        .pillar:hover .pillar-icon svg {
+            stroke: var(--crimson);
+        }
+        
+        .pillar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--black);
+            margin-bottom: 16px;
+            transition: color 0.4s;
+        }
+        
+        .pillar:hover .pillar-title {
+            color: white;
+        }
+        
+        .pillar-desc {
+            font-size: 16px;
+            color: var(--grey);
+            line-height: 1.7;
+            transition: color 0.4s;
+        }
+        
+        .pillar:hover .pillar-desc {
+            color: var(--titanium);
+        }
+        
+        /* Methodology Section */
+        .methodology-section {
+            background: var(--black);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .methodology-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 10% 90%, rgba(13, 115, 119, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 10%, rgba(184, 134, 11, 0.15) 0%, transparent 40%);
+        }
+        
+        .methodology-section .content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .methodology-section h2 { color: white; }
+        .methodology-section .section-intro { color: var(--titanium); }
+        
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+        
+        .methodology-narrative {
+            font-size: 19px;
+            line-height: 1.9;
+            color: var(--titanium);
+        }
+        
+        .methodology-narrative p {
+            margin-bottom: 28px;
+        }
+        
+        .methodology-narrative strong {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .methodology-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .method-layer {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 32px;
+            position: relative;
+            transition: all 0.4s;
+        }
+        
+        .method-layer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--crimson);
+            transform: scaleY(0);
+            transition: transform 0.4s;
+        }
+        
+        .method-layer:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .method-layer:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(196, 30, 58, 0.3);
+        }
+        
+        .method-layer-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: var(--charcoal);
+            line-height: 1;
+            margin-bottom: 12px;
+            transition: color 0.4s;
+        }
+        
+        .method-layer:hover .method-layer-number {
+            color: var(--crimson);
+        }
+        
+        .method-layer-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            margin-bottom: 12px;
+        }
+        
+        .method-layer-desc {
+            font-size: 15px;
+            color: var(--mist);
+            line-height: 1.6;
+        }
+        
+        .rpi-formula-box {
+            background: rgba(196, 30, 58, 0.1);
+            border: 1px solid rgba(196, 30, 58, 0.3);
+            padding: 32px;
+            margin-top: 40px;
+        }
+        
+        .rpi-formula-header {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .rpi-formula-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: white;
+        }
+        
+        .rpi-tm {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--mist);
+            vertical-align: super;
+        }
+        
+        .rpi-formula-code {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--crimson);
+            background: rgba(0,0,0,0.3);
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+        
+        .rpi-formula-code code {
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        /* Time Machine Visualization */
+        .time-machine {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .time-machine-core {
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+        
+        .time-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(196, 30, 58, 0.3);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .time-ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .time-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation-direction: reverse;
+            animation-duration: 15s;
+            border-color: rgba(13, 115, 119, 0.3);
+        }
+        
+        .time-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation-duration: 10s;
+            border-color: rgba(184, 134, 11, 0.3);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .time-core-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(196, 30, 58, 0.8) 0%, rgba(139, 22, 41, 0.4) 50%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-core 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-core {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+        
+        .time-core-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .time-years {
+            position: absolute;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: var(--mist);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .time-years.y-2024 { top: 50%; right: calc(100% + 20px); transform: translateY(-50%); }
+        .time-years.y-2049 { top: -20px; left: 50%; transform: translateX(-50%); }
+        .time-years.y-2074 { top: 50%; left: calc(100% + 20px); transform: translateY(-50%); }
+        .time-years.y-2124 { bottom: -20px; left: 50%; transform: translateX(-50%); }
+        
+        .time-years span {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: white;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+        
+        .data-streams {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .data-stream {
+            position: absolute;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, var(--crimson), transparent);
+            animation: stream 3s linear infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes stream {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        /* Report Visual */
+        .report-visual {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .report-visual-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(196, 30, 58, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(196, 30, 58, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .report-visual-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            color: rgba(255,255,255,0.08);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .report-visual-marker {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--crimson);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+        
+        .report-visual-marker:nth-child(2) { top: 30%; left: 20%; animation-delay: 0.3s; }
+        .report-visual-marker:nth-child(3) { top: 60%; left: 70%; animation-delay: 0.6s; }
+        .report-visual-marker:nth-child(4) { top: 40%; left: 50%; animation-delay: 0.9s; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        
+        /* NDA Note in Form */
+        .nda-note {
+            background: var(--bg);
+            border: 1px solid var(--platinum);
+            padding: 20px 24px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .nda-note svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--teal);
+            stroke-width: 1.5;
+            fill: none;
+            flex-shrink: 0;
+        }
+        
+        .nda-note p {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--grey);
+            margin: 0;
+        }
+        
+        /* Reports Section */
+        .reports-section {
+            background: var(--black);
+            color: white;
+            position: relative;
+        }
+        
+        .reports-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 30% 70%, rgba(139, 22, 41, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 30%, rgba(13, 115, 119, 0.1) 0%, transparent 40%);
+        }
+        
+        .reports-section .content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reports-section h2 { color: white; }
+        .reports-section .section-intro { color: var(--titanium); }
+        
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        
+        .report-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+        
+        .report-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--crimson);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+        
+        .report-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(196, 30, 58, 0.3);
+            background: rgba(255,255,255,0.04);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .report-card-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--charcoal) 0%, rgba(139, 22, 41, 0.3) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .report-card-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm20 0a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM10 37a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm10-17h20v20H20V20zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14z' fill='%23ffffff' fill-opacity='0.02'/%3E%3C/svg%3E");
+        }
+        
+        .report-icon {
+            font-size: 64px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .report-card-content {
+            padding: 32px;
+        }
+        
+        .report-card-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--crimson);
+            margin-bottom: 12px;
+        }
+        
+        .report-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.25;
+        }
+        
+        .report-card-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--mist);
+            margin-bottom: 24px;
+        }
+        
+        .report-card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .report-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .report-stat-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            color: var(--mist);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .coming-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255,255,255,0.1);
+            color: var(--mist);
+            padding: 6px 12px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        
+        .report-card.coming-soon {
+            opacity: 0.7;
+        }
+        
+        .report-card.coming-soon:hover {
+            opacity: 1;
+        }
+        
+        /* Enterprise Section */
+        .enterprise-section {
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enterprise-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--crimson), transparent);
+        }
+        
+        .enterprise-header {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 80px;
+        }
+        
+        .enterprise-intro {
+            font-size: 22px;
+            color: var(--charcoal);
+            line-height: 1.7;
+        }
+        
+        /* Discretion Banner */
+        .discretion-banner {
+            background: var(--black);
+            color: white;
+            padding: 48px 56px;
+            margin-bottom: 80px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .discretion-icon {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--crimson);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .discretion-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: var(--crimson);
+            stroke-width: 1.5;
+            fill: none;
+        }
+        
+        .discretion-content h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 12px;
+        }
+        
+        .discretion-content p {
+            font-size: 16px;
+            color: var(--titanium);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        .discretion-badges {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .discretion-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--mist);
+        }
+        
+        .packages-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            border: 1px solid var(--platinum);
+            margin-bottom: 100px;
+        }
+        
+        .package {
+            padding: 56px 48px;
+            border-right: 1px solid var(--platinum);
+            position: relative;
+            background: white;
+            transition: all 0.4s;
+        }
+        
+        .package:last-child { border-right: none; }
+        
+        .package:hover {
+            background: var(--bg);
+        }
+        
+        .package.featured {
+            background: var(--black);
+            color: white;
+            margin: -24px 0;
+            padding: 80px 48px;
+            z-index: 1;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .package.featured:hover {
+            background: var(--charcoal);
+        }
+        
+        .package-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--crimson);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 20px;
+        }
+        
+        .package-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .package-tagline {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            font-size: 16px;
+            color: var(--grey);
+            margin-bottom: 40px;
+        }
+        
+        .package.featured .package-tagline {
+            color: var(--mist);
+        }
+        
+        .package-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+        
+        .package-list li {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--platinum);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .package.featured .package-list li {
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+        
+        .package-list li:last-child { border-bottom: none; }
+        
+        .package-list li::before {
+            content: '✓';
+            color: var(--teal);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .package.featured .package-list li::before {
+            color: var(--crimson);
+        }
+        
+        .package-highlight {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--crimson);
+            font-weight: 600;
+            padding: 2px 8px;
+            margin-left: 8px;
+            font-size: 11px;
+        }
+        
+        .package.featured .package-highlight {
+            background: rgba(196, 30, 58, 0.3);
+        }
+        
+        .package-cta .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        /* Deliverables Showcase */
+        .deliverables-showcase {
+            background: var(--black);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .deliverables-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(13, 115, 119, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 20%, rgba(184, 134, 11, 0.15) 0%, transparent 40%);
+        }
+        
+        .deliverables-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .deliverables-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: white;
+            margin-bottom: 16px;
+        }
+        
+        .deliverables-header p {
+            font-size: 18px;
+            color: var(--titanium);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .deliverable {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+        
+        .deliverable:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(196, 30, 58, 0.3);
+            transform: translateY(-8px);
+        }
+        
+        .deliverable-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: rgba(196, 30, 58, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s;
+        }
+        
+        .deliverable:hover .deliverable-icon {
+            background: var(--crimson);
+            transform: scale(1.1);
+        }
+        
+        .deliverable-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: var(--crimson);
+            stroke-width: 1.5;
+            fill: none;
+            transition: stroke 0.4s;
+        }
+        
+        .deliverable:hover .deliverable-icon svg {
+            stroke: white;
+        }
+        
+        .deliverable-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: white;
+            margin-bottom: 12px;
+        }
+        
+        .deliverable-desc {
+            font-size: 14px;
+            color: var(--mist);
+            line-height: 1.6;
+        }
+        
+        /* Booking Form Section */
+        .booking-section {
+            background: linear-gradient(180deg, var(--bg) 0%, white 100%);
+            padding: 120px 0;
+            position: relative;
+        }
+        
+        .booking-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid var(--platinum);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .booking-header {
+            background: var(--black);
+            color: white;
+            padding: 48px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .booking-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--gold), var(--crimson));
+        }
+        
+        .booking-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        
+        .booking-header p {
+            font-size: 16px;
+            color: var(--titanium);
+        }
+        
+        .booking-form {
+            padding: 56px 48px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        
+        .form-label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--charcoal);
+            margin-bottom: 10px;
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            color:black;
+            width: 100%;
+            padding: 16px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            border: 1px solid var(--platinum);
+            background: var(--bg);
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--crimson);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236f6f6f' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            cursor: pointer;
+        }
+        
+        .date-picker-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .form-checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg);
+            border: 1px solid var(--platinum);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .form-checkbox:hover {
+            border-color: var(--crimson);
+        }
+        
+        .form-checkbox.selected {
+            background: rgba(196, 30, 58, 0.05);
+            border-color: var(--crimson);
+        }
+        
+        .form-checkbox input {
+            display: none;
+        }
+        
+        .checkbox-indicator {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--platinum);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        
+        .form-checkbox.selected .checkbox-indicator {
+            background: var(--crimson);
+            border-color: var(--crimson);
+        }
+        
+        .checkbox-indicator::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .form-checkbox.selected .checkbox-indicator::after {
+            opacity: 1;
+        }
+        
+        .checkbox-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        
+        .form-submit {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .form-submit .btn {
+            min-width: 280px;
+        }
+        
+        .form-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--mist);
+            margin-top: 16px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--black);
+            padding: 80px 40px 40px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+        }
+        
+        .footer-brand p {
+            font-size: 16px;
+            color: var(--mist);
+            line-height: 1.7;
+            margin: 24px 0;
+            max-width: 300px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .footer-social a {
+            width: 44px;
+            height: 44px;
+            background: var(--charcoal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .footer-social a:hover {
+            background: var(--crimson);
+            transform: translateY(-2px);
+        }
+        
+        .footer-column h5 {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: white;
+            margin-bottom: 28px;
+        }
+        
+        .footer-column ul { list-style: none; }
+        
+        .footer-column li { margin-bottom: 14px; }
+        
+        .footer-column a {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--mist);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-column a:hover { color: white; }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 60px auto 0;
+            padding-top: 40px;
+            border-top: 1px solid var(--charcoal);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-bottom p {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--mist);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content { grid-template-columns: 1fr; gap: 60px; }
+            .hero-visual { display: none; }
+            .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+            .pillar { border-bottom: 1px solid var(--platinum); }
+            .deliverables-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 1024px) {
+            .what-is-grid { grid-template-columns: 1fr; gap: 60px; }
+            .rpi-sidebar { position: static; }
+            .packages-wrapper { grid-template-columns: 1fr; }
+            .package { border-right: none; border-bottom: 1px solid var(--platinum); }
+            .package:last-child { border-bottom: none; }
+            .package.featured { margin: 0; padding: 56px 48px; }
+            .reports-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        
+        @media (max-width: 768px) {
+            .masthead-inner { padding: 0 20px; }
+            .nav-links { display: none; }
+            .hero-content, .content { padding-left: 20px; padding-right: 20px; }
+            .section { padding: 80px 0; }
+            .section h2 { font-size: 36px; }
+            .pillars-grid { grid-template-columns: 1fr; }
+            .deliverables-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-checkbox-group { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .time-range { flex-direction: column; text-align: center; }
+            .time-range-context { border-left: none; padding-left: 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Header -->
+    <header class="masthead" id="masthead">
+        <div class="masthead-inner">
+            <div style="display: flex; align-items: center;">
+                <a href="#" class="logo">Replace<span>able</span>.ai</a>
+                <span class="logo-tagline">Professional Augmentation · Industry Intelligence</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#methodology">Methodology</a>
+                <a href="#reports">Reports</a>
+                <a href="#enterprise">Enterprise</a>
+                <a href="#booking" class="nav-cta">Book Consultation</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>The <em>Horizon Scan</em> Series</h1>
+                <p class="hero-subtitle">Deep future workforce intelligence for organizations thinking in decades, not quarters. Rigorous projections that transform automation uncertainty into strategic clarity.</p>
+                
+                <div class="hero-distinction">
+                    <strong>Not short-term forecasting.</strong> For daily market intelligence and news analysis, see our Current Intelligence briefings. Horizon Scans operate on a fundamentally different timescale.
+                </div>
+                
+                <div class="time-range">
+                    <div class="time-range-item">
+                        <div class="time-range-value">25</div>
+                        <div class="time-range-label">Year Minimum</div>
+                    </div>
+                    <div class="time-range-divider">→</div>
+                    <div class="time-range-item">
+                        <div class="time-range-value">100</div>
+                        <div class="time-range-label">Year Maximum</div>
+                    </div>
+                    <div class="time-range-context">
+                        <p>Long enough to capture fundamental transformation. Far enough to escape quarterly thinking. This is generational strategy—the decisions that shape your organization's workforce for your successors' successors.</p>
+                    </div>
+                </div>
+                
+                <div class="hero-cta">
+                    <a href="#reports" class="btn btn-primary">Explore Published Reports</a>
+                    <a href="#enterprise" class="btn btn-secondary">Commission Private Research →</a>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="time-machine">
+                    <div class="data-streams">
+                        <div class="data-stream" style="left: 10%; height: 40%; animation-delay: 0s;"></div>
+                        <div class="data-stream" style="left: 25%; height: 60%; animation-delay: 0.5s;"></div>
+                        <div class="data-stream" style="left: 40%; height: 35%; animation-delay: 1s;"></div>
+                        <div class="data-stream" style="left: 55%; height: 55%; animation-delay: 1.5s;"></div>
+                        <div class="data-stream" style="left: 70%; height: 45%; animation-delay: 2s;"></div>
+                        <div class="data-stream" style="left: 85%; height: 50%; animation-delay: 2.5s;"></div>
+                    </div>
+                    <div class="time-machine-core">
+                        <div class="time-ring"></div>
+                        <div class="time-ring"></div>
+                        <div class="time-ring"></div>
+                        <div class="time-core-center">
+                            <div class="time-core-text">HORIZON<br>ENGINE</div>
+                        </div>
+                        <div class="time-years y-2024"><span>2024</span>Today</div>
+                        <div class="time-years y-2049"><span>2049</span>25 Years</div>
+                        <div class="time-years y-2074"><span>2074</span>50 Years</div>
+                        <div class="time-years y-2124"><span>2124</span>100 Years</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- What Is Section -->
+    <section id="what-is" class="section what-is">
+        <div class="content">
+            <div class="what-is-grid">
+                <div class="what-is-text">
+                    <div class="section-label">About the Series</div>
+                    <h2>Strategic Foresight, <em>Not Science Fiction</em></h2>
+                    <p>The Horizon Scan series represents a new category of workforce intelligence: long-range projections grounded in rigorous methodology rather than speculative futurism. Each report examines a specific industry-region combination across a 25-100 year horizon—far enough to capture fundamental transformation, structured enough to inform decisions made today.</p>
+                    <p>Where most automation research asks "which jobs will disappear?", we ask the more useful question: "what will humans do that matters?" Every Horizon Scan identifies ten or more future roles that don't exist today but will emerge from the collision of technological capability, climate adaptation, demographic shift, and evolving human needs.</p>
+                    <p>The value proposition is strategic patience. While competitors obsess over next quarter's headcount, you'll understand workforce architecture that spans generations. The organizations that thrive across decades are those that see the long arc before it bends.</p>
+                    <p>Each report combines the analytical rigor of premier management consulting with the narrative accessibility of long-form journalism. We don't just show you data. We show you the person who wakes up in 2064—or 2124—and goes to work in a role that doesn't yet have a name.</p>
+                </div>
+                
+                <div class="rpi-sidebar">
+                    <div class="rpi-card">
+                        <div class="rpi-header">
+                            <span class="rpi-title">RPI</span>
+                            <span class="rpi-tm">™</span>
+                        </div>
+                        <p>The Replaceability Potential Index. Our proprietary methodology that decomposes every role into constituent tasks, scoring each across three dimensions: technical automation feasibility, time allocation, and irreplaceable human value.</p>
+                        <div class="rpi-scale-visual">
+                            <div class="rpi-scale-bar">
+                                <div class="rpi-scale-segment"></div>
+                                <div class="rpi-scale-segment"></div>
+                                <div class="rpi-scale-segment"></div>
+                                <div class="rpi-scale-segment"></div>
+                                <div class="rpi-scale-segment"></div>
+                            </div>
+                            <div class="rpi-scale-labels">
+                                <span>Human Resilient</span>
+                                <span>Near-Complete Automation</span>
+                            </div>
+                        </div>
+                        <div class="rpi-formula">
+                            <code>HRA_t = APS × W × (1-HRF)</code><br>
+                            <code>Role RPI = Σ HRA_t</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Four Pillars -->
+    <section class="section pillars-section">
+        <div class="content">
+            <div class="section-label">Methodology</div>
+            <h2>Four Pillars of <em>Horizon Intelligence</em></h2>
+        </div>
+        <div class="pillars-grid">
+            <div class="pillar">
+                <div class="pillar-content">
+                    <div class="pillar-number">01</div>
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 48 48"><path d="M24 4L4 14v20l20 10 20-10V14L24 4z"/><path d="M4 14l20 10 20-10"/><path d="M24 24v20"/></svg>
+                    </div>
+                    <div class="pillar-title">Research-First</div>
+                    <div class="pillar-desc">Eight or more distinct sources per report. SEC filings, academic research, BLS projections, industry analyses—synthesized and validated before any speculation begins.</div>
+                </div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-content">
+                    <div class="pillar-number">02</div>
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 48 48"><rect x="4" y="4" width="16" height="16"/><rect x="28" y="4" width="16" height="16"/><rect x="4" y="28" width="16" height="16"/><rect x="28" y="28" width="16" height="16"/></svg>
+                    </div>
+                    <div class="pillar-title">Task-Level Analysis</div>
+                    <div class="pillar-desc">Not "this job will automate" but "these five tasks within this role will automate while these three will appreciate in value." Granular insight that survives contact with reality.</div>
+                </div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-content">
+                    <div class="pillar-number">03</div>
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 48 48"><path d="M4 40h40"/><path d="M8 40V24l8-8 8 12 8-16 8 8v20"/></svg>
+                    </div>
+                    <div class="pillar-title">Narrative Immersion</div>
+                    <div class="pillar-desc">Every report opens with a literary prologue. Meet the person of 2064 before you see the data. Make the future feel inevitable yet surprising. Strategy through story.</div>
+                </div>
+            </div>
+            <div class="pillar">
+                <div class="pillar-content">
+                    <div class="pillar-number">04</div>
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20"/><path d="M24 14v10l7 7"/></svg>
+                    </div>
+                    <div class="pillar-title">Actionable Now</div>
+                    <div class="pillar-desc">Specific recommendations for policymakers, industry leaders, and individuals. Strategy you can implement today for futures you can't yet see. Long-range thinking, near-term action.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Methodology Section -->
+    <section id="methodology" class="section methodology-section">
+        <div class="content">
+            <div class="section-label" style="color: var(--crimson);">The Science of Foresight</div>
+            <h2>How We See <em>What's Coming</em></h2>
+            <p class="section-intro">Our projections aren't guesswork dressed in confidence. They emerge from a rigorous, multi-layered methodology that synthesizes the best available evidence into defensible scenarios.</p>
+            
+            <div class="methodology-grid">
+                <div class="methodology-narrative">
+                    <p><strong>We begin where others end.</strong> Most automation forecasts start with technology capabilities and extrapolate forward. We start with economic fundamentals: What tasks create value? What does the labor market actually reward? Where do wages signal scarcity versus abundance? Technology is one variable among many—regulation, demographics, climate adaptation, and cultural preference all shape workforce evolution.</p>
+                    
+                    <p><strong>We decompose before we predict.</strong> "This job will be automated" is a category error. Jobs are bundles of tasks with wildly different automation profiles. A hotel concierge performs fifteen distinct task types; three face near-certain automation, five face enhancement, and seven will become more valuable precisely because their context is human. Our RPI<sup style="font-size:8px">™</sup> methodology scores each task, then reconstructs the role.</p>
+                    
+                    <p><strong>We triangulate across disciplines.</strong> No single research stream captures workforce futures. We synthesize labor economics, technology forecasting, organizational behavior, climate science, demographic projections, and regulatory analysis. Each provides a different lens; convergence across lenses increases confidence.</p>
+                    
+                    <p><strong>We calibrate against history.</strong> Past technological transitions—steam, electricity, computing, internet—offer patterns that rhyme with present disruptions. We study what previous forecasters got wrong (usually: underestimating job creation, overestimating displacement speed) and adjust our models accordingly.</p>
+                    
+                    <p><strong>We name what we don't know.</strong> Every Horizon Scan includes explicit confidence ratings and assumption registries. We distinguish between high-confidence projections (demographic trends, regulatory momentum) and speculative scenarios (breakthrough technologies, black swan events). Intellectual honesty about uncertainty is itself a form of rigor.</p>
+                </div>
+                
+                <div class="methodology-layers">
+                    <div class="method-layer">
+                        <div class="method-layer-number">01</div>
+                        <div class="method-layer-title">Foundation Research</div>
+                        <div class="method-layer-desc">8-12 distinct source categories per report. Academic literature, government statistics, industry analyses, patent databases, regulatory filings—synthesized and validated.</div>
+                    </div>
+                    <div class="method-layer">
+                        <div class="method-layer-number">02</div>
+                        <div class="method-layer-title">Task Decomposition</div>
+                        <div class="method-layer-desc">Every role analyzed at task level. Time allocation, skill requirements, automation exposure, and human resilience factors scored independently then aggregated.</div>
+                    </div>
+                    <div class="method-layer">
+                        <div class="method-layer-number">03</div>
+                        <div class="method-layer-title">Scenario Modeling</div>
+                        <div class="method-layer-desc">Three scenario tracks per projection: acceleration, baseline, disruption. Each with explicit trigger conditions, leading indicators, and confidence bounds.</div>
+                    </div>
+                    <div class="method-layer">
+                        <div class="method-layer-number">04</div>
+                        <div class="method-layer-title">Narrative Integration</div>
+                        <div class="method-layer-desc">Data becomes story. Future roles given names, contexts, career paths. Abstract projections translated into human experience that leaders can feel, not just analyze.</div>
+                    </div>
+                    
+                    <div class="rpi-formula-box">
+                        <div class="rpi-formula-header">
+                            <span class="rpi-formula-title">RPI</span>
+                            <span class="rpi-tm">™</span>
+                        </div>
+                        <p style="font-size: 14px; color: var(--titanium); margin: 0;">The Replaceability Potential Index. Our proprietary scoring methodology.</p>
+                        <div class="rpi-formula-code">
+                            <code>HRA_t = APS × W × (1-HRF)</code>
+                            <code>Role RPI = Σ HRA_t</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Reports Section -->
+    <section id="reports" class="section reports-section">
+        <div class="content">
+            <div class="section-label" style="color: var(--crimson);">Published Research</div>
+            <h2>The <em>Reports</em></h2>
+            <p class="section-intro">Each Horizon Scan examines a specific industry-region intersection across generational timescales. New reports released quarterly.</p>
+            
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-card-image">
+                        <div class="report-visual">
+                            <div class="report-visual-grid"></div>
+                            <div class="report-visual-year">2064</div>
+                            <div class="report-visual-marker"></div>
+                            <div class="report-visual-marker"></div>
+                            <div class="report-visual-marker"></div>
+                        </div>
+                    </div>
+                    <div class="report-card-content">
+                        <div class="report-card-label">December 2024 · Inaugural Report</div>
+                        <div class="report-card-title">Goa Hospitality 2064</div>
+                        <div class="report-card-meta">Tourism & Leisure · India (Goa) · 40-Year Horizon</div>
+                        <div class="report-card-stats">
+                            <div class="report-stat">
+                                <div class="report-stat-value">10</div>
+                                <div class="report-stat-label">Future Roles</div>
+                            </div>
+                            <div class="report-stat">
+                                <div class="report-stat-value">0.47</div>
+                                <div class="report-stat-label">Sector RPI</div>
+                            </div>
+                            <div class="report-stat">
+                                <div class="report-stat-value">+23%</div>
+                                <div class="report-stat-label">Net Jobs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-card coming-soon">
+                    <div class="report-card-image">
+                        <div class="report-visual">
+                            <div class="report-visual-grid"></div>
+                            <div class="report-visual-year">2065</div>
+                        </div>
+                    </div>
+                    <div class="report-card-content">
+                        <span class="coming-badge">Q1 2025</span>
+                        <div class="report-card-title">UK Healthcare 2065</div>
+                        <div class="report-card-meta">NHS & Private Healthcare · United Kingdom · 40-Year Horizon</div>
+                        <div class="report-card-stats">
+                            <div class="report-stat">
+                                <div class="report-stat-value">—</div>
+                                <div class="report-stat-label">In Research</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-card coming-soon">
+                    <div class="report-card-image">
+                        <div class="report-visual">
+                            <div class="report-visual-grid"></div>
+                            <div class="report-visual-year">2074</div>
+                        </div>
+                    </div>
+                    <div class="report-card-content">
+                        <span class="coming-badge">Q2 2025</span>
+                        <div class="report-card-title">German Manufacturing 2074</div>
+                        <div class="report-card-meta">Automotive & Industrial · Germany · 50-Year Horizon</div>
+                        <div class="report-card-stats">
+                            <div class="report-stat">
+                                <div class="report-stat-value">—</div>
+                                <div class="report-stat-label">Scoping</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Enterprise Section -->
+    <section id="enterprise" class="section enterprise-section">
+        <div class="content">
+            <div class="enterprise-header">
+                <div class="section-label">Enterprise Engagements</div>
+                <h2>Commission a <em>Private</em> Horizon Scan</h2>
+                <p class="enterprise-intro">Our published reports serve the broader market. But the most powerful application of our methodology is company-specific: a Horizon Scan built entirely around your workforce, your competitive position, and your strategic horizon.</p>
+            </div>
+            
+            <!-- Discretion Banner -->
+            <div class="discretion-banner">
+                <div class="discretion-icon">
+                    <svg viewBox="0 0 48 48"><path d="M24 4C12 4 4 24 4 24s8 20 20 20 20-20 20-20S36 4 24 4z"/><circle cx="24" cy="24" r="8"/></svg>
+                </div>
+                <div class="discretion-content">
+                    <h4>Trusted by S&P 500 Organizations</h4>
+                    <p>We work with a number of S&P 500 companies on sensitive workforce transformation initiatives. We understand that organization design, restructuring plans, and future workforce architecture are among the most confidential elements of corporate strategy. Discretion isn't a feature—it's foundational to how we operate.</p>
+                    <div class="discretion-badges">
+                        <span class="discretion-badge">NDA Available</span>
+                        <span class="discretion-badge">Secure Data Handling</span>
+                        <span class="discretion-badge">Confidential Deliverables</span>
+                        <span class="discretion-badge">Executive-Only Access</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="packages-wrapper">
+                <div class="package">
+                    <div class="package-name">Horizon Report</div>
+                    <div class="package-tagline">The foundational analysis</div>
+                    <ul class="package-list">
+                        <li>25-100 year custom workforce projection</li>
+                        <li>10+ future role analyses with RPI<sup style="font-size:8px">™</sup> scores</li>
+                        <li>Company-specific succession mapping</li>
+                        <li>Three scenario frameworks (acceleration/baseline/disruption)</li>
+                        <li>Executive-ready PDF report (40-60 pages)</li>
+                        <li>Full methodology appendix with sources</li>
+                    </ul>
+                    <div class="package-cta">
+                        <a href="#booking" class="btn btn-secondary" style="color: var(--black); border-color: var(--platinum);">Request Proposal</a>
+                    </div>
+                </div>
+                
+                <div class="package featured">
+                    <div class="package-badge">Most Selected</div>
+                    <div class="package-name">Strategic Workshop</div>
+                    <div class="package-tagline">Report + leadership activation</div>
+                    <ul class="package-list">
+                        <li>Everything in Horizon Report</li>
+                        <li>Half-day executive workshop (virtual/in-person)</li>
+                        <li>Interactive scenario planning facilitation</li>
+                        <li>Board-ready presentation deck (50+ slides)</li>
+                        <li>Custom infographic suite<span class="package-highlight">5 visuals</span></li>
+                        <li>90-day implementation consultation</li>
+                    </ul>
+                    <div class="package-cta">
+                        <a href="#booking" class="btn btn-primary">Request Proposal</a>
+                    </div>
+                </div>
+                
+                <div class="package">
+                    <div class="package-name">Full Immersion</div>
+                    <div class="package-tagline">Complete transformation package</div>
+                    <ul class="package-list">
+                        <li>Everything in Strategic Workshop</li>
+                        <li>Full-day leadership immersion program</li>
+                        <li>Private podcast episode<span class="package-highlight">30-45 min</span></li>
+                        <li>Animated explainer video<span class="package-highlight">2-3 min</span></li>
+                        <li>Complete infographic library<span class="package-highlight">12+ visuals</span></li>
+                        <li>Quarterly check-ins for 12 months</li>
+                        <li>Internal distribution license</li>
+                    </ul>
+                    <div class="package-cta">
+                        <a href="#booking" class="btn btn-secondary" style="color: var(--black); border-color: var(--platinum);">Request Proposal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Deliverables Showcase -->
+        <div class="deliverables-showcase">
+            <div class="content">
+                <div class="deliverables-header">
+                    <h3>Enterprise Deliverables</h3>
+                    <p>Every engagement produces artifacts designed for internal distribution, stakeholder communication, and strategic activation</p>
+                </div>
+                
+                <div class="deliverables-grid">
+                    <div class="deliverable">
+                        <div class="deliverable-icon">
+                            <svg viewBox="0 0 48 48">
+                                <rect x="8" y="4" width="32" height="40" rx="2" />
+                                <line x1="14" y1="14" x2="34" y2="14" />
+                                <line x1="14" y1="22" x2="34" y2="22" />
+                                <line x1="14" y1="30" x2="26" y2="30" />
+                            </svg>
+                        </div>
+                        <div class="deliverable-title">Strategic Report</div>
+                        <div class="deliverable-desc">Comprehensive analysis with full RPI methodology, scenario planning, and implementation roadmap. Print-ready, brand-aligned.</div>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-icon">
+                            <svg viewBox="0 0 48 48">
+                                <circle cx="24" cy="24" r="18" />
+                                <polygon points="20,16 20,32 34,24" />
+                            </svg>
+                        </div>
+                        <div class="deliverable-title">Private Podcast</div>
+                        <div class="deliverable-desc">30-45 minute audio deep-dive featuring our analysts discussing your specific findings. Executive commute content.</div>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-icon">
+                            <svg viewBox="0 0 48 48">
+                                <rect x="4" y="10" width="40" height="28" rx="2" />
+                                <line x1="4" y1="18" x2="44" y2="18" />
+                                <circle cx="10" cy="14" r="2" />
+                                <circle cx="18" cy="14" r="2" />
+                            </svg>
+                        </div>
+                        <div class="deliverable-title">Presentation Deck</div>
+                        <div class="deliverable-desc">50+ slides engineered for board presentations and town halls. Key findings, visualizations, and talking points.</div>
+                    </div>
+                    <div class="deliverable">
+                        <div class="deliverable-icon">
+                            <svg viewBox="0 0 48 48">
+                                <rect x="6" y="6" width="36" height="36" rx="2" />
+                                <circle cx="24" cy="20" r="6" />
+                                <rect x="14" y="30" width="20" height="6" rx="1" />
+                            </svg>
+                        </div>
+                        <div class="deliverable-title">Infographic Suite</div>
+                        <div class="deliverable-desc">Visual summaries of RPI scores, succession maps, and scenarios. Optimized for internal communications and print.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Booking Form -->
+    <section id="booking" class="booking-section">
+        <div class="content">
+            <div class="booking-container">
+                <div class="booking-header">
+                    <h3>Schedule a Consultation</h3>
+                    <p>Tell us about your organization and we'll prepare a tailored proposal</p>
+                </div>
+                <form class="booking-form" id="consultationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" placeholder="Your first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" placeholder="Your last name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Work Email</label>
+                            <input type="email" class="form-input" placeholder="you@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Company</label>
+                            <input type="text" class="form-input" placeholder="Organization name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Role / Title</label>
+                            <input type="text" class="form-input" placeholder="Your position">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Industry Sector</label>
+                            <select class="form-select" required>
+                                <option value="">Select your industry</option>
+                                <option>Healthcare & Life Sciences</option>
+                                <option>Financial Services</option>
+                                <option>Manufacturing & Industrial</option>
+                                <option>Technology & Software</option>
+                                <option>Retail & Consumer</option>
+                                <option>Energy & Utilities</option>
+                                <option>Hospitality & Tourism</option>
+                                <option>Professional Services</option>
+                                <option>Public Sector</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Preferred Consultation Date</label>
+                        <div class="date-picker-wrapper">
+                            <select class="form-select">
+                                <option value="">Month</option>
+                                <option>January 2025</option>
+                                <option>February 2025</option>
+                                <option>March 2025</option>
+                                <option>April 2025</option>
+                                <option>May 2025</option>
+                                <option>June 2025</option>
+                            </select>
+                            <select class="form-select">
+                                <option value="">Week</option>
+                                <option>Week 1</option>
+                                <option>Week 2</option>
+                                <option>Week 3</option>
+                                <option>Week 4</option>
+                            </select>
+                            <select class="form-select">
+                                <option value="">Time (GMT)</option>
+                                <option>Morning (9-12)</option>
+                                <option>Afternoon (13-17)</option>
+                                <option>Evening (18-20)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Package Interest</label>
+                        <div class="form-checkbox-group">
+                            <label class="form-checkbox" onclick="this.classList.toggle('selected')">
+                                <input type="checkbox" name="package" value="report">
+                                <span class="checkbox-indicator"></span>
+                                <span class="checkbox-label">Horizon Report</span>
+                            </label>
+                            <label class="form-checkbox" onclick="this.classList.toggle('selected')">
+                                <input type="checkbox" name="package" value="workshop">
+                                <span class="checkbox-indicator"></span>
+                                <span class="checkbox-label">Strategic Workshop</span>
+                            </label>
+                            <label class="form-checkbox" onclick="this.classList.toggle('selected')">
+                                <input type="checkbox" name="package" value="immersion">
+                                <span class="checkbox-indicator"></span>
+                                <span class="checkbox-label">Full Immersion</span>
+                            </label>
+                            <label class="form-checkbox" onclick="this.classList.toggle('selected')">
+                                <input type="checkbox" name="package" value="unsure">
+                                <span class="checkbox-indicator"></span>
+                                <span class="checkbox-label">Not sure yet</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tell Us More</label>
+                        <textarea class="form-textarea" placeholder="What workforce questions keep you up at night? What strategic decisions would benefit from long-range visibility? Any specific roles or regions of interest?"></textarea>
+                    </div>
+                    
+                    <div class="nda-note">
+                        <svg viewBox="0 0 48 48"><path d="M24 4L4 14v16c0 11 20 14 20 14s20-3 20-14V14L24 4z"/><path d="M16 24l6 6 12-12"/></svg>
+                        <p>We're happy to sign an NDA before our initial conversation. Workforce strategy is sensitive; we understand and respect that completely.</p>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary">Request Consultation</button>
+                        <p class="form-note">We typically respond within 24 hours. No obligation, no spam—just a conversation about your strategic needs.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">Replace<span>able</span>.ai</a>
+                <p>Transforming automation uncertainty into strategic clarity. We help organizations understand not which jobs disappear, but what humans will do that matters—across generational timescales.</p>
+                <div class="footer-social">
+                    <a href="#">in</a>
+                    <a href="#">𝕏</a>
+                    <a href="#">◉</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h5>Research</h5>
+                <ul>
+                    <li><a href="#">Horizon Scan Series</a></li>
+                    <li><a href="#">RPI™ Methodology</a></li>
+                    <li><a href="#">Published Reports</a></li>
+                    <li><a href="#">Current Intelligence</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Enterprise</h5>
+                <ul>
+                    <li><a href="#">Private Research</a></li>
+                    <li><a href="#">Workshops</a></li>
+                    <li><a href="#">Speaking</a></li>
+                    <li><a href="#">Partnerships</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Replaceable.ai · All rights reserved</p>
+            <p>Professional Augmentation · Industry Intelligence</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Interactive Background Canvas
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height, particles;
+        
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        
+        function createParticles() {
+            particles = [];
+            const count = Math.floor((width * height) / 15000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    size: Math.random() * 2 + 1,
+                    opacity: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(196, 30, 58, ${p.opacity})`;
+                ctx.fill();
+                
+                // Connect nearby particles
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(196, 30, 58, ${0.1 * (1 - dist / 120)})`;
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        resize();
+        createParticles();
+        animate();
+        
+        window.addEventListener('resize', () => {
+            resize();
+            createParticles();
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const masthead = document.getElementById('masthead');
+            if (window.scrollY > 50) {
+                masthead.classList.add('scrolled');
+            } else {
+                masthead.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Form submission
+        document.getElementById('consultationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your interest! We\'ll be in touch within 24 hours to schedule your consultation.');
+        });
+    </script>
+</body>
+</html>

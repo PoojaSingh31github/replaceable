@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Scanning Series | Replaceable.ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --crimson: #c41e3a;
+            --deep-crimson: #9a1830;
+            --black: #0a0a0a;
+            --charcoal: #1a1a1a;
+            --bg: #f7f7f5;
+            --bg-warm: #f4f3f0;
+            --card-bg: #ffffff;
+            --border: #e5e5e3;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --text-light: #8a8a8a;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::selection { background: var(--crimson); color: white; }
+
+        /* MASTHEAD */
+        .masthead {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .masthead.scrolled {
+            background: rgba(255,255,255,0.98);
+            border-bottom: 1px solid var(--border);
+        }
+        .masthead.scrolled .logo { color: var(--text); }
+        .masthead.scrolled .nav a { color: var(--text-muted); }
+        .masthead.scrolled .nav a:hover { color: var(--text); }
+        .masthead-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 18px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .logo .accent { color: var(--crimson); }
+        .nav { display: flex; align-items: center; gap: 36px; }
+        .nav a {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: color 0.2s;
+        }
+        .nav a:hover { color: white; }
+        .nav-cta {
+            background: var(--crimson) !important;
+            color: white !important;
+            padding: 11px 22px !important;
+        }
+        .nav-cta:hover { background: var(--deep-crimson) !important; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transform-origin: top center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+        }
+        .hero.rolled-up { transform: scaleY(0); opacity: 0; }
+        .hero-gradient {
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(ellipse at 50% 50%, rgba(196, 30, 58, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(13, 115, 119, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 35%);
+        }
+        .hero-particles { position: absolute; inset: 0; }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 100px 48px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--crimson);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.2s forwards;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(38px, 5vw, 64px);
+            font-weight: 400;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            max-width: 700px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.4s forwards;
+        }
+        .hero-title em { font-style: italic; color: var(--crimson); }
+        .hero-subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 19px;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
+            max-width: 550px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.6s forwards;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CRYSTAL BALL */
+        .crystal-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 20px 0 60px;
+            cursor: grab;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.8s forwards;
+        }
+        .crystal-wrapper:active { cursor: grabbing; }
+        #crystal-container { width: 100%; height: 100%; }
+        .crystal-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(196, 30, 58, 0.35) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+        .crystal-hint {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            transition: opacity 0.3s;
+        }
+        .crystal-wrapper:hover .crystal-hint { opacity: 0; }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* SCROLL TRIGGER */
+        .hero-scroll-trigger {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 35px;
+            cursor: pointer;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+            transition: background 0.3s;
+        }
+        .hero-scroll-trigger:hover { background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%); }
+        .hero-scroll-trigger:hover .scroll-icon { transform: translateY(4px); }
+        .scroll-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 12px;
+            transition: color 0.3s;
+        }
+        .hero-scroll-trigger:hover .scroll-text { color: rgba(255,255,255,0.8); }
+        .scroll-icon {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .hero-scroll-trigger:hover .scroll-icon {
+            border-color: var(--crimson);
+            background: rgba(196, 30, 58, 0.2);
+        }
+        .scroll-icon svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); transition: stroke 0.3s; }
+        .hero-scroll-trigger:hover .scroll-icon svg { stroke: white; }
+
+        /* CONTENT AREA */
+        .content-area { background: var(--bg); position: relative; z-index: 1; }
+
+        /* FILTERS */
+        .filters-section {
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+            background: var(--bg-warm);
+            border-bottom: 1px solid var(--border);
+        }
+        .filters-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .filter-tabs { display: flex; gap: 6px; }
+        .filter-tab {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-tab:hover { border-color: var(--text-muted); color: var(--text); }
+        .filter-tab.active { background: var(--crimson); border-color: var(--crimson); color: white; }
+        .results-count {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .results-count strong { color: var(--text); }
+
+        /* REPORTS SECTION */
+        .reports-section { max-width: 1300px; margin: 0 auto; padding: 60px 48px 120px; }
+        .reports-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+
+        /* FEATURED CARD */
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+            overflow: hidden;
+        }
+        .featured-card.visible { opacity: 1; transform: translateY(0); }
+        .featured-image { position: relative; min-height: 400px; overflow: hidden; }
+        .featured-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .featured-card:hover .featured-image img { transform: scale(1.05); }
+        .featured-image-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent 60%, rgba(0,0,0,0.3) 100%);
+        }
+        .featured-badge {
+            position: absolute;
+            top: 24px; left: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: white;
+            background: var(--crimson);
+            padding: 8px 16px;
+        }
+        .featured-content { padding: 48px; display: flex; flex-direction: column; justify-content: center; }
+        .featured-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .featured-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            color: var(--text);
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+        .featured-era {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--crimson);
+            padding: 6px 12px;
+            border: 1px solid var(--crimson);
+        }
+        .featured-category {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .featured-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .featured-summary {
+            font-family: 'Crimson Text', serif;
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+        .featured-stats {
+            display: flex;
+            gap: 32px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        .featured-stat-value { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text); }
+        .featured-stat-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        .featured-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+            background: var(--crimson);
+            padding: 16px 28px;
+            text-decoration: none;
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+        .featured-cta:hover { background: var(--deep-crimson); gap: 14px; }
+
+        /* PEEL-BACK CARD */
+        .paper-card {
+            position: relative;
+            height: 480px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            cursor: pointer;
+        }
+        .paper-card.visible { opacity: 1; transform: translateY(0); }
+        .paper-stack {
+            position: absolute;
+            top: 6px; left: 6px; right: -6px; bottom: -6px;
+            background: #e8e8e6;
+            border: 1px solid var(--border);
+        }
+        .paper-stack-2 {
+            position: absolute;
+            top: 3px; left: 3px; right: -3px; bottom: -3px;
+            background: #f0f0ee;
+            border: 1px solid var(--border);
+        }
+        .paper-main {
+            position: relative;
+            width: 100%; height: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.3s;
+        }
+        .paper-card:hover .paper-main { box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+
+        /* PAGE CURL - decorative only */
+        .page-curl {
+            position: absolute;
+            top: 0; right: 0;
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, transparent 48%, #f0f0ee 48%, #e8e8e6 54%, var(--bg-warm) 100%);
+            box-shadow: -2px 2px 6px rgba(0,0,0,0.1);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .paper-card:hover .page-curl { width: 60px; height: 60px; }
+        .paper-header {
+            padding: 20px 20px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .paper-brand { display: flex; flex-direction: column; gap: 4px; }
+        .paper-logo { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--text); }
+        .paper-logo .accent { color: var(--crimson); }
+        .paper-series {
+            font-family: 'Inter', sans-serif;
+            font-size: 7px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--crimson);
+        }
+        .paper-image {
+            position: relative;
+            height: 150px;
+            margin: 16px 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .paper-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) sepia(10%);
+            transition: all 0.5s ease;
+        }
+        .paper-card:hover .paper-image img { filter: grayscale(0%) sepia(0%); transform: scale(1.05); }
+        .paper-image-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.5) 100%);
+        }
+        .paper-year {
+            position: absolute;
+            bottom: 10px; left: 14px;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+        .paper-content { padding: 0 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .paper-era {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+            background: var(--crimson);
+            padding: 4px 10px;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+        .paper-category {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .paper-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .paper-summary {
+            font-family: 'Crimson Text', serif;
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.55;
+            flex-grow: 1;
+        }
+        .paper-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-warm);
+            margin-top: auto;
+        }
+        .paper-cta {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--crimson);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+        }
+        .paper-card:hover .paper-cta { gap: 10px; }
+        
+        /* RPI Metrics */
+        .paper-metrics {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .metric {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+        .metric-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 7px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+        .metric-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: var(--text);
+            line-height: 1;
+        }
+        .metric-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .metric-bar-track {
+            width: 40px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .metric-bar-fill {
+            height: 100%;
+            background: var(--crimson);
+            border-radius: 2px;
+            transition: width 0.6s ease;
+        }
+        .metric-bar-fill.high { background: #c41e3a; }
+        .metric-bar-fill.medium { background: #d4a012; }
+        .metric-bar-fill.low { background: #0d7377; }
+
+        /* CTA SECTION */
+        .cta-section { background: var(--charcoal); position: relative; overflow: hidden; }
+        .cta-gradient {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(196, 30, 58, 0.15) 0%, transparent 60%);
+        }
+        .cta-inner { max-width: 800px; margin: 0 auto; padding: 100px 48px; text-align: center; position: relative; z-index: 2; }
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 4vw, 44px);
+            font-weight: 400;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .cta-title em { font-style: italic; color: var(--crimson); }
+        .cta-desc {
+            font-family: 'Crimson Text', serif;
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: white;
+            background: var(--crimson);
+            padding: 18px 36px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cta-btn:hover { background: var(--deep-crimson); transform: translateY(-3px); box-shadow: 0 15px 40px rgba(196, 30, 58, 0.3); }
+
+        /* FOOTER */
+        footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.05); padding: 48px; }
+        .footer-inner { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 20px; color: white; }
+        .footer-logo .accent { color: var(--crimson); }
+        .footer-copy { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .crystal-wrapper { width: 280px; height: 280px; }
+            .reports-grid { grid-template-columns: repeat(2, 1fr); }
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-image { min-height: 300px; }
+        }
+        @media (max-width: 768px) {
+            .masthead-inner { padding: 14px 24px; }
+            .nav a:not(.nav-cta) { display: none; }
+            .hero-content { padding: 100px 24px 60px; }
+            .crystal-wrapper { width: 220px; height: 220px; }
+            .filters-inner { padding: 16px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+            .filter-tabs { flex-wrap: wrap; }
+            .reports-section { padding: 40px 24px 80px; }
+            .reports-grid { grid-template-columns: 1fr; }
+            .paper-card { height: 460px; }
+            .featured-content { padding: 32px; }
+            .featured-title { font-size: 26px; }
+            .cta-inner { padding: 60px 24px; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="masthead" id="masthead">
+        <div class="masthead-inner">
+            <a href="/" class="logo">Replace<span class="accent">able</span>.ai</a>
+            <nav class="nav">
+                <a href="#">Intelligence</a>
+                <a href="#">Industries</a>
+                <a href="#">Research</a>
+                <a href="#" class="nav-cta">Commission Report</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="hero-gradient"></div>
+        <canvas id="hero-particles" class="hero-particles"></canvas>
+        <div class="hero-content">
+            <div class="hero-badge">Strategic Foresight Series</div>
+            <h1 class="hero-title">The Horizon <em>Scanning</em> Series</h1>
+            <p class="hero-subtitle">Strategic foresight reports mapping the transformation of human work across the next century.</p>
+            <div class="crystal-wrapper" id="crystalWrapper">
+                <div class="crystal-glow"></div>
+                <div id="crystal-container"></div>
+                <div class="crystal-hint">Drag to explore</div>
+            </div>
+        </div>
+        <div class="hero-scroll-trigger" id="scrollTrigger">
+            <span class="scroll-text">Explore Reports</span>
+            <div class="scroll-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 10l5 5 5-5"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <div class="content-area" id="contentArea">
+        <section class="filters-section">
+            <div class="filters-inner">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All Reports</button>
+                    <button class="filter-tab" data-filter="awakening">Awakening</button>
+                    <button class="filter-tab" data-filter="transformation">Transformation</button>
+                    <button class="filter-tab" data-filter="transcendence">Transcendence</button>
+                    <button class="filter-tab" data-filter="horizon">Horizon</button>
+                </div>
+                <div class="results-count">Showing <strong id="resultsCount">24</strong> reports</div>
+            </div>
+        </section>
+        <section class="reports-section">
+            <div class="featured-card" id="featuredCard"></div>
+            <div class="reports-grid" id="reportsGrid"></div>
+        </section>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-gradient"></div>
+        <div class="cta-inner">
+            <h2 class="cta-title">Ready to map <em>your</em> future?</h2>
+            <p class="cta-desc">Commission a custom Horizon Scan for your organization. We'll analyze the transformation of your industry across the timescales that matter.</p>
+            <a href="#" class="cta-btn">Commission a Report →</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">Replace<span class="accent">able</span>.ai</div>
+            <div class="footer-copy">© 2026 Replaceable.ai · All rights reserved</div>
+        </div>
+    </footer>
+
+    <script>
+        const ERAS = {
+            awakening: { start: 2026, end: 2040, name: 'Awakening' },
+            transformation: { start: 2041, end: 2070, name: 'Transformation' },
+            transcendence: { start: 2071, end: 2100, name: 'Transcendence' },
+            horizon: { start: 2101, end: 2126, name: 'Horizon' }
+        };
+
+        const IMAGES = {
+            workforce: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80',
+            technology: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80',
+            policy: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80',
+            healthcare: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
+            creative: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80',
+            legal: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+            science: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80',
+            economy: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80',
+            politics: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80',
+            governance: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+            society: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80',
+            industry: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+            culture: 'https://images.unsplash.com/photo-1561998338-13ad7883b20f?w=800&q=80',
+            evolution: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=800&q=80',
+            philosophy: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=800&q=80',
+            future: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80'
+        };
+
+        const ARTICLES = [
+            { year: 2026, title: "The Great Reassessment", category: "Workforce", summary: "Fortune 500 companies initiate comprehensive AI workforce audits across all divisions.", rpi: 42, augment: 68, roles: 1240 },
+            { year: 2028, title: "The Cognitive Threshold", category: "Technology", summary: "AI achieves expert-level performance across twelve professional domains.", rpi: 56, augment: 72, roles: 890 },
+            { year: 2030, title: "The Reckoning", category: "Policy", summary: "EU unveils the Human Work Guarantee framework for comprehensive worker protections.", rpi: 38, augment: 81, roles: 2100 },
+            { year: 2032, title: "Diagnostic Singularity", category: "Healthcare", summary: "AI diagnostics achieve 99.7% accuracy across 500 medical conditions.", rpi: 67, augment: 89, roles: 340 },
+            { year: 2035, title: "Synthetic Renaissance", category: "Creative", summary: "AI-generated content comprises 80% of all digital media production.", rpi: 73, augment: 54, roles: 560 },
+            { year: 2038, title: "Justice Automated", category: "Legal", summary: "AI adjudication handles 70% of civil disputes in participating nations.", rpi: 61, augment: 77, roles: 420 },
+            { year: 2042, title: "The Discovery Engine", category: "Science", summary: "AI-driven research output surpasses the entire previous century combined.", rpi: 52, augment: 91, roles: 780 },
+            { year: 2045, title: "Post-Scarcity Threshold", category: "Economy", summary: "Automation reaches 85% coverage of traditional labor categories.", rpi: 84, augment: 62, roles: 3400 },
+            { year: 2048, title: "The Memory Wars", category: "Politics", summary: "Nations compete for control of collective AI knowledge repositories.", rpi: 29, augment: 85, roles: 190 },
+            { year: 2050, title: "Hybrid Leadership", category: "Governance", summary: "Human-AI executive partnerships become the organizational standard.", rpi: 44, augment: 94, roles: 520 },
+            { year: 2055, title: "Cognitive Partnership", category: "Technology", summary: "Neural interfaces enable seamless human-AI collaborative thinking.", rpi: 58, augment: 96, roles: 1100 },
+            { year: 2060, title: "The Empathy Engines", category: "Society", summary: "AI emotional intelligence surpasses average human capability.", rpi: 71, augment: 88, roles: 640 },
+            { year: 2064, title: "Goa Hospitality 2064", category: "Industry", summary: "Strategic roles defining hospitality's radical transformation.", rpi: 63, augment: 79, roles: 280 },
+            { year: 2068, title: "Universal Creativity", category: "Culture", summary: "Every human gains access to world-class creative tools.", rpi: 81, augment: 67, roles: 920 },
+            { year: 2075, title: "Neural Privacy", category: "Legal", summary: "Legal frameworks emerge for the Inner Monologue protection era.", rpi: 35, augment: 92, roles: 310 },
+            { year: 2080, title: "The Synthesis Age", category: "Evolution", summary: "Human-AI cognitive integration reaches mainstream adoption.", rpi: 76, augment: 98, roles: 1800 },
+            { year: 2085, title: "Memory Markets", category: "Economy", summary: "The commodification of human experience begins in earnest.", rpi: 69, augment: 74, roles: 450 },
+            { year: 2090, title: "Digital Immortality", category: "Philosophy", summary: "Consciousness preservation becomes technically feasible.", rpi: 47, augment: 99, roles: 120 },
+            { year: 2095, title: "The Great Unbundling", category: "Society", summary: "Traditional institutions dissolve into networked alternatives.", rpi: 88, augment: 83, roles: 2600 },
+            { year: 2100, title: "The New Meaning", category: "Philosophy", summary: "Work transforms entirely into creative and spiritual expression.", rpi: 94, augment: 71, roles: 4200 },
+            { year: 2105, title: "Planetary Consciousness", category: "Evolution", summary: "Earth develops rudimentary collective awareness systems.", rpi: 82, augment: 97, roles: 1500 },
+            { year: 2110, title: "The Collective Mind", category: "Technology", summary: "Networked consciousness experiments reach global scale.", rpi: 91, augment: 99, roles: 890 },
+            { year: 2118, title: "Beyond Biology", category: "Science", summary: "The distinction between organic and synthetic life dissolves.", rpi: 96, augment: 95, roles: 2100 },
+            { year: 2126, title: "The Horizon", category: "Future", summary: "The question becomes who we choose to become.", rpi: 99, augment: 100, roles: 5000 }
+        ];
+
+        function getEraKey(year) {
+            for (const [key, era] of Object.entries(ERAS)) {
+                if (year >= era.start && year <= era.end) return key;
+            }
+            return 'awakening';
+        }
+        function getEraName(year) { return ERAS[getEraKey(year)].name; }
+        function getImage(category) { return IMAGES[category.toLowerCase()] || IMAGES.technology; }
+
+        // Roller blind - and restore on scroll back
+        const hero = document.getElementById('hero');
+        document.getElementById('scrollTrigger').addEventListener('click', () => {
+            hero.classList.add('rolled-up');
+            setTimeout(() => document.getElementById('contentArea').scrollIntoView({ behavior: 'smooth' }), 400);
+        });
+        
+        // Restore hero when scrolling back to top
+        window.addEventListener('scroll', () => {
+            if (window.scrollY < 100 && hero.classList.contains('rolled-up')) {
+                hero.classList.remove('rolled-up');
+            }
+        });
+
+        // Render featured
+        function renderFeatured(a) {
+            const rpiClass = a.rpi >= 70 ? 'high' : a.rpi >= 40 ? 'medium' : 'low';
+            return `
+                <div class="featured-image">
+                    <img src="${getImage(a.category)}" alt="${a.title}">
+                    <div class="featured-image-overlay"></div>
+                    <div class="featured-badge">Latest Report</div>
+                </div>
+                <div class="featured-content">
+                    <div class="featured-meta">
+                        <div class="featured-year">${a.year}</div>
+                        <div class="featured-era">${getEraName(a.year)}</div>
+                    </div>
+                    <div class="featured-category">${a.category}</div>
+                    <h2 class="featured-title">${a.title}</h2>
+                    <p class="featured-summary">${a.summary}</p>
+                    <div class="featured-stats">
+                        <div>
+                            <div class="featured-stat-value">${a.rpi}<span style="font-size: 14px; color: var(--text-muted);">%</span></div>
+                            <div class="featured-stat-label">RPI™ Score</div>
+                        </div>
+                        <div>
+                            <div class="featured-stat-value">${a.augment}<span style="font-size: 14px; color: var(--text-muted);">%</span></div>
+                            <div class="featured-stat-label">Augmentation</div>
+                        </div>
+                        <div>
+                            <div class="featured-stat-value">${a.roles.toLocaleString()}</div>
+                            <div class="featured-stat-label">Roles Analyzed</div>
+                        </div>
+                    </div>
+                    <a href="#" class="featured-cta">Read Full Report →</a>
+                </div>`;
+        }
+
+        // Render card
+        function renderCard(a, i) {
+            const rpiClass = a.rpi >= 70 ? 'high' : a.rpi >= 40 ? 'medium' : 'low';
+            return `
+                <article class="paper-card" data-era="${getEraKey(a.year)}" data-index="${i}">
+                    <div class="paper-stack"></div>
+                    <div class="paper-stack-2"></div>
+                    <div class="paper-main">
+                        <div class="page-curl"></div>
+                        <div class="paper-header">
+                            <div class="paper-brand">
+                                <div class="paper-logo">Replace<span class="accent">able</span>.ai</div>
+                                <div class="paper-series">Horizon Scan Series</div>
+                            </div>
+                        </div>
+                        <div class="paper-image">
+                            <img src="${getImage(a.category)}" alt="${a.title}" loading="lazy">
+                            <div class="paper-image-overlay"></div>
+                            <div class="paper-year">${a.year}</div>
+                        </div>
+                        <div class="paper-content">
+                            <span class="paper-era">${getEraName(a.year)}</span>
+                            <div class="paper-category">${a.category}</div>
+                            <h3 class="paper-title">${a.title}</h3>
+                            <p class="paper-summary">${a.summary}</p>
+                        </div>
+                        <div class="paper-footer">
+                            <div class="paper-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">RPI™</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-bar-track">
+                                            <div class="metric-bar-fill ${rpiClass}" style="width: ${a.rpi}%"></div>
+                                        </div>
+                                        <span class="metric-value">${a.rpi}</span>
+                                    </div>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Augment</span>
+                                    <span class="metric-value">${a.augment}%</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Roles</span>
+                                    <span class="metric-value">${a.roles.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>`;
+        }
+
+        const grid = document.getElementById('reportsGrid');
+        const featuredCard = document.getElementById('featuredCard');
+        const resultsCount = document.getElementById('resultsCount');
+
+        function renderReports(filter = 'all') {
+            let filtered = filter === 'all' ? [...ARTICLES] : ARTICLES.filter(a => a.year >= ERAS[filter].start && a.year <= ERAS[filter].end);
+            featuredCard.innerHTML = renderFeatured(filtered[filtered.length - 1]);
+            grid.innerHTML = filtered.slice(0, -1).map((a, i) => renderCard(a, i)).join('');
+            resultsCount.textContent = filtered.length;
+            setTimeout(observeCards, 100);
+        }
+
+        function observeCards() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.paper-card, .featured-card').forEach(card => observer.observe(card));
+        }
+
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderReports(tab.dataset.filter);
+            });
+        });
+
+        window.addEventListener('scroll', () => document.getElementById('masthead').classList.toggle('scrolled', window.scrollY > 100));
+
+        // Particles
+        const canvas = document.getElementById('hero-particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = Array.from({ length: 60 }, () => ({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+                r: Math.random() * 2 + 0.5, o: Math.random() * 0.4 + 0.1
+            }));
+        }
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(196, 30, 58, ${p.o})`; ctx.fill();
+                particles.slice(i + 1).forEach(p2 => {
+                    const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (d < 100) {
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(196, 30, 58, ${0.1 * (1 - d / 100)})`; ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        initParticles(); drawParticles();
+        window.addEventListener('resize', initParticles);
+
+        // Crystal Ball
+        const crystalContainer = document.getElementById('crystal-container');
+        const crystalWrapper = document.getElementById('crystalWrapper');
+        if (crystalContainer) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+            camera.position.z = 4;
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(320, 320);
+            crystalContainer.appendChild(renderer.domElement);
+
+            const outerMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.6 });
+            const innerMat = new THREE.MeshBasicMaterial({ color: 0xc41e3a, wireframe: true, transparent: true, opacity: 0.35 });
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0xc41e3a, transparent: true, opacity: 0.5 });
+
+            const outerMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 2), outerMat);
+            const innerMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(0.75, 1), innerMat);
+            const coreMesh = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 16), coreMat);
+
+            const group = new THREE.Group();
+            group.add(outerMesh); group.add(innerMesh); group.add(coreMesh);
+            scene.add(group);
+
+            let isDragging = false, prevMouse = { x: 0, y: 0 }, autoRotate = true, velocity = { x: 0, y: 0 };
+
+            crystalWrapper.addEventListener('mousedown', (e) => { isDragging = true; autoRotate = false; prevMouse = { x: e.clientX, y: e.clientY }; });
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                velocity.x = (e.clientY - prevMouse.y) * 0.008;
+                velocity.y = (e.clientX - prevMouse.x) * 0.008;
+                group.rotation.x += velocity.x; group.rotation.y += velocity.y;
+                prevMouse = { x: e.clientX, y: e.clientY };
+            });
+            document.addEventListener('mouseup', () => { isDragging = false; setTimeout(() => { if (!isDragging) autoRotate = true; }, 2000); });
+
+            crystalWrapper.addEventListener('touchstart', (e) => { isDragging = true; autoRotate = false; prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY }; });
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                group.rotation.x += (e.touches[0].clientY - prevMouse.y) * 0.008;
+                group.rotation.y += (e.touches[0].clientX - prevMouse.x) * 0.008;
+                prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            });
+            document.addEventListener('touchend', () => { isDragging = false; setTimeout(() => { if (!isDragging) autoRotate = true; }, 2000); });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                if (autoRotate) { group.rotation.y += 0.003; group.rotation.x += 0.001; }
+                velocity.x *= 0.95; velocity.y *= 0.95;
+                if (!isDragging && !autoRotate) { group.rotation.x += velocity.x; group.rotation.y += velocity.y; }
+                innerMesh.rotation.x -= 0.005; innerMesh.rotation.z += 0.003;
+                coreMesh.scale.setScalar(1 + Math.sin(Date.now() * 0.002) * 0.15);
+                coreMat.opacity = 0.4 + Math.sin(Date.now() * 0.003) * 0.2;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        renderReports();
+    </script>
+</body>
+</html>

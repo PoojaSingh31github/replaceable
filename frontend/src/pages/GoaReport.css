@@ -1,0 +1,842 @@
+/* Goa Report Page Styles - Exact match to goa.html */
+
+:root {
+  --crimson: #c41e3a;
+  --deep-crimson: #8b1629;
+  --black: #0f0f0f;
+  --charcoal: #2d2d2d;
+  --titanium: #c4cdbe;
+  --grey: #6f6f6f;
+  --mist: #8b8b8b;
+  --platinum: #e8e8e8;
+  --bg: #f4f5f3;
+  --teal: #0d7377;
+  --gold: #b8860b;
+  --slate: #4a5568;
+  --positive: #2d7a4f;
+}
+
+.goa-report {
+  font-family: 'Crimson Text', Georgia, serif;
+  background: var(--bg);
+  color: var(--black);
+  line-height: 1.7;
+  font-size: 18px;
+}
+
+.goa-report * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Masthead */
+.goa-report .masthead {
+  background: var(--black);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--charcoal);
+}
+
+.goa-report .masthead-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goa-report .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+}
+
+.goa-report .logo span {
+  color: var(--crimson);
+}
+
+.goa-report .logo-tagline {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--crimson);
+  margin-left: 12px;
+}
+
+.goa-report .series-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--titanium);
+  padding: 6px 16px;
+  border: 1px solid var(--charcoal);
+}
+
+/* Cover Section */
+.goa-report .cover {
+  background: linear-gradient(135deg, var(--black) 0%, var(--charcoal) 50%, var(--deep-crimson) 100%);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.goa-report .cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.goa-report .cover-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.goa-report .report-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--crimson);
+  margin-bottom: 24px;
+}
+
+.goa-report .cover h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 400;
+  color: white;
+  line-height: 1.05;
+  margin-bottom: 24px;
+  max-width: 900px;
+}
+
+.goa-report .cover h1 em {
+  color: var(--crimson);
+  font-style: italic;
+}
+
+.goa-report .cover-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-size: 24px;
+  color: var(--titanium);
+  max-width: 650px;
+  line-height: 1.5;
+  margin-bottom: 48px;
+}
+
+.goa-report .cover-stats {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.goa-report .cover-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: white;
+  line-height: 1;
+}
+
+.goa-report .cover-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--mist);
+  margin-top: 8px;
+}
+
+/* Navigation Bar */
+.goa-report .nav-bar {
+  background: white;
+  border-bottom: 1px solid var(--platinum);
+  padding: 0;
+  position: sticky;
+  top: 57px;
+  z-index: 999;
+}
+
+.goa-report .nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  overflow-x: auto;
+}
+
+.goa-report .nav-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--grey);
+  text-decoration: none;
+  padding: 16px 24px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.goa-report .nav-link:hover,
+.goa-report .nav-link.active {
+  color: var(--crimson);
+  border-bottom-color: var(--crimson);
+}
+
+/* Content */
+.goa-report .content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.goa-report .section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--platinum);
+}
+
+.goa-report .section:last-child {
+  border-bottom: none;
+}
+
+.goa-report .section-number {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--crimson);
+  margin-bottom: 12px;
+}
+
+.goa-report .section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--black);
+}
+
+.goa-report .section h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  margin: 48px 0 24px;
+}
+
+.goa-report p {
+  margin-bottom: 20px;
+}
+
+/* Executive Grid */
+.goa-report .exec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.goa-report .exec-card {
+  background: white;
+  border: 1px solid var(--platinum);
+  padding: 32px;
+  position: relative;
+  border-left: 4px solid var(--crimson);
+}
+
+.goa-report .exec-card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--grey);
+  margin-bottom: 16px;
+}
+
+.goa-report .exec-card-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.goa-report .exec-card-change {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.goa-report .exec-card-change.positive {
+  color: var(--positive);
+}
+
+.goa-report .exec-card-change.negative {
+  color: var(--crimson);
+}
+
+.goa-report .exec-card-desc {
+  font-size: 16px;
+  color: var(--grey);
+  margin-top: 16px;
+}
+
+/* Prologue */
+.goa-report .prologue {
+  background: white;
+  margin: 60px 0;
+  padding: 60px;
+  border: 1px solid var(--platinum);
+  position: relative;
+}
+
+.goa-report .prologue::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 200px;
+  color: var(--platinum);
+  position: absolute;
+  top: -20px;
+  left: 30px;
+  line-height: 1;
+}
+
+.goa-report .prologue-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.goa-report .prologue p {
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--charcoal);
+}
+
+.goa-report .prologue p:first-of-type::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  float: left;
+  line-height: 0.8;
+  margin-right: 12px;
+  color: var(--crimson);
+}
+
+/* Two Column */
+.goa-report .two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 48px;
+}
+
+/* Methodology Box */
+.goa-report .methodology-box {
+  background: var(--black);
+  color: white;
+  padding: 40px;
+  margin: 40px 0;
+}
+
+.goa-report .methodology-box h4 {
+  color: var(--crimson);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.goa-report .methodology-box p {
+  color: var(--titanium);
+  font-size: 16px;
+}
+
+/* RPI Scale */
+.goa-report .rpi-scale {
+  display: flex;
+  margin: 24px 0;
+  overflow: hidden;
+}
+
+.goa-report .rpi-segment {
+  flex: 1;
+  padding: 16px 12px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: white;
+}
+
+.goa-report .rpi-segment:nth-child(1) { background: var(--teal); }
+.goa-report .rpi-segment:nth-child(2) { background: var(--slate); }
+.goa-report .rpi-segment:nth-child(3) { background: var(--gold); }
+.goa-report .rpi-segment:nth-child(4) { background: var(--crimson); }
+.goa-report .rpi-segment:nth-child(5) { background: var(--deep-crimson); }
+
+.goa-report .rpi-segment-value {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+/* Role Card */
+.goa-report .role-card {
+  background: white;
+  border: 1px solid var(--platinum);
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.goa-report .role-header {
+  background: var(--black);
+  color: white;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.goa-report .role-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1;
+  margin-right: 24px;
+}
+
+.goa-report .role-title-block {
+  flex: 1;
+  min-width: 200px;
+}
+
+.goa-report .role-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.goa-report .role-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--mist);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.goa-report .confidence-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+}
+
+.goa-report .confidence-high { background: var(--teal); color: white; }
+.goa-report .confidence-moderate { background: var(--gold); color: white; }
+.goa-report .confidence-speculative { background: var(--crimson); color: white; }
+
+.goa-report .role-body {
+  padding: 32px;
+}
+
+.goa-report .role-narrative {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--charcoal);
+  margin-bottom: 32px;
+  border-left: 3px solid var(--crimson);
+  padding-left: 24px;
+}
+
+/* RPI Table */
+.goa-report .rpi-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  margin: 24px 0;
+}
+
+.goa-report .rpi-table th {
+  background: var(--black);
+  color: white;
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 11px;
+}
+
+.goa-report .rpi-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--platinum);
+}
+
+.goa-report .rpi-table tr:hover {
+  background: var(--platinum);
+}
+
+.goa-report .rpi-score-cell {
+  font-weight: 700;
+}
+
+.goa-report .rpi-total-row {
+  background: var(--bg);
+  font-weight: 700;
+}
+
+.goa-report .rpi-total-row td {
+  border-bottom: none;
+}
+
+/* Gauge Container */
+.goa-report .gauge-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 24px 0;
+  padding: 24px;
+  background: var(--bg);
+  border: 1px solid var(--platinum);
+}
+
+.goa-report .gauge-info h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.goa-report .gauge-info p {
+  font-size: 15px;
+  color: var(--grey);
+  margin: 0;
+}
+
+/* Causal Chain */
+.goa-report .causal-chain {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--platinum);
+  overflow-x: auto;
+}
+
+.goa-report .causal-node {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 12px 20px;
+  background: var(--platinum);
+  white-space: nowrap;
+}
+
+.goa-report .causal-node.current {
+  background: var(--slate);
+  color: white;
+}
+
+.goa-report .causal-node.outcome {
+  background: var(--crimson);
+  color: white;
+}
+
+.goa-report .causal-arrow {
+  color: var(--mist);
+  font-size: 20px;
+}
+
+/* Chart Container */
+.goa-report .charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 32px 0;
+}
+
+@media (min-width: 768px) {
+  .goa-report .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .goa-report .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.goa-report .chart-container {
+  background: white;
+  border: 1px solid var(--platinum);
+  padding: 32px;
+}
+
+.goa-report .chart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+/* Scenario Grid */
+.goa-report .scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+}
+
+.goa-report .scenario-card {
+  background: white;
+  border: 1px solid var(--platinum);
+  padding: 32px;
+}
+
+.goa-report .scenario-card.acceleration { border-top: 4px solid var(--teal); }
+.goa-report .scenario-card.baseline { border-top: 4px solid var(--gold); }
+.goa-report .scenario-card.disruption { border-top: 4px solid var(--crimson); }
+
+.goa-report .scenario-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.goa-report .scenario-desc {
+  font-size: 16px;
+  color: var(--grey);
+  margin-bottom: 24px;
+}
+
+.goa-report .scenario-indicator {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--grey);
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--platinum);
+}
+
+.goa-report .scenario-indicator strong {
+  display: block;
+  color: var(--black);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Recommendations */
+.goa-report .rec-category {
+  margin-bottom: 32px;
+}
+
+.goa-report .rec-category-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--crimson);
+}
+
+.goa-report .rec-list {
+  list-style: none;
+  counter-reset: rec;
+}
+
+.goa-report .rec-item {
+  counter-increment: rec;
+  padding: 20px 0 20px 60px;
+  position: relative;
+  border-bottom: 1px solid var(--platinum);
+}
+
+.goa-report .rec-item::before {
+  content: counter(rec);
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  background: var(--crimson);
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.goa-report .rec-item h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.goa-report .rec-item p {
+  font-size: 16px;
+  color: var(--grey);
+  margin: 0;
+}
+
+/* Sources List */
+.goa-report .sources-list {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--grey);
+  line-height: 2;
+  list-style: none;
+}
+
+.goa-report .sources-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--platinum);
+}
+
+/* CTA Section */
+.goa-report .cta-section {
+  background: var(--black);
+  padding: 80px 40px;
+  margin-top: 80px;
+  text-align: center;
+}
+
+.goa-report .cta-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.goa-report .cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.goa-report .cta-subtitle {
+  font-size: 20px;
+  color: var(--titanium);
+  margin-bottom: 32px;
+}
+
+.goa-report .cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.goa-report .btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 16px 32px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.goa-report .btn-primary {
+  background: var(--crimson);
+  color: white;
+}
+
+.goa-report .btn-primary:hover {
+  background: var(--deep-crimson);
+}
+
+.goa-report .btn-secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid var(--mist);
+}
+
+.goa-report .btn-secondary:hover {
+  border-color: white;
+}
+
+/* Footer */
+.goa-report .footer {
+  background: var(--charcoal);
+  padding: 40px;
+  text-align: center;
+}
+
+.goa-report .footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.goa-report .footer-logo span {
+  color: var(--crimson);
+}
+
+.goa-report .footer-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--mist);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .goa-report .cover h1 {
+    font-size: 36px;
+  }
+  
+  .goa-report .masthead-inner,
+  .goa-report .content {
+    padding: 0 20px;
+  }
+  
+  .goa-report .prologue {
+    padding: 40px 20px;
+  }
+  
+  .goa-report .role-header {
+    flex-direction: column;
+  }
+  
+  .goa-report .two-col {
+    grid-template-columns: 1fr;
+  }
+}
