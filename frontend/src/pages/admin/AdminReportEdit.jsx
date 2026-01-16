@@ -116,13 +116,13 @@ const AdminReportEdit = () => {
 
     try {
       await reportsService.updateReport(reportId, formData);
-<<<<<<< HEAD
-      toast.success("Report updated successfully!");
       setSuccess("Report updated successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
       setError(err.response?.data?.detail || "Failed to update report");
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     } finally {
       setSaving(false);
+    }
   };
 
   const handlePublish = async () => {
@@ -130,31 +130,23 @@ const AdminReportEdit = () => {
       setSaving(true);
       await reportsService.publishReport(reportId);
       setFormData((prev) => ({ ...prev, status: "published" }));
-<<<<<<< HEAD
-      toast.success("Report published successfully!");
       setSuccess("Report published successfully!");
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
-      toast.error("Failed to publish report");
-=======
-      setSuccess("Report published successfully!");
-      setTimeout(() => setSuccess(""), 3000);
-    } catch (err) {
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       setError("Failed to publish report");
     } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleUnpublish = async () => {
+    try {
+      setSaving(true);
       await reportsService.unpublishReport(reportId);
       setFormData((prev) => ({ ...prev, status: "draft" }));
-<<<<<<< HEAD
       setSuccess("Report unpublished");
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
-      toast.error("Failed to unpublish report");
-=======
-      setSuccess("Report unpublished");
-      setTimeout(() => setSuccess(""), 3000);
-    } catch (err) {
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       setError("Failed to unpublish report");
     } finally {
       setSaving(false);
@@ -197,8 +189,6 @@ const AdminReportEdit = () => {
     }));
   };
 
-<<<<<<< HEAD
-=======
   // Task management within a role
   const addTask = (roleIndex) => {
     const updatedRoles = [...formData.roles];
@@ -263,7 +253,6 @@ const AdminReportEdit = () => {
     setFormData((prev) => ({ ...prev, roles: updatedRoles }));
   };
 
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
   // Scenario management
   const addScenario = () => {
     setFormData((prev) => ({
@@ -719,8 +708,6 @@ const AdminReportEdit = () => {
                       placeholder="Role description and responsibilities..."
                     />
                   </div>
-<<<<<<< HEAD
-=======
 
                   {/* Tasks Section */}
                   <div className="tasks-section">
@@ -928,7 +915,6 @@ const AdminReportEdit = () => {
                       placeholder="e.g., Step 1, Step 2, Step 3"
                     />
                   </div>
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
             ))}

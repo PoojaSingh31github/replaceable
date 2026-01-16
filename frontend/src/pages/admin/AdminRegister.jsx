@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminLogin.css";
 
@@ -35,29 +34,31 @@ const AdminRegister = () => {
     e.preventDefault();
     setError("");
 
-
     // Validate password length
     if (formData.password.length < 6) {
-      const errMsg = "Password must be at least 6 characters";
-      setError(errMsg);
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    // Validate password confirmation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
       return;
     }
 
     // Validate full name
     if (!formData.fullName.trim()) {
-      const errMsg = "Full name is required";
-      setError(errMsg);
-      toast.error(errMsg);
+      setError("Full name is required");
       return;
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      const errMsg = "Please enter a valid email address";
-      setError(errMsg);
-      toast.error(errMsg);
-      setError("Password must be at least 6 characters");
+      setError("Please enter a valid email address");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const result = await register(
@@ -66,31 +67,25 @@ const AdminRegister = () => {
         formData.fullName
       );
       if (result.success) {
-        toast.success("Registration successful! Redirecting to login...");
         setSuccess(true);
         setTimeout(() => {
           navigate("/admin/login");
         }, 2000);
       } else {
-        // Error message is already cleaned up in AuthContext
-        const errMsg = result.error || "Registration failed";
-        setError(errMsg);
-        toast.error(errMsg);
+        setError(result.error || "Registration failed");
       }
     } catch (err) {
-      const errMsg = err.message || "An error occurred during registration";
-      setError(errMsg);
-      toast.error(errMsg);
+      setError(err.message || "An error occurred during registration");
     } finally {
       setIsSubmitting(false);
     }
-=======
-    const result = await register(
-      formData.email,
-      formData.password,
-      formData.fullName
-    );
+  };
 
+  return (
+    <div className="admin-login">
+      <div className="login-container">
+        <div className="login-header">
+          <h1 className="login-logo">
             Replace<span className="text-crimson">able</span>.ai
           </h1>
           <p className="login-subtitle">Admin Registration</p>

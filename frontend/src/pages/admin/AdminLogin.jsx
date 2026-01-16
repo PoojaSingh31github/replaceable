@@ -22,11 +22,10 @@ const AdminLogin = () => {
     const result = await login(email, password);
 
     if (result.success) {
-<<<<<<< HEAD
-      toast.success("Login successful!");
       navigate("/admin/dashboard");
-    } else {
+    }
     setIsSubmitting(false);
+  };
 
   return (
     <div className="admin-login">

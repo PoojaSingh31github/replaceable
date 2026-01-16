@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-import { toast } from "react-toastify";
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 import reportsService from "../../services/reportsService";
 import "./AdminReports.css";
 
@@ -304,19 +300,10 @@ const AdminReportNew = () => {
 
     try {
       const report = await reportsService.createReport(formData);
-<<<<<<< HEAD
-      toast.success("Report created successfully!");
-      setTimeout(() => navigate(`/admin/reports/${report.id}/edit`), 1500);
-    } catch (err) {
-      const errorMsg = err.response?.data?.detail || "Failed to create report";
-      setError(errorMsg);
-      toast.error(errorMsg);
-=======
       setSuccess("Report created successfully!");
       setTimeout(() => navigate(`/admin/reports/${report.id}/edit`), 1500);
     } catch (err) {
       setError(err.response?.data?.detail || "Failed to create report");
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     } finally {
       setLoading(false);
     }

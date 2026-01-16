@@ -802,8 +802,6 @@
 .status-badge.draft {
   background: #fef3c7;
   color: #92400e;
-<<<<<<< HEAD
-=======
 }
 
 /* Tasks Section Styles */
@@ -979,5 +977,4 @@
   .task-metrics {
     grid-template-columns: repeat(2, 1fr);
   }
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 }

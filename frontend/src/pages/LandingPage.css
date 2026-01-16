@@ -924,11 +924,8 @@
   .landing-page .reports-grid { grid-template-columns: repeat(2, 1fr); }
   .landing-page .featured-card { grid-template-columns: 1fr; }
   .landing-page .featured-image { min-height: 300px; }
-<<<<<<< HEAD
-=======
   .landing-page .execution-grid { grid-template-columns: repeat(2, 1fr); }
   .landing-page .analytics-grid { grid-template-columns: repeat(2, 1fr); }
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 }
 
 @media (max-width: 768px) {
@@ -943,8 +940,6 @@
   .landing-page .featured-title { font-size: 26px; }
   .landing-page .cta-inner { padding: 60px 24px; }
   .landing-page .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
-<<<<<<< HEAD
-=======
   .landing-page .hero-stats { flex-direction: column; gap: 16px; }
   .landing-page .execution-grid { grid-template-columns: 1fr; }
   .landing-page .analytics-grid { grid-template-columns: 1fr; }
@@ -1192,5 +1187,4 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 }

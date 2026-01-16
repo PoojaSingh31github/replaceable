@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import { toast } from "react-toastify";
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 import reportsService from "../../services/reportsService";
 import "./AdminReports.css";
 
@@ -51,15 +47,8 @@ const AdminReports = () => {
       try {
         await reportsService.deleteReport(reportId);
         fetchReports();
-<<<<<<< HEAD
-        toast.success("Report deleted successfully");
       } catch (error) {
         console.error("Failed to delete report:", error);
-        toast.error("Failed to delete report");
-=======
-      } catch (error) {
-        console.error("Failed to delete report:", error);
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       }
     }
   };

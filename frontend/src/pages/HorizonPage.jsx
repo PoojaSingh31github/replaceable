@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import { toast } from "react-toastify";
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 import consultationsService from "../services/consultationsService";
 import reportsService from "../services/reportsService";
 import "./HorizonPage.css";
@@ -226,19 +222,9 @@ const HorizonPage = () => {
     fetchReports();
   }, []);
 
-<<<<<<< HEAD
-  const [formErrors, setFormErrors] = React.useState({});
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (formErrors[name]) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
   };
 
   const handleInterestToggle = (interest) => {
@@ -249,7 +235,7 @@ const HorizonPage = () => {
         : [...prev.interests, interest],
     }));
   };
-=======
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -259,7 +245,6 @@ const HorizonPage = () => {
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
         industry_sector: formData.industry,
         preferred_month: formData.month || null,
         preferred_week: formData.day || null,
@@ -269,8 +254,6 @@ const HorizonPage = () => {
       };
 
       await consultationsService.submitConsultation(consultationData);
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 
       // Reset form
       setFormData({
@@ -286,61 +269,9 @@ const HorizonPage = () => {
         interests: [],
         message: "",
       });
-<<<<<<< HEAD
-      setFormErrors({});
-    } catch (error) {
-      console.error("Failed to submit consultation:", error);
-      
-      // Handle validation errors from backend
-      if (error.response?.data?.detail && Array.isArray(error.response.data.detail)) {
-        const validationErrors = error.response.data.detail;
-        const newErrors = {};
-        let firstErrorMsg = "";
-        
-        validationErrors.forEach((err, index) => {
-          if (err.loc && err.loc.length > 1) {
-            const fieldName = err.loc[1]; // Get field name from loc array
-            const fieldMap = {
-              'first_name': 'firstName',
-              'last_name': 'lastName',
-              'email': 'email',
-              'phone': 'phone',
-              'company': 'organization',
-              'industry_sector': 'industry'
-            };
-            const mappedField = fieldMap[fieldName] || fieldName;
-            // Clean up message - remove "Value error, " prefix if present
-            let cleanMessage = err.msg;
-            if (cleanMessage.startsWith('Value error, ')) {
-              cleanMessage = cleanMessage.replace('Value error, ', '');
-            }
-            newErrors[mappedField] = cleanMessage;
-            
-            // Store first error for toast
-            if (index === 0) {
-              firstErrorMsg = cleanMessage;
-            }
-          }
-        });
-        
-        if (Object.keys(newErrors).length > 0) {
-          setFormErrors(newErrors);
-          // Show toast with first error message
-          const toastMsg = firstErrorMsg || Object.values(newErrors)[0];
-          toast.error(toastMsg);
-        } else {
-          toast.error("Please correct the errors and try again.");
-        }
-      } else {
-        // Handle generic error message
-        const errorMessage = error.response?.data?.detail || "Failed to submit your request. Please try again.";
-        toast.error(errorMessage);
-      }
-=======
     } catch (error) {
       console.error("Failed to submit consultation:", error);
       alert("Failed to submit your request. Please try again.");
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     }
   };
 
@@ -368,32 +299,18 @@ const HorizonPage = () => {
               </div>
               <div className="time-range-context">
                 <p>
-<<<<<<< HEAD
-                  Long enough to capture fundamental transformation. Far enough
-                  to escape quarterly thinking. This is generational
-                  strategy—the decisions that shape your organization's
-                  workforce for your successors' successors.
-=======
                   Our projections operate where traditional forecasting
                   fails—beyond the predictable horizon into structured
                   possibility space.
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </p>
               </div>
             </div>
             <div className="hero-cta">
               <a href="#reports" className="btn btn-primary">
-<<<<<<< HEAD
-                Explore Published Reports
-              </a>
-              <a href="#book" className="btn btn-secondary">
-                Commission Private Research →
-=======
                 Explore Reports
               </a>
               <a href="#book" className="btn btn-secondary">
                 Request Consultation
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </a>
             </div>
           </div>
@@ -444,49 +361,13 @@ const HorizonPage = () => {
       {/* What Is Section */}
       <section className="section what-is">
         <div className="content">
-<<<<<<< HEAD
-          <span className="section-label">About the Series</span>
-          <h2 className="w-137.5">
-            Strategic Foresight, <em>Not Science Fiction</em>
-=======
           <span className="section-label">Understanding Horizon</span>
           <h2>
             What <em>Is</em> Horizon?
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           </h2>
           <div className="what-is-grid">
             <div className="what-is-text">
               <p>
-<<<<<<< HEAD
-                The Horizon Scan series represents a new category of workforce
-                intelligence: long-range projections grounded in rigorous
-                methodology rather than speculative futurism. Each report
-                examines a specific industry-region combination across a 25-100
-                year horizon—far enough to capture fundamental transformation,
-                structured enough to inform decisions made today.
-              </p>
-              <p>
-                Where most automation research asks "which jobs will
-                disappear?", we ask the more useful question: "what will humans
-                do that matters?" Every Horizon Scan identifies ten or more
-                future roles that don't exist today but will emerge from the
-                collision of technological capability, climate adaptation,
-                demographic shift, and evolving human needs.
-              </p>
-              <p>
-                The value proposition is strategic patience. While competitors
-                obsess over next quarter's headcount, you'll understand
-                workforce architecture that spans generations. The organizations
-                that thrive across decades are those that see the long arc
-                before it bends.
-              </p>
-              <p>
-                Each report combines the analytical rigor of premier management
-                consulting with the narrative accessibility of long-form
-                journalism. We don't just show you data. We show you the person
-                who wakes up in 2064—or 2124—and goes to work in a role that
-                doesn't yet have a name.
-=======
                 Horizon represents a new discipline in strategic intelligence:
                 the systematic study of how human roles evolve, transform, and
                 emerge across extended time horizons. We call this practice Role
@@ -506,7 +387,6 @@ const HorizonPage = () => {
                 Role Persistence Index (RPI), we illuminate the landscape of
                 possibility that awaits industries, organizations, and the
                 individuals who comprise them.
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </p>
             </div>
             <div className="rpi-sidebar">
@@ -631,14 +511,6 @@ const HorizonPage = () => {
       {/* Methodology Section */}
       <section id="methodology" className="section methodology-section">
         <div className="content">
-<<<<<<< HEAD
-          <span className="section-label">The Science of Foresight</span>
-          <h2>
-            How We See <em>What's Coming</em>
-          </h2>
-          <p className="section-intro">
-            Our projections aren't guesswork dressed in confidence. They emerge from a rigorous, multi-layered methodology that synthesizes the best available evidence into defensible scenarios.
-=======
           <span className="section-label">How We Work</span>
           <h2>
             Methodology of <em>Foresight</em>
@@ -646,26 +518,10 @@ const HorizonPage = () => {
           <p className="section-intro">
             Our process synthesizes quantitative modeling with qualitative
             expertise, producing insights that are both rigorous and actionable.
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           </p>
           <div className="methodology-grid">
             <div className="methodology-narrative">
               <p>
-<<<<<<< HEAD
-               We begin where others end. Most automation forecasts start with technology capabilities and extrapolate forward. We start with economic fundamentals: What tasks create value? What does the labor market actually reward? Where do wages signal scarcity versus abundance? Technology is one variable among many—regulation, demographics, climate adaptation, and cultural preference all shape workforce evolution.
-              </p>
-              <p>
-                We decompose before we predict. "This job will be automated" is a category error. Jobs are bundles of tasks with wildly different automation profiles. A hotel concierge performs fifteen distinct task types; three face near-certain automation, five face enhancement, and seven will become more valuable precisely because their context is human. Our RPI™ methodology scores each task, then reconstructs the role.
-              </p>
-              <p>
-               We triangulate across disciplines. No single research stream captures workforce futures. We synthesize labor economics, technology forecasting, organizational behavior, climate science, demographic projections, and regulatory analysis. Each provides a different lens; convergence across lenses increases confidence.
-              </p>
-              <p>
-                We calibrate against history. Past technological transitions—steam, electricity, computing, internet—offer patterns that rhyme with present disruptions. We study what previous forecasters got wrong (usually: underestimating job creation, overestimating displacement speed) and adjust our models accordingly.
-              </p>
-              <p>
-                We name what we don't know. Every Horizon Scan includes explicit confidence ratings and assumption registries. We distinguish between high-confidence projections (demographic trends, regulatory momentum) and speculative scenarios (breakthrough technologies, black swan events). Intellectual honesty about uncertainty is itself a form of rigor.
-=======
                 Each Horizon engagement begins with{" "}
                 <strong>deep industry immersion</strong>—not desk research, but
                 embedded understanding of how work actually happens. We
@@ -687,7 +543,6 @@ const HorizonPage = () => {
                 identified role, producing a quantified map of workforce
                 evolution. The resulting analysis shows not just which roles
                 persist, but how they transform.
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </p>
             </div>
             <div className="methodology-layers">
@@ -725,23 +580,16 @@ const HorizonPage = () => {
                   and decision tools.
                 </div>
               </div>
-<<<<<<< HEAD
-=======
             </div>
           </div>
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           <div className="rpi-formula-box">
             <div className="rpi-formula-header">
               <span className="rpi-formula-title">The RPI Formula</span>
             </div>
             <p style={{ color: "var(--titanium)", marginBottom: "16px" }}>
-<<<<<<< HEAD
-              The Replaceability Potential Index. Our proprietary scoring methodology.
-=======
               Our proprietary index synthesizes four weighted factors into a
               single persistence score, calibrated against historical role
               evolution data.
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
             </p>
             <div className="rpi-formula-code">
               <code>
@@ -753,11 +601,6 @@ const HorizonPage = () => {
               </code>
             </div>
           </div>
-<<<<<<< HEAD
-            </div>
-          </div>
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
         </div>
       </section>
 
@@ -844,18 +687,12 @@ const HorizonPage = () => {
               </svg>
             </div>
             <div className="discretion-content">
-<<<<<<< HEAD
-              <h4>Trusted by S&P 500 Organizations</h4>
-              <p>
-                We work with a number of S&P 500 companies on sensitive workforce transformation initiatives. We understand that organization design, restructuring plans, and future workforce architecture are among the most confidential elements of corporate strategy. Discretion isn't a feature—it's foundational to how we operate.
-=======
               <h4>Absolute Discretion Guaranteed</h4>
               <p>
                 All enterprise engagements operate under strict confidentiality
                 protocols. Your strategic interests remain entirely private—we
                 never publish, reference, or acknowledge private client work
                 without explicit written permission.
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </p>
               <div className="discretion-badges">
                 <span className="discretion-badge">NDA Standard</span>
@@ -944,39 +781,23 @@ const HorizonPage = () => {
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
-<<<<<<< HEAD
-                    className={`form-input ${formErrors.firstName ? 'error' : ''}`}
-=======
                     className="form-input"
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
                     required
                   />
-<<<<<<< HEAD
-                  {formErrors.firstName && <span className="error-message">{formErrors.firstName}</span>}
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
                 <div className="form-group">
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
-<<<<<<< HEAD
-                    className={`form-input ${formErrors.lastName ? 'error' : ''}`}
-=======
                     className="form-input"
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
                     required
                   />
-<<<<<<< HEAD
-                  {formErrors.lastName && <span className="error-message">{formErrors.lastName}</span>}
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
               <div className="form-row">
@@ -984,56 +805,27 @@ const HorizonPage = () => {
                   <label className="form-label">Organization</label>
                   <input
                     type="text"
-<<<<<<< HEAD
-                    className={`form-input ${formErrors.organization ? 'error' : ''}`}
-=======
                     className="form-input"
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="organization"
                     value={formData.organization}
                     onChange={handleInputChange}
                     required
                   />
-<<<<<<< HEAD
-                  {formErrors.organization && <span className="error-message">{formErrors.organization}</span>}
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email Address</label>
                   <input
                     type="email"
-<<<<<<< HEAD
-                    className={`form-input ${formErrors.email ? 'error' : ''}`}
-=======
                     className="form-input"
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
                   />
-<<<<<<< HEAD
-                  {formErrors.email && <span className="error-message">{formErrors.email}</span>}
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
-<<<<<<< HEAD
-                  <label className="form-label">Phone Number</label>
-                  <input
-                    type="tel"
-                    className={`form-input ${formErrors.phone ? 'error' : ''}`}
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="10-digit phone number"
-                    required
-                  />
-                  {formErrors.phone && <span className="error-message">{formErrors.phone}</span>}
-=======
                   <label className="form-label">Phone (Optional)</label>
                   <input
                     type="tel"
@@ -1042,16 +834,11 @@ const HorizonPage = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                   />
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
                 <div className="form-group">
                   <label className="form-label">Industry</label>
                   <select
-<<<<<<< HEAD
-                    className={`form-select ${formErrors.industry ? 'error' : ''}`}
-=======
                     className="form-select"
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="industry"
                     value={formData.industry}
                     onChange={handleInputChange}
@@ -1067,10 +854,6 @@ const HorizonPage = () => {
                     <option value="energy">Energy & Utilities</option>
                     <option value="other">Other</option>
                   </select>
-<<<<<<< HEAD
-                  {formErrors.industry && <span className="error-message">{formErrors.industry}</span>}
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
               <div className="form-group">
@@ -1169,13 +952,8 @@ const HorizonPage = () => {
                 </p>
               </div>
               <div className="form-submit">
-<<<<<<< HEAD
-                <button type="submit" className="btn-primary">
-                  Submit Enquiry
-=======
                 <button type="submit" className="btn btn-primary">
                   Submit Inquiry
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </button>
                 <p className="form-note">
                   We typically respond within 48 business hours

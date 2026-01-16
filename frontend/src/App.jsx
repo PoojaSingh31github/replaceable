@@ -17,11 +17,10 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminReportNew from "./pages/admin/AdminReportNew";
 import AdminReportEdit from "./pages/admin/AdminReportEdit";
 import AdminConsultations from "./pages/admin/AdminConsultations";
-<<<<<<< HEAD
-=======
 import AdminSiteContent from "./pages/admin/AdminSiteContent";
 import AdminTags from "./pages/admin/AdminTags";
 import AdminLandingCards from "./pages/admin/AdminLandingCards";
+
 // Components
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -30,21 +29,6 @@ import "./App.css";
 function App() {
   return (
     <AuthProvider>
-<<<<<<< HEAD
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-=======
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       <Router>
         <Routes>
           {/* Public Routes */}
@@ -60,12 +44,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboard />} />
-<<<<<<< HEAD
-=======
               <Route path="site-content" element={<AdminSiteContent />} />
               <Route path="landing-cards" element={<AdminLandingCards />} />
               <Route path="tags" element={<AdminTags />} />
->>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               <Route path="news/new" element={<AdminNewsNew />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="reports/new" element={<AdminReportNew />} />
