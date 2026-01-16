@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as THREE from "three";
+import siteContentService from "../services/siteContentService";
 import "./LandingPage.css";
 
 const LandingPage = () => {
@@ -8,10 +9,18 @@ const LandingPage = () => {
   const crystalContainerRef = useRef(null);
   const heroRef = useRef(null);
   const [currentFilter, setCurrentFilter] = useState("all");
+  const [currentTagFilter, setCurrentTagFilter] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
-  // Data matches horizon-landing.html exactly
+  // State for dynamic content
+  const [siteContent, setSiteContent] = useState(null);
+  const [cards, setCards] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Default ERAS (fallback)
   const ERAS = {
     awakening: { start: 2026, end: 2040, name: "Awakening" },
     transformation: { start: 2041, end: 2070, name: "Transformation" },
@@ -54,250 +63,82 @@ const LandingPage = () => {
       "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
   };
 
-  // All 24 articles from horizon-landing.html
-  const ARTICLES = [
+  // Fetch dynamic content from API
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        setLoading(true);
+        const [contentData, cardsData, tagsData] = await Promise.all([
+          siteContentService.getPublicSiteContent(),
+          siteContentService.getPublicCards(),
+          siteContentService.getPublicTags(),
+        ]);
+        setSiteContent(contentData);
+        setCards(cardsData);
+        setTags(tagsData);
+      } catch (err) {
+        console.error("Failed to fetch site content:", err);
+        setError("Failed to load content");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  // Get filters from site content or use defaults
+  const filters = siteContent?.filters || [
+    { name: "All Reports", key: "all" },
+    { name: "Awakening", key: "awakening", start_year: 2026, end_year: 2040 },
     {
-      year: 2026,
-      title: "The Great Reassessment",
-      category: "Workforce",
-      summary:
-        "Fortune 500 companies initiate comprehensive AI workforce audits across all divisions.",
-      rpi: 42,
-      augment: 68,
-      roles: 1240,
+      name: "Transformation",
+      key: "transformation",
+      start_year: 2041,
+      end_year: 2070,
     },
     {
-      year: 2028,
-      title: "The Cognitive Threshold",
-      category: "Technology",
-      summary:
-        "AI achieves expert-level performance across twelve professional domains.",
-      rpi: 56,
-      augment: 72,
-      roles: 890,
+      name: "Transcendence",
+      key: "transcendence",
+      start_year: 2071,
+      end_year: 2100,
     },
-    {
-      year: 2030,
-      title: "The Reckoning",
-      category: "Policy",
-      summary:
-        "EU unveils the Human Work Guarantee framework for comprehensive worker protections.",
-      rpi: 38,
-      augment: 81,
-      roles: 2100,
-    },
-    {
-      year: 2032,
-      title: "Diagnostic Singularity",
-      category: "Healthcare",
-      summary:
-        "AI diagnostics achieve 99.7% accuracy across 500 medical conditions.",
-      rpi: 67,
-      augment: 89,
-      roles: 340,
-    },
-    {
-      year: 2035,
-      title: "Synthetic Renaissance",
-      category: "Creative",
-      summary:
-        "AI-generated content comprises 80% of all digital media production.",
-      rpi: 73,
-      augment: 54,
-      roles: 560,
-    },
-    {
-      year: 2038,
-      title: "Justice Automated",
-      category: "Legal",
-      summary:
-        "AI adjudication handles 70% of civil disputes in participating nations.",
-      rpi: 61,
-      augment: 77,
-      roles: 420,
-    },
-    {
-      year: 2042,
-      title: "The Discovery Engine",
-      category: "Science",
-      summary:
-        "AI-driven research output surpasses the entire previous century combined.",
-      rpi: 52,
-      augment: 91,
-      roles: 780,
-    },
-    {
-      year: 2045,
-      title: "Post-Scarcity Threshold",
-      category: "Economy",
-      summary:
-        "Automation reaches 85% coverage of traditional labor categories.",
-      rpi: 84,
-      augment: 62,
-      roles: 3400,
-    },
-    {
-      year: 2048,
-      title: "The Memory Wars",
-      category: "Politics",
-      summary:
-        "Nations compete for control of collective AI knowledge repositories.",
-      rpi: 29,
-      augment: 85,
-      roles: 190,
-    },
-    {
-      year: 2050,
-      title: "Hybrid Leadership",
-      category: "Governance",
-      summary:
-        "Human-AI executive partnerships become the organizational standard.",
-      rpi: 44,
-      augment: 94,
-      roles: 520,
-    },
-    {
-      year: 2055,
-      title: "Cognitive Partnership",
-      category: "Technology",
-      summary:
-        "Neural interfaces enable seamless human-AI collaborative thinking.",
-      rpi: 58,
-      augment: 96,
-      roles: 1100,
-    },
-    {
-      year: 2060,
-      title: "The Empathy Engines",
-      category: "Society",
-      summary: "AI emotional intelligence surpasses average human capability.",
-      rpi: 71,
-      augment: 88,
-      roles: 640,
-    },
-    {
-      year: 2064,
-      title: "Goa Hospitality 2064",
-      category: "Industry",
-      summary: "Strategic roles defining hospitality's radical transformation.",
-      rpi: 63,
-      augment: 79,
-      roles: 280,
-    },
-    {
-      year: 2068,
-      title: "Universal Creativity",
-      category: "Culture",
-      summary: "Every human gains access to world-class creative tools.",
-      rpi: 81,
-      augment: 67,
-      roles: 920,
-    },
-    {
-      year: 2075,
-      title: "Neural Privacy",
-      category: "Legal",
-      summary:
-        "Legal frameworks emerge for the Inner Monologue protection era.",
-      rpi: 35,
-      augment: 92,
-      roles: 310,
-    },
-    {
-      year: 2080,
-      title: "The Synthesis Age",
-      category: "Evolution",
-      summary: "Human-AI cognitive integration reaches mainstream adoption.",
-      rpi: 76,
-      augment: 98,
-      roles: 1800,
-    },
-    {
-      year: 2085,
-      title: "Memory Markets",
-      category: "Economy",
-      summary: "The commodification of human experience begins in earnest.",
-      rpi: 69,
-      augment: 74,
-      roles: 450,
-    },
-    {
-      year: 2090,
-      title: "Digital Immortality",
-      category: "Philosophy",
-      summary: "Consciousness preservation becomes technically feasible.",
-      rpi: 47,
-      augment: 99,
-      roles: 120,
-    },
-    {
-      year: 2095,
-      title: "The Great Unbundling",
-      category: "Society",
-      summary: "Traditional institutions dissolve into networked alternatives.",
-      rpi: 88,
-      augment: 83,
-      roles: 2600,
-    },
-    {
-      year: 2100,
-      title: "The New Meaning",
-      category: "Philosophy",
-      summary:
-        "Work transforms entirely into creative and spiritual expression.",
-      rpi: 94,
-      augment: 71,
-      roles: 4200,
-    },
-    {
-      year: 2105,
-      title: "Planetary Consciousness",
-      category: "Evolution",
-      summary: "Earth develops rudimentary collective awareness systems.",
-      rpi: 82,
-      augment: 97,
-      roles: 1500,
-    },
-    {
-      year: 2110,
-      title: "The Collective Mind",
-      category: "Technology",
-      summary: "Networked consciousness experiments reach global scale.",
-      rpi: 91,
-      augment: 99,
-      roles: 890,
-    },
-    {
-      year: 2118,
-      title: "Beyond Biology",
-      category: "Science",
-      summary: "The distinction between organic and synthetic life dissolves.",
-      rpi: 96,
-      augment: 95,
-      roles: 2100,
-    },
-    {
-      year: 2126,
-      title: "The Horizon",
-      category: "Future",
-      summary: "The question becomes who we choose to become.",
-      rpi: 99,
-      augment: 100,
-      roles: 5000,
-    },
+    { name: "Horizon", key: "horizon", start_year: 2101, end_year: 2126 },
   ];
 
+  // Cards are now fetched dynamically from API
+
   const getEraKey = (year) => {
+    // First try dynamic filters
+    for (const filter of filters) {
+      if (filter.start_year && filter.end_year) {
+        if (year >= filter.start_year && year <= filter.end_year)
+          return filter.key;
+      }
+    }
+    // Fallback to static ERAS
     for (const [key, era] of Object.entries(ERAS)) {
       if (year >= era.start && year <= era.end) return key;
     }
     return "awakening";
   };
 
-  const getEraName = (year) => ERAS[getEraKey(year)].name;
+  const getEraName = (year) => {
+    // First try dynamic filters
+    const filter = filters.find((f) => {
+      if (f.start_year && f.end_year) {
+        return year >= f.start_year && year <= f.end_year;
+      }
+      return false;
+    });
+    if (filter) return filter.name;
+    // Fallback to static ERAS
+    return ERAS[getEraKey(year)]?.name || "Awakening";
+  };
 
-  const getImage = (category) =>
-    IMAGES[category.toLowerCase()] || IMAGES.technology;
+  const getImage = (category, imageUrl) => {
+    if (imageUrl) return imageUrl;
+    return IMAGES[category?.toLowerCase()] || IMAGES.technology;
+  };
 
   // Hero particles animation
   useEffect(() => {
@@ -560,30 +401,86 @@ const LandingPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Filter handling
-  const filteredArticles =
-    currentFilter === "all"
-      ? ARTICLES
-      : ARTICLES.filter((a) => {
-          const era = ERAS[currentFilter];
-          return era && a.year >= era.start && a.year <= era.end;
-        });
+  // Filter handling - by era and tag
+  const filteredCards = cards.filter((card) => {
+    // Era filter
+    if (currentFilter !== "all") {
+      const filter = filters.find((f) => f.key === currentFilter);
+      if (filter && filter.start_year && filter.end_year) {
+        if (card.year < filter.start_year || card.year > filter.end_year) {
+          return false;
+        }
+      }
+    }
 
-  const featuredArticle = filteredArticles[filteredArticles.length - 1];
-  const regularArticles = filteredArticles.slice(0, -1);
+    // Tag filter
+    if (currentTagFilter) {
+      if (!card.tags || !card.tags.includes(currentTagFilter)) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  const featuredCard =
+    filteredCards.find((c) => c.featured) ||
+    filteredCards[filteredCards.length - 1];
+  const regularCards = filteredCards.filter((c) => c !== featuredCard);
+
+  // Get dynamic content from API with fallbacks
+  const hero = siteContent?.hero || {
+    badge: "Strategic Foresight Series",
+    title: "The Horizon <em>Scanning</em> Series",
+    subtitle:
+      "Strategic foresight reports mapping the transformation of human work across the next century.",
+    stats: [],
+  };
+
+  const navLinks = siteContent?.nav_links || [
+    { label: "Intelligence", url: "/horizon" },
+    { label: "Industries", url: "/reports/goa-hospitality-2064" },
+    { label: "Research", url: "/horizon" },
+  ];
+
+  const cta = siteContent?.cta || {
+    title: "Ready to map <em>your</em> future?",
+    description: "Commission a custom Horizon Scan for your organization.",
+    button_text: "Commission a Report →",
+    button_link: "/horizon",
+  };
+
+  const footer = siteContent?.footer || {
+    logo_text: "Replace<span class='accent'>able</span>.ai",
+    copyright: "© 2026 Replaceable.ai · All rights reserved",
+  };
+
+  const execution = siteContent?.execution || {
+    title: "",
+    subtitle: "",
+    items: [],
+  };
+  const analytics = siteContent?.analytics || {
+    title: "",
+    subtitle: "",
+    metrics: [],
+    charts_enabled: true,
+  };
 
   return (
     <div className="landing-page">
-      {/* Masthead - matches HTML exactly */}
+      {/* Masthead - now dynamic */}
       <header className={`masthead ${isScrolled ? "scrolled" : ""}`}>
         <div className="masthead-inner">
           <Link to="/" className="logo">
             Replace<span className="accent">able</span>.ai
           </Link>
           <nav className="nav">
-            <Link to="/horizon">Intelligence</Link>
-            <Link to="/reports/goa-hospitality-2064">Industries</Link>
-            <Link to="/horizon">Research</Link>
+            {navLinks.map((link, index) => (
+              <Link key={index} to={link.url}>
+                {link.label}
+              </Link>
+            ))}
             <Link to="/horizon" className="nav-cta">
               Commission Report
             </Link>
@@ -599,14 +496,25 @@ const LandingPage = () => {
           ref={canvasRef}
         ></canvas>
         <div className="hero-content">
-          <div className="hero-badge">Strategic Foresight Series</div>
-          <h1 className="hero-title">
-            The Horizon <em>Scanning</em> Series
-          </h1>
-          <p className="hero-subtitle">
-            Strategic foresight reports mapping the transformation of human work
-            across the next century.
-          </p>
+          <div className="hero-badge">{hero.badge}</div>
+          <h1
+            className="hero-title"
+            dangerouslySetInnerHTML={{ __html: hero.title }}
+          ></h1>
+          <p className="hero-subtitle">{hero.subtitle}</p>
+
+          {/* Hero Stats - Dynamic */}
+          {hero.stats && hero.stats.length > 0 && (
+            <div className="hero-stats">
+              {hero.stats.map((stat, index) => (
+                <div key={index} className="hero-stat">
+                  <span className="hero-stat-value">{stat.value}</span>
+                  <span className="hero-stat-label">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="crystal-wrapper" id="crystalWrapper">
             <div className="crystal-glow"></div>
             <div id="crystal-container" ref={crystalContainerRef}></div>
@@ -624,84 +532,169 @@ const LandingPage = () => {
       </section>
 
       <div className="content-area" id="contentArea">
+        {/* Execution Section - Dynamic */}
+        {execution.title && (
+          <section className="execution-section">
+            <div className="execution-inner">
+              <h2 className="section-title">{execution.title}</h2>
+              {execution.subtitle && (
+                <p className="section-subtitle">{execution.subtitle}</p>
+              )}
+              {execution.items && execution.items.length > 0 && (
+                <div className="execution-grid">
+                  {execution.items.map((item, index) => (
+                    <div key={index} className="execution-item">
+                      {item.icon && (
+                        <div className="execution-icon">{item.icon}</div>
+                      )}
+                      {item.value && (
+                        <div className="execution-value">{item.value}</div>
+                      )}
+                      <h3 className="execution-item-title">{item.title}</h3>
+                      <p className="execution-item-desc">{item.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Analytics Section - Dynamic */}
+        {analytics.title &&
+          analytics.metrics &&
+          analytics.metrics.length > 0 && (
+            <section className="analytics-section">
+              <div className="analytics-inner">
+                <h2 className="section-title">{analytics.title}</h2>
+                {analytics.subtitle && (
+                  <p className="section-subtitle">{analytics.subtitle}</p>
+                )}
+                <div className="analytics-grid">
+                  {analytics.metrics.map((metric, index) => (
+                    <div key={index} className="analytics-card">
+                      <div className="analytics-value">{metric.value}</div>
+                      <div className="analytics-label">{metric.label}</div>
+                      {metric.change && (
+                        <div
+                          className={`analytics-change ${
+                            metric.changeType || "neutral"
+                          }`}
+                        >
+                          {metric.change}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
         <section className="filters-section">
           <div className="filters-inner">
+            {/* Era Filters - Dynamic */}
             <div className="filter-tabs">
-              <button
-                className={`filter-tab ${
-                  currentFilter === "all" ? "active" : ""
-                }`}
-                onClick={() => setCurrentFilter("all")}
-              >
-                All Reports
-              </button>
-              <button
-                className={`filter-tab ${
-                  currentFilter === "awakening" ? "active" : ""
-                }`}
-                onClick={() => setCurrentFilter("awakening")}
-              >
-                Awakening
-              </button>
-              <button
-                className={`filter-tab ${
-                  currentFilter === "transformation" ? "active" : ""
-                }`}
-                onClick={() => setCurrentFilter("transformation")}
-              >
-                Transformation
-              </button>
-              <button
-                className={`filter-tab ${
-                  currentFilter === "transcendence" ? "active" : ""
-                }`}
-                onClick={() => setCurrentFilter("transcendence")}
-              >
-                Transcendence
-              </button>
-              <button
-                className={`filter-tab ${
-                  currentFilter === "horizon" ? "active" : ""
-                }`}
-                onClick={() => setCurrentFilter("horizon")}
-              >
-                Horizon
-              </button>
+              {filters.map((filter) => (
+                <button
+                  key={filter.key}
+                  className={`filter-tab ${
+                    currentFilter === filter.key ? "active" : ""
+                  }`}
+                  onClick={() => setCurrentFilter(filter.key)}
+                >
+                  {filter.name}
+                </button>
+              ))}
             </div>
+
+            {/* Tag Filters - Dynamic */}
+            {tags.length > 0 && (
+              <div className="tag-filters">
+                <button
+                  className={`tag-filter ${!currentTagFilter ? "active" : ""}`}
+                  onClick={() => setCurrentTagFilter(null)}
+                >
+                  All Tags
+                </button>
+                {tags.map((tag) => (
+                  <button
+                    key={tag.id}
+                    className={`tag-filter ${
+                      currentTagFilter === tag.slug ? "active" : ""
+                    }`}
+                    onClick={() => setCurrentTagFilter(tag.slug)}
+                    style={{
+                      "--tag-color": tag.color,
+                      backgroundColor:
+                        currentTagFilter === tag.slug
+                          ? tag.color
+                          : "transparent",
+                      color:
+                        currentTagFilter === tag.slug ? "white" : tag.color,
+                      borderColor: tag.color,
+                    }}
+                  >
+                    {tag.name}
+                  </button>
+                ))}
+              </div>
+            )}
+
             <div className="results-count">
-              Showing <strong>{filteredArticles.length}</strong> reports
+              Showing <strong>{filteredCards.length}</strong> reports
             </div>
           </div>
         </section>
 
         <section className="reports-section">
           {/* Featured Card */}
-          {featuredArticle && (
+          {featuredCard && (
             <div className="featured-card visible">
               <div className="featured-image">
                 <img
-                  src={getImage(featuredArticle.category)}
-                  alt={featuredArticle.title}
+                  src={getImage(featuredCard.category, featuredCard.image_url)}
+                  alt={featuredCard.title}
                 />
                 <div className="featured-image-overlay"></div>
                 <div className="featured-badge">Latest Report</div>
               </div>
               <div className="featured-content">
                 <div className="featured-meta">
-                  <div className="featured-year">{featuredArticle.year}</div>
+                  <div className="featured-year">{featuredCard.year}</div>
                   <div className="featured-era">
-                    {getEraName(featuredArticle.year)}
+                    {getEraName(featuredCard.year)}
                   </div>
                 </div>
-                <div className="featured-category">
-                  {featuredArticle.category}
-                </div>
-                <h2 className="featured-title">{featuredArticle.title}</h2>
-                <p className="featured-summary">{featuredArticle.summary}</p>
+                <div className="featured-category">{featuredCard.category}</div>
+                <h2 className="featured-title">{featuredCard.title}</h2>
+                <p className="featured-summary">{featuredCard.summary}</p>
+
+                {/* Tags */}
+                {featuredCard.tags && featuredCard.tags.length > 0 && (
+                  <div className="featured-tags">
+                    {featuredCard.tags.map((tagSlug) => {
+                      const tag = tags.find((t) => t.slug === tagSlug);
+                      return tag ? (
+                        <span
+                          key={tagSlug}
+                          className="card-tag"
+                          style={{
+                            backgroundColor: tag.color + "20",
+                            color: tag.color,
+                          }}
+                        >
+                          {tag.name}
+                        </span>
+                      ) : null;
+                    })}
+                  </div>
+                )}
+
                 <div className="featured-stats">
                   <div>
                     <div className="featured-stat-value">
-                      {featuredArticle.rpi}
+                      {featuredCard.rpi}
                       <span
                         style={{ fontSize: "14px", color: "var(--text-muted)" }}
                       >
@@ -712,7 +705,7 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <div className="featured-stat-value">
-                      {featuredArticle.augment}
+                      {featuredCard.augment}
                       <span
                         style={{ fontSize: "14px", color: "var(--text-muted)" }}
                       >
@@ -723,35 +716,35 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <div className="featured-stat-value">
-                      {featuredArticle.roles.toLocaleString()}
+                      {featuredCard.roles?.toLocaleString()}
                     </div>
                     <div className="featured-stat-label">Roles Analyzed</div>
                   </div>
                 </div>
-                <Link
-                  to={`/reports/goa-hospitality-2064`}
-                  className="featured-cta"
-                >
-                  Read Full Report →
-                </Link>
+                {featuredCard.linked_report_slug ? (
+                  <Link
+                    to={`/reports/${featuredCard.linked_report_slug}`}
+                    className="featured-cta"
+                  >
+                    Read Full Report →
+                  </Link>
+                ) : (
+                  <span className="featured-cta disabled">Coming Soon</span>
+                )}
               </div>
             </div>
           )}
 
           {/* Regular Reports Grid */}
           <div className="reports-grid">
-            {regularArticles.map((article, i) => {
+            {regularCards.map((card, i) => {
               const rpiClass =
-                article.rpi >= 70
-                  ? "high"
-                  : article.rpi >= 40
-                  ? "medium"
-                  : "low";
+                card.rpi >= 70 ? "high" : card.rpi >= 40 ? "medium" : "low";
               return (
                 <article
-                  key={i}
+                  key={card.id || i}
                   className="paper-card visible"
-                  data-era={getEraKey(article.year)}
+                  data-era={getEraKey(card.year)}
                 >
                   <div className="paper-stack"></div>
                   <div className="paper-stack-2"></div>
@@ -767,20 +760,39 @@ const LandingPage = () => {
                     </div>
                     <div className="paper-image">
                       <img
-                        src={getImage(article.category)}
-                        alt={article.title}
+                        src={getImage(card.category, card.image_url)}
+                        alt={card.title}
                         loading="lazy"
                       />
                       <div className="paper-image-overlay"></div>
-                      <div className="paper-year">{article.year}</div>
+                      <div className="paper-year">{card.year}</div>
                     </div>
                     <div className="paper-content">
-                      <span className="paper-era">
-                        {getEraName(article.year)}
-                      </span>
-                      <div className="paper-category">{article.category}</div>
-                      <h3 className="paper-title">{article.title}</h3>
-                      <p className="paper-summary">{article.summary}</p>
+                      <span className="paper-era">{getEraName(card.year)}</span>
+                      <div className="paper-category">{card.category}</div>
+                      <h3 className="paper-title">{card.title}</h3>
+                      <p className="paper-summary">{card.summary}</p>
+
+                      {/* Tags */}
+                      {card.tags && card.tags.length > 0 && (
+                        <div className="paper-tags">
+                          {card.tags.slice(0, 2).map((tagSlug) => {
+                            const tag = tags.find((t) => t.slug === tagSlug);
+                            return tag ? (
+                              <span
+                                key={tagSlug}
+                                className="card-tag small"
+                                style={{
+                                  backgroundColor: tag.color + "20",
+                                  color: tag.color,
+                                }}
+                              >
+                                {tag.name}
+                              </span>
+                            ) : null;
+                          })}
+                        </div>
+                      )}
                     </div>
                     <div className="paper-footer">
                       <div className="paper-metrics">
@@ -790,22 +802,20 @@ const LandingPage = () => {
                             <div className="metric-bar-track">
                               <div
                                 className={`metric-bar-fill ${rpiClass}`}
-                                style={{ width: `${article.rpi}%` }}
+                                style={{ width: `${card.rpi}%` }}
                               ></div>
                             </div>
-                            <span className="metric-value">{article.rpi}</span>
+                            <span className="metric-value">{card.rpi}</span>
                           </div>
                         </div>
                         <div className="metric">
                           <span className="metric-label">Augment</span>
-                          <span className="metric-value">
-                            {article.augment}%
-                          </span>
+                          <span className="metric-value">{card.augment}%</span>
                         </div>
                         <div className="metric">
                           <span className="metric-label">Roles</span>
                           <span className="metric-value">
-                            {article.roles.toLocaleString()}
+                            {card.roles?.toLocaleString()}
                           </span>
                         </div>
                       </div>
@@ -821,28 +831,24 @@ const LandingPage = () => {
       <section className="cta-section">
         <div className="cta-gradient"></div>
         <div className="cta-inner">
-          <h2 className="cta-title">
-            Ready to map <em>your</em> future?
-          </h2>
-          <p className="cta-desc">
-            Commission a custom Horizon Scan for your organization. We'll
-            analyze the transformation of your industry across the timescales
-            that matter.
-          </p>
-          <Link to="/horizon" className="cta-btn">
-            Commission a Report →
+          <h2
+            className="cta-title"
+            dangerouslySetInnerHTML={{ __html: cta.title }}
+          ></h2>
+          <p className="cta-desc">{cta.description}</p>
+          <Link to={cta.button_link} className="cta-btn">
+            {cta.button_text}
           </Link>
         </div>
       </section>
 
       <footer>
         <div className="footer-inner">
-          <div className="footer-logo">
-            Replace<span className="accent">able</span>.ai
-          </div>
-          <div className="footer-copy">
-            © 2026 Replaceable.ai · All rights reserved
-          </div>
+          <div
+            className="footer-logo"
+            dangerouslySetInnerHTML={{ __html: footer.logo_text }}
+          ></div>
+          <div className="footer-copy">{footer.copyright}</div>
         </div>
       </footer>
     </div>

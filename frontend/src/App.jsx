@@ -17,6 +17,9 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminReportNew from "./pages/admin/AdminReportNew";
 import AdminReportEdit from "./pages/admin/AdminReportEdit";
 import AdminConsultations from "./pages/admin/AdminConsultations";
+import AdminSiteContent from "./pages/admin/AdminSiteContent";
+import AdminTags from "./pages/admin/AdminTags";
+import AdminLandingCards from "./pages/admin/AdminLandingCards";
 
 // Components
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -42,6 +45,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="site-content" element={<AdminSiteContent />} />
+              <Route path="landing-cards" element={<AdminLandingCards />} />
+              <Route path="tags" element={<AdminTags />} />
               <Route path="news/new" element={<AdminNewsNew />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="reports/new" element={<AdminReportNew />} />

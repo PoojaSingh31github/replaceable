@@ -30,6 +30,12 @@ def format_report_response(report: dict) -> dict:
         "target_year": report.get("target_year"),
         "region": report.get("region"),
         "industry": report.get("industry"),
+        "tags": report.get("tags", []),
+        "card_category": report.get("card_category"),
+        "card_rpi": report.get("card_rpi"),
+        "card_augment": report.get("card_augment"),
+        "card_roles_count": report.get("card_roles_count"),
+        "card_summary": report.get("card_summary"),
         "created_at": report["created_at"],
         "updated_at": report["updated_at"],
         "published_at": report.get("published_at")
@@ -49,6 +55,12 @@ def format_report_list_response(report: dict) -> dict:
         "target_year": report.get("target_year"),
         "region": report.get("region"),
         "industry": report.get("industry"),
+        "tags": report.get("tags", []),
+        "card_category": report.get("card_category"),
+        "card_rpi": report.get("card_rpi"),
+        "card_augment": report.get("card_augment"),
+        "card_roles_count": report.get("card_roles_count"),
+        "card_summary": report.get("card_summary"),
         "created_at": report["created_at"]
     }
 

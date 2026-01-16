@@ -57,6 +57,58 @@ const AdminLayout = () => {
           <div className="nav-section">
             <span className="nav-section-label">Content</span>
             <Link
+              to="/admin/site-content"
+              className={`nav-item ${
+                isActive("/admin/site-content") ? "active" : ""
+              }`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18" />
+                <path d="M9 21V9" />
+              </svg>
+              Site Content
+            </Link>
+            <Link
+              to="/admin/landing-cards"
+              className={`nav-item ${
+                isActive("/admin/landing-cards") ? "active" : ""
+              }`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              Landing Cards
+            </Link>
+            <Link
+              to="/admin/tags"
+              className={`nav-item ${isActive("/admin/tags") ? "active" : ""}`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                <line x1="7" y1="7" x2="7.01" y2="7" />
+              </svg>
+              Tags
+            </Link>
+            <Link
               to="/admin/news"
               className={`nav-item ${isActive("/admin/news") ? "active" : ""}`}
             >
