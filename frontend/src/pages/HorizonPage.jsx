@@ -286,9 +286,21 @@ const HorizonPage = () => {
     <div className="horizon-page">
       <canvas ref={canvasRef} id="bg-canvas"></canvas>
 
-              </span>
-            </div>
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-content">
+          <div className="hero-text">
+            <span className="hero-label">Strategic Foresight</span>
+            <h1>
+              Mapping Tomorrow's <em>Workforce</em>
+            </h1>
+            <p className="hero-desc">
+              We analyze how roles transform across 25-100 year horizons,
+              providing strategic intelligence for the workforce transitions
+              ahead.
+            </p>
             <div className="time-range">
+              <div className="time-range-item">
                 <div className="time-range-value">25</div>
                 <div className="time-range-label">Year Minimum</div>
               </div>
@@ -297,13 +309,13 @@ const HorizonPage = () => {
                 <div className="time-range-value">100</div>
                 <div className="time-range-label">Year Maximum</div>
               </div>
-              <div className="time-range-context">
-                <p>
-                  Our projections operate where traditional forecasting
-                  fails—beyond the predictable horizon into structured
-                  possibility space.
-                </p>
-              </div>
+            </div>
+            <div className="time-range-context">
+              <p>
+                Our projections operate where traditional forecasting
+                fails—beyond the predictable horizon into structured possibility
+                space.
+              </p>
             </div>
             <div className="hero-cta">
               <a href="#reports" className="btn btn-primary">
