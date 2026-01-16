@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // Public Pages
 import LandingPage from "./pages/LandingPage";
@@ -19,16 +17,20 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminReportNew from "./pages/admin/AdminReportNew";
 import AdminReportEdit from "./pages/admin/AdminReportEdit";
 import AdminConsultations from "./pages/admin/AdminConsultations";
-
+<<<<<<< HEAD
+=======
+import AdminSiteContent from "./pages/admin/AdminSiteContent";
+import AdminTags from "./pages/admin/AdminTags";
+import AdminLandingCards from "./pages/admin/AdminLandingCards";
 // Components
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Global styles
 import "./App.css";
 
 function App() {
   return (
     <AuthProvider>
+<<<<<<< HEAD
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -41,6 +43,8 @@ function App() {
         pauseOnHover
         theme="light"
       />
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       <Router>
         <Routes>
           {/* Public Routes */}
@@ -56,6 +60,12 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboard />} />
+<<<<<<< HEAD
+=======
+              <Route path="site-content" element={<AdminSiteContent />} />
+              <Route path="landing-cards" element={<AdminLandingCards />} />
+              <Route path="tags" element={<AdminTags />} />
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               <Route path="news/new" element={<AdminNewsNew />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="reports/new" element={<AdminReportNew />} />

@@ -771,7 +771,6 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s;
-  text-align: center;
 }
 
 .goa-report .btn-primary {

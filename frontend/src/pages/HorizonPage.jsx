@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import { toast } from "react-toastify";
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 import consultationsService from "../services/consultationsService";
 import reportsService from "../services/reportsService";
 import "./HorizonPage.css";
@@ -220,19 +223,22 @@ const HorizonPage = () => {
         setReportsLoading(false);
       }
     };
-
     fetchReports();
   }, []);
 
+<<<<<<< HEAD
   const [formErrors, setFormErrors] = React.useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for this field when user starts typing
     if (formErrors[name]) {
       setFormErrors((prev) => ({ ...prev, [name]: "" }));
     }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
   };
 
   const handleInterestToggle = (interest) => {
@@ -243,74 +249,17 @@ const HorizonPage = () => {
         : [...prev.interests, interest],
     }));
   };
-
-  const validateForm = () => {
-    const errors = {};
-
-    // Check required fields
-    if (!formData.firstName?.trim()) {
-      errors.firstName = "First name is required";
-    }
-    if (!formData.lastName?.trim()) {
-      errors.lastName = "Last name is required";
-    }
-    if (!formData.organization?.trim()) {
-      errors.organization = "Organization is required";
-    }
-    if (!formData.email?.trim()) {
-      errors.email = "Email is required";
-    } else {
-      // Validate organization email
-      const freeEmailDomains = [
-        'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com',
-        'mail.com', 'protonmail.com', 'icloud.com', 'gmx.com', 'yandex.com',
-        'mail.ru', 'inbox.com', 'zoho.com', '163.com', 'qq.com'
-      ];
-      const emailDomain = formData.email.toLowerCase().split('@')[1] || '';
-      if (freeEmailDomains.includes(emailDomain)) {
-        errors.email = `Organization email required. ${emailDomain} is a personal email provider.`;
-      }
-      // Basic email format check
-      if (!formData.email.includes('@')) {
-        errors.email = "Please enter a valid email address";
-      }
-    }
-
-    if (!formData.phone?.trim()) {
-      errors.phone = "Phone number is required";
-    } else {
-      // Validate phone - exactly 10 digits
-      const digitsOnly = formData.phone.replace(/\D/g, '');
-      if (digitsOnly.length !== 10) {
-        errors.phone = "Phone number must contain exactly 10 digits";
-      }
-    }
-
-    if (!formData.industry?.trim()) {
-      errors.industry = "Industry is required";
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
+=======
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate form before submission
-    if (!validateForm()) {
-      toast.error("Please correct all errors before submitting.");
-      return;
-    }
 
     try {
       // Prepare data for API
       const consultationData = {
-        first_name: formData.firstName.trim(),
-        last_name: formData.lastName.trim(),
-        email: formData.email.trim(),
-        company: formData.organization.trim(),
-        phone: formData.phone.replace(/\D/g, ''), // Send only digits
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
         industry_sector: formData.industry,
         preferred_month: formData.month || null,
         preferred_week: formData.day || null,
@@ -320,8 +269,8 @@ const HorizonPage = () => {
       };
 
       await consultationsService.submitConsultation(consultationData);
-
-      toast.success("Thank you for your inquiry. We will contact you shortly.");
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 
       // Reset form
       setFormData({
@@ -337,6 +286,7 @@ const HorizonPage = () => {
         interests: [],
         message: "",
       });
+<<<<<<< HEAD
       setFormErrors({});
     } catch (error) {
       console.error("Failed to submit consultation:", error);
@@ -386,6 +336,11 @@ const HorizonPage = () => {
         const errorMessage = error.response?.data?.detail || "Failed to submit your request. Please try again.";
         toast.error(errorMessage);
       }
+=======
+    } catch (error) {
+      console.error("Failed to submit consultation:", error);
+      alert("Failed to submit your request. Please try again.");
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     }
   };
 
@@ -400,47 +355,9 @@ const HorizonPage = () => {
     <div className="horizon-page">
       <canvas ref={canvasRef} id="bg-canvas"></canvas>
 
-      {/* Header */}
-      <header className={`masthead ${isScrolled ? "scrolled" : ""}`}>
-        <div className="masthead-inner">
-          <Link to="/" className="logo">
-            Replace<span>able</span>.ai
-            <span className="logo-tagline">The Bureau of Role Futures</span>
-          </Link>
-          <nav className="nav-links">
-            <a href="#methodology">Methodology</a>
-            <a href="#reports">Reports</a>
-            <a href="#enterprise">Enterprise</a>
-            <a href="#book" className="nav-cta">
-              Book Consultation
-            </a>
-          </nav>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="hero">
-        <div className="hero-gradient"></div>
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>
-              The <em>Horizon Scan</em> Series
-            </h1>
-            <p className="hero-subtitle">
-              Deep future workforce intelligence for organizations thinking in
-              decades, not quarters. Rigorous projections that transform
-              automation uncertainty into strategic clarity.
-            </p>
-            <div className="hero-distinction">
-              <strong>Not short-term forecasting.</strong>
-              <span>
-                For daily market intelligence and news analysis, see our Current
-                Intelligence briefings. Horizon Scans operate on a fundamentally
-                different timescale.
               </span>
             </div>
             <div className="time-range">
-              <div className="time-range-item">
                 <div className="time-range-value">25</div>
                 <div className="time-range-label">Year Minimum</div>
               </div>
@@ -451,19 +368,32 @@ const HorizonPage = () => {
               </div>
               <div className="time-range-context">
                 <p>
+<<<<<<< HEAD
                   Long enough to capture fundamental transformation. Far enough
                   to escape quarterly thinking. This is generational
                   strategy—the decisions that shape your organization's
                   workforce for your successors' successors.
+=======
+                  Our projections operate where traditional forecasting
+                  fails—beyond the predictable horizon into structured
+                  possibility space.
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </p>
               </div>
             </div>
             <div className="hero-cta">
               <a href="#reports" className="btn btn-primary">
+<<<<<<< HEAD
                 Explore Published Reports
               </a>
               <a href="#book" className="btn btn-secondary">
                 Commission Private Research →
+=======
+                Explore Reports
+              </a>
+              <a href="#book" className="btn btn-secondary">
+                Request Consultation
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </a>
             </div>
           </div>
@@ -514,13 +444,20 @@ const HorizonPage = () => {
       {/* What Is Section */}
       <section className="section what-is">
         <div className="content">
+<<<<<<< HEAD
           <span className="section-label">About the Series</span>
           <h2 className="w-137.5">
             Strategic Foresight, <em>Not Science Fiction</em>
+=======
+          <span className="section-label">Understanding Horizon</span>
+          <h2>
+            What <em>Is</em> Horizon?
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           </h2>
           <div className="what-is-grid">
             <div className="what-is-text">
               <p>
+<<<<<<< HEAD
                 The Horizon Scan series represents a new category of workforce
                 intelligence: long-range projections grounded in rigorous
                 methodology rather than speculative futurism. Each report
@@ -549,6 +486,27 @@ const HorizonPage = () => {
                 journalism. We don't just show you data. We show you the person
                 who wakes up in 2064—or 2124—and goes to work in a role that
                 doesn't yet have a name.
+=======
+                Horizon represents a new discipline in strategic intelligence:
+                the systematic study of how human roles evolve, transform, and
+                emerge across extended time horizons. We call this practice Role
+                Futures.
+              </p>
+              <p>
+                Where traditional workforce planning looks 3-5 years ahead, and
+                most future-of-work analyses stretch to a decade, Horizon
+                operates in the 25-100 year range—the territory where genuine
+                transformation becomes visible, and where decisions made today
+                cast their longest shadows.
+              </p>
+              <p>
+                Our work is not prediction. Prediction implies certainty; we
+                traffic in structured uncertainty. Through rigorous scenario
+                analysis, historical pattern recognition, and our proprietary
+                Role Persistence Index (RPI), we illuminate the landscape of
+                possibility that awaits industries, organizations, and the
+                individuals who comprise them.
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </p>
             </div>
             <div className="rpi-sidebar">
@@ -673,16 +631,27 @@ const HorizonPage = () => {
       {/* Methodology Section */}
       <section id="methodology" className="section methodology-section">
         <div className="content">
+<<<<<<< HEAD
           <span className="section-label">The Science of Foresight</span>
           <h2>
             How We See <em>What's Coming</em>
           </h2>
           <p className="section-intro">
             Our projections aren't guesswork dressed in confidence. They emerge from a rigorous, multi-layered methodology that synthesizes the best available evidence into defensible scenarios.
+=======
+          <span className="section-label">How We Work</span>
+          <h2>
+            Methodology of <em>Foresight</em>
+          </h2>
+          <p className="section-intro">
+            Our process synthesizes quantitative modeling with qualitative
+            expertise, producing insights that are both rigorous and actionable.
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           </p>
           <div className="methodology-grid">
             <div className="methodology-narrative">
               <p>
+<<<<<<< HEAD
                We begin where others end. Most automation forecasts start with technology capabilities and extrapolate forward. We start with economic fundamentals: What tasks create value? What does the labor market actually reward? Where do wages signal scarcity versus abundance? Technology is one variable among many—regulation, demographics, climate adaptation, and cultural preference all shape workforce evolution.
               </p>
               <p>
@@ -696,6 +665,29 @@ const HorizonPage = () => {
               </p>
               <p>
                 We name what we don't know. Every Horizon Scan includes explicit confidence ratings and assumption registries. We distinguish between high-confidence projections (demographic trends, regulatory momentum) and speculative scenarios (breakthrough technologies, black swan events). Intellectual honesty about uncertainty is itself a form of rigor.
+=======
+                Each Horizon engagement begins with{" "}
+                <strong>deep industry immersion</strong>—not desk research, but
+                embedded understanding of how work actually happens. We
+                interview practitioners across seniority levels, observe
+                operational rhythms, and map the informal knowledge networks
+                that define professional communities.
+              </p>
+              <p>
+                This qualitative foundation feeds our{" "}
+                <strong>scenario modeling engine</strong>, where multiple
+                plausible futures are constructed across technological,
+                regulatory, cultural, and economic dimensions. These aren't
+                optimistic and pessimistic cases—they're genuinely different
+                worlds, each internally consistent.
+              </p>
+              <p>
+                Within each scenario, we apply our{" "}
+                <strong>Role Persistence Index</strong> methodology to every
+                identified role, producing a quantified map of workforce
+                evolution. The resulting analysis shows not just which roles
+                persist, but how they transform.
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </p>
             </div>
             <div className="methodology-layers">
@@ -733,12 +725,23 @@ const HorizonPage = () => {
                   and decision tools.
                 </div>
               </div>
+<<<<<<< HEAD
+=======
+            </div>
+          </div>
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           <div className="rpi-formula-box">
             <div className="rpi-formula-header">
               <span className="rpi-formula-title">The RPI Formula</span>
             </div>
             <p style={{ color: "var(--titanium)", marginBottom: "16px" }}>
+<<<<<<< HEAD
               The Replaceability Potential Index. Our proprietary scoring methodology.
+=======
+              Our proprietary index synthesizes four weighted factors into a
+              single persistence score, calibrated against historical role
+              evolution data.
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
             </p>
             <div className="rpi-formula-code">
               <code>
@@ -750,8 +753,11 @@ const HorizonPage = () => {
               </code>
             </div>
           </div>
+<<<<<<< HEAD
             </div>
           </div>
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
         </div>
       </section>
 
@@ -838,9 +844,18 @@ const HorizonPage = () => {
               </svg>
             </div>
             <div className="discretion-content">
+<<<<<<< HEAD
               <h4>Trusted by S&P 500 Organizations</h4>
               <p>
                 We work with a number of S&P 500 companies on sensitive workforce transformation initiatives. We understand that organization design, restructuring plans, and future workforce architecture are among the most confidential elements of corporate strategy. Discretion isn't a feature—it's foundational to how we operate.
+=======
+              <h4>Absolute Discretion Guaranteed</h4>
+              <p>
+                All enterprise engagements operate under strict confidentiality
+                protocols. Your strategic interests remain entirely private—we
+                never publish, reference, or acknowledge private client work
+                without explicit written permission.
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </p>
               <div className="discretion-badges">
                 <span className="discretion-badge">NDA Standard</span>
@@ -929,25 +944,39 @@ const HorizonPage = () => {
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
+<<<<<<< HEAD
                     className={`form-input ${formErrors.firstName ? 'error' : ''}`}
+=======
+                    className="form-input"
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
                     required
                   />
+<<<<<<< HEAD
                   {formErrors.firstName && <span className="error-message">{formErrors.firstName}</span>}
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
                 <div className="form-group">
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
+<<<<<<< HEAD
                     className={`form-input ${formErrors.lastName ? 'error' : ''}`}
+=======
+                    className="form-input"
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
                     required
                   />
+<<<<<<< HEAD
                   {formErrors.lastName && <span className="error-message">{formErrors.lastName}</span>}
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
               <div className="form-row">
@@ -955,29 +984,44 @@ const HorizonPage = () => {
                   <label className="form-label">Organization</label>
                   <input
                     type="text"
+<<<<<<< HEAD
                     className={`form-input ${formErrors.organization ? 'error' : ''}`}
+=======
+                    className="form-input"
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="organization"
                     value={formData.organization}
                     onChange={handleInputChange}
                     required
                   />
+<<<<<<< HEAD
                   {formErrors.organization && <span className="error-message">{formErrors.organization}</span>}
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
                 <div className="form-group">
                   <label className="form-label">Email Address</label>
                   <input
                     type="email"
+<<<<<<< HEAD
                     className={`form-input ${formErrors.email ? 'error' : ''}`}
+=======
+                    className="form-input"
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
                   />
+<<<<<<< HEAD
                   {formErrors.email && <span className="error-message">{formErrors.email}</span>}
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
+<<<<<<< HEAD
                   <label className="form-label">Phone Number</label>
                   <input
                     type="tel"
@@ -989,11 +1033,25 @@ const HorizonPage = () => {
                     required
                   />
                   {formErrors.phone && <span className="error-message">{formErrors.phone}</span>}
+=======
+                  <label className="form-label">Phone (Optional)</label>
+                  <input
+                    type="tel"
+                    className="form-input"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                  />
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
                 <div className="form-group">
                   <label className="form-label">Industry</label>
                   <select
+<<<<<<< HEAD
                     className={`form-select ${formErrors.industry ? 'error' : ''}`}
+=======
+                    className="form-select"
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     name="industry"
                     value={formData.industry}
                     onChange={handleInputChange}
@@ -1009,7 +1067,10 @@ const HorizonPage = () => {
                     <option value="energy">Energy & Utilities</option>
                     <option value="other">Other</option>
                   </select>
+<<<<<<< HEAD
                   {formErrors.industry && <span className="error-message">{formErrors.industry}</span>}
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
               <div className="form-group">
@@ -1108,8 +1169,13 @@ const HorizonPage = () => {
                 </p>
               </div>
               <div className="form-submit">
+<<<<<<< HEAD
                 <button type="submit" className="btn-primary">
                   Submit Enquiry
+=======
+                <button type="submit" className="btn btn-primary">
+                  Submit Inquiry
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </button>
                 <p className="form-note">
                   We typically respond within 48 business hours

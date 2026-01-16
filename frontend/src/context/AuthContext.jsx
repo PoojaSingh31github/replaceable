@@ -48,22 +48,8 @@ export const AuthProvider = ({ children }) => {
       await authService.register(email, password, fullName);
       return { success: true };
     } catch (err) {
-      let errorMessage = "Registration failed. Please try again.";
-      
-      // Handle validation error array format
-      if (err.response?.data?.detail && Array.isArray(err.response.data.detail)) {
-        const validationError = err.response.data.detail[0];
-        if (validationError?.msg) {
-          errorMessage = validationError.msg;
-          // Clean up message - remove "Value error, " prefix if present
-          if (errorMessage.startsWith('Value error, ')) {
-            errorMessage = errorMessage.replace('Value error, ', '');
-          }
-        }
-      } else if (err.response?.data?.detail) {
-        errorMessage = err.response.data.detail;
-      }
-      
+      const errorMessage =
+        err.response?.data?.detail || "Registration failed. Please try again.";
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {

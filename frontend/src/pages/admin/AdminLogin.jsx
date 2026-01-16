@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminLogin.css";
 
@@ -23,15 +22,11 @@ const AdminLogin = () => {
     const result = await login(email, password);
 
     if (result.success) {
+<<<<<<< HEAD
       toast.success("Login successful!");
       navigate("/admin/dashboard");
     } else {
-      const errorMsg = result.error || "Login failed";
-      toast.error(errorMsg);
-    }
-
     setIsSubmitting(false);
-  };
 
   return (
     <div className="admin-login">

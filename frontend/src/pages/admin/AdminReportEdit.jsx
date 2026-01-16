@@ -116,16 +116,13 @@ const AdminReportEdit = () => {
 
     try {
       await reportsService.updateReport(reportId, formData);
+<<<<<<< HEAD
       toast.success("Report updated successfully!");
       setSuccess("Report updated successfully!");
-      setTimeout(() => setSuccess(""), 3000);
-    } catch (err) {
-      const errorMsg = err.response?.data?.detail || "Failed to update report";
-      setError(errorMsg);
-      toast.error(errorMsg);
+      setError(err.response?.data?.detail || "Failed to update report");
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     } finally {
       setSaving(false);
-    }
   };
 
   const handlePublish = async () => {
@@ -133,27 +130,31 @@ const AdminReportEdit = () => {
       setSaving(true);
       await reportsService.publishReport(reportId);
       setFormData((prev) => ({ ...prev, status: "published" }));
+<<<<<<< HEAD
       toast.success("Report published successfully!");
       setSuccess("Report published successfully!");
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       toast.error("Failed to publish report");
+=======
+      setSuccess("Report published successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       setError("Failed to publish report");
     } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleUnpublish = async () => {
-    try {
-      setSaving(true);
       await reportsService.unpublishReport(reportId);
       setFormData((prev) => ({ ...prev, status: "draft" }));
-      toast.success("Report unpublished");
+<<<<<<< HEAD
       setSuccess("Report unpublished");
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       toast.error("Failed to unpublish report");
+=======
+      setSuccess("Report unpublished");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       setError("Failed to unpublish report");
     } finally {
       setSaving(false);
@@ -196,6 +197,73 @@ const AdminReportEdit = () => {
     }));
   };
 
+<<<<<<< HEAD
+=======
+  // Task management within a role
+  const addTask = (roleIndex) => {
+    const updatedRoles = [...formData.roles];
+    const role = updatedRoles[roleIndex];
+    if (!role.tasks) role.tasks = [];
+    role.tasks.push({
+      name: "",
+      APS: 0,
+      W: 0,
+      HRF: 0,
+      HRA_t: 0,
+    });
+    setFormData((prev) => ({ ...prev, roles: updatedRoles }));
+  };
+
+  const updateTask = (roleIndex, taskIndex, field, value) => {
+    const updatedRoles = [...formData.roles];
+    updatedRoles[roleIndex].tasks[taskIndex][field] = value;
+    setFormData((prev) => ({ ...prev, roles: updatedRoles }));
+  };
+
+  const removeTask = (roleIndex, taskIndex) => {
+    const updatedRoles = [...formData.roles];
+    updatedRoles[roleIndex].tasks = updatedRoles[roleIndex].tasks.filter(
+      (_, i) => i !== taskIndex
+    );
+    setFormData((prev) => ({ ...prev, roles: updatedRoles }));
+  };
+
+  // Skills management within a role
+  const updateSkills = (roleIndex, skillType, value) => {
+    const updatedRoles = [...formData.roles];
+    if (!updatedRoles[roleIndex].skills) {
+      updatedRoles[roleIndex].skills = { technical: [], soft: [], domain: [] };
+    }
+    // Convert comma-separated string to array
+    updatedRoles[roleIndex].skills[skillType] = value
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => s);
+    setFormData((prev) => ({ ...prev, roles: updatedRoles }));
+  };
+
+  // Gauge info management
+  const updateGaugeInfo = (roleIndex, field, value) => {
+    const updatedRoles = [...formData.roles];
+    if (!updatedRoles[roleIndex].gauge_info) {
+      updatedRoles[roleIndex].gauge_info = { title: "", description: "" };
+    }
+    updatedRoles[roleIndex].gauge_info[field] = value;
+    setFormData((prev) => ({ ...prev, roles: updatedRoles }));
+  };
+
+  // Causal chain management
+  const updateCausalChain = (roleIndex, value) => {
+    const updatedRoles = [...formData.roles];
+    // Convert comma-separated string to array
+    updatedRoles[roleIndex].causal_chain = value
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => s);
+    setFormData((prev) => ({ ...prev, roles: updatedRoles }));
+  };
+
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
   // Scenario management
   const addScenario = () => {
     setFormData((prev) => ({
@@ -651,6 +719,216 @@ const AdminReportEdit = () => {
                       placeholder="Role description and responsibilities..."
                     />
                   </div>
+<<<<<<< HEAD
+=======
+
+                  {/* Tasks Section */}
+                  <div className="tasks-section">
+                    <div className="tasks-header">
+                      <label>Tasks & Metrics</label>
+                      <button
+                        type="button"
+                        className="btn-add-small"
+                        onClick={() => addTask(index)}
+                      >
+                        + Add Task
+                      </button>
+                    </div>
+                    {role.tasks && role.tasks.length > 0 ? (
+                      <div className="tasks-list">
+                        {role.tasks.map((task, taskIndex) => (
+                          <div key={taskIndex} className="task-item">
+                            <div className="task-row">
+                              <input
+                                type="text"
+                                value={task.name || ""}
+                                onChange={(e) =>
+                                  updateTask(
+                                    index,
+                                    taskIndex,
+                                    "name",
+                                    e.target.value
+                                  )
+                                }
+                                placeholder="Task name"
+                                className="task-name-input"
+                              />
+                              <button
+                                type="button"
+                                className="btn-remove-small"
+                                onClick={() => removeTask(index, taskIndex)}
+                              >
+                                ×
+                              </button>
+                            </div>
+                            <div className="task-metrics">
+                              <div className="metric-input">
+                                <label>APS</label>
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  max="1"
+                                  value={task.APS || 0}
+                                  onChange={(e) =>
+                                    updateTask(
+                                      index,
+                                      taskIndex,
+                                      "APS",
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div className="metric-input">
+                                <label>W (Weight)</label>
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  max="1"
+                                  value={task.W || 0}
+                                  onChange={(e) =>
+                                    updateTask(
+                                      index,
+                                      taskIndex,
+                                      "W",
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div className="metric-input">
+                                <label>HRF</label>
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  max="1"
+                                  value={task.HRF || 0}
+                                  onChange={(e) =>
+                                    updateTask(
+                                      index,
+                                      taskIndex,
+                                      "HRF",
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div className="metric-input">
+                                <label>HRA_t</label>
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  max="1"
+                                  value={task.HRA_t || 0}
+                                  onChange={(e) =>
+                                    updateTask(
+                                      index,
+                                      taskIndex,
+                                      "HRA_t",
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="no-tasks">
+                        No tasks defined. Click "Add Task" to add one.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Skills Section */}
+                  <div className="skills-section">
+                    <label>Skills</label>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Technical Skills (comma-separated)</label>
+                        <input
+                          type="text"
+                          value={role.skills?.technical?.join(", ") || ""}
+                          onChange={(e) =>
+                            updateSkills(index, "technical", e.target.value)
+                          }
+                          placeholder="e.g., AI Systems, Data Analysis"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Soft Skills (comma-separated)</label>
+                        <input
+                          type="text"
+                          value={role.skills?.soft?.join(", ") || ""}
+                          onChange={(e) =>
+                            updateSkills(index, "soft", e.target.value)
+                          }
+                          placeholder="e.g., Communication, Leadership"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Domain Skills (comma-separated)</label>
+                        <input
+                          type="text"
+                          value={role.skills?.domain?.join(", ") || ""}
+                          onChange={(e) =>
+                            updateSkills(index, "domain", e.target.value)
+                          }
+                          placeholder="e.g., Hospitality, Tourism"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Gauge Info */}
+                  <div className="gauge-section">
+                    <label>Gauge Information</label>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Gauge Title</label>
+                        <input
+                          type="text"
+                          value={role.gauge_info?.title || ""}
+                          onChange={(e) =>
+                            updateGaugeInfo(index, "title", e.target.value)
+                          }
+                          placeholder="e.g., Human Advantage"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Gauge Description</label>
+                        <input
+                          type="text"
+                          value={role.gauge_info?.description || ""}
+                          onChange={(e) =>
+                            updateGaugeInfo(
+                              index,
+                              "description",
+                              e.target.value
+                            )
+                          }
+                          placeholder="Short description"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Causal Chain */}
+                  <div className="form-group">
+                    <label>Causal Chain (comma-separated steps)</label>
+                    <input
+                      type="text"
+                      value={role.causal_chain?.join(", ") || ""}
+                      onChange={(e) => updateCausalChain(index, e.target.value)}
+                      placeholder="e.g., Step 1, Step 2, Step 3"
+                    />
+                  </div>
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 </div>
               </div>
             ))}

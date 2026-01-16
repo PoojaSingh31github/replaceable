@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import consultationsService from "../../services/consultationsService";
 import "./AdminConsultations.css";
 
@@ -32,17 +31,15 @@ const AdminConsultations = () => {
         newStatus
       );
       fetchConsultations();
+<<<<<<< HEAD
       if (selectedConsultation?.id === consultationId) {
         setSelectedConsultation((prev) => ({ ...prev, status: newStatus }));
       }
-      toast.success("Status updated successfully");
-    } catch (error) {
       console.error("Failed to update status:", error);
-      toast.error("Failed to update status");
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     }
   };
 
-  const handleDelete = async (consultationId) => {
     if (
       window.confirm(
         "Are you sure you want to delete this consultation request?"
@@ -51,6 +48,7 @@ const AdminConsultations = () => {
       try {
         await consultationsService.deleteConsultation(consultationId);
         fetchConsultations();
+<<<<<<< HEAD
         if (selectedConsultation?.id === consultationId) {
           setSelectedConsultation(null);
         }
@@ -58,20 +56,17 @@ const AdminConsultations = () => {
       } catch (error) {
         console.error("Failed to delete consultation:", error);
         toast.error("Failed to delete consultation");
-      }
-    }
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
+=======
+        if (selectedConsultation?._id === consultationId) {
+          setSelectedConsultation(null);
+        }
+      } catch (error) {
+        console.error("Failed to delete consultation:", error);
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
   };
-
   const filteredConsultations = consultations.filter((c) => {
     if (filterStatus === "all") return true;
     return c.status === filterStatus;
@@ -123,9 +118,15 @@ const AdminConsultations = () => {
           {filteredConsultations.length > 0 ? (
             filteredConsultations.map((consultation) => (
               <div
+<<<<<<< HEAD
                 key={consultation.id}
                 className={`consultation-item ${
                   selectedConsultation?.id === consultation.id
+=======
+                key={consultation._id}
+                className={`consultation-item ${
+                  selectedConsultation?._id === consultation._id
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     ? "selected"
                     : ""
                 }`}
@@ -170,7 +171,11 @@ const AdminConsultations = () => {
                 <select
                   value={selectedConsultation.status}
                   onChange={(e) =>
+<<<<<<< HEAD
                     handleStatusChange(selectedConsultation.id, e.target.value)
+=======
+                    handleStatusChange(selectedConsultation._id, e.target.value)
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                   }
                   className="status-select"
                 >
@@ -181,7 +186,11 @@ const AdminConsultations = () => {
                 </select>
                 <button
                   className="delete-btn"
+<<<<<<< HEAD
                   onClick={() => handleDelete(selectedConsultation.id)}
+=======
+                  onClick={() => handleDelete(selectedConsultation._id)}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 >
                   Delete
                 </button>

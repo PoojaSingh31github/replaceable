@@ -35,19 +35,11 @@ const AdminRegister = () => {
     e.preventDefault();
     setError("");
 
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      const errMsg = "Passwords do not match";
-      setError(errMsg);
-      toast.error(errMsg);
-      return;
-    }
 
     // Validate password length
     if (formData.password.length < 6) {
       const errMsg = "Password must be at least 6 characters";
       setError(errMsg);
-      toast.error(errMsg);
       return;
     }
 
@@ -65,18 +57,14 @@ const AdminRegister = () => {
       const errMsg = "Please enter a valid email address";
       setError(errMsg);
       toast.error(errMsg);
-      return;
-    }
-
+      setError("Password must be at least 6 characters");
     setIsSubmitting(true);
-
     try {
       const result = await register(
         formData.email,
         formData.password,
         formData.fullName
       );
-
       if (result.success) {
         toast.success("Registration successful! Redirecting to login...");
         setSuccess(true);
@@ -96,13 +84,13 @@ const AdminRegister = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
+=======
+    const result = await register(
+      formData.email,
+      formData.password,
+      formData.fullName
+    );
 
-  return (
-    <div className="admin-login">
-      <div className="login-container">
-        <div className="login-header">
-          <h1 className="login-logo">
             Replace<span className="text-crimson">able</span>.ai
           </h1>
           <p className="login-subtitle">Admin Registration</p>
@@ -139,7 +127,7 @@ const AdminRegister = () => {
               <input
                 type="email"
                 name="email"
-                className={`form-input ${error && formData.email && error.includes('email') ? 'error' : ''}`}
+                className="form-input"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="admin@replaceable.ai"

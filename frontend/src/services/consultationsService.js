@@ -21,6 +21,7 @@ export const consultationsService = {
 
   // Update consultation status (admin)
   async updateConsultationStatus(consultationId, status, notes = null) {
+<<<<<<< HEAD
     const params = new URLSearchParams({
       status,
       ...(notes && { notes }),
@@ -28,6 +29,12 @@ export const consultationsService = {
     const response = await api.patch(
       `/consultations/${consultationId}/status?${params.toString()}`
     );
+=======
+    const response = await api.put(`/consultations/${consultationId}/status`, {
+      status,
+      notes,
+    });
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     return response.data;
   },
 

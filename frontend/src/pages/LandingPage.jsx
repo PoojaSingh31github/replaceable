@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as THREE from "three";
+<<<<<<< HEAD
+=======
+import siteContentService from "../services/siteContentService";
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 import "./LandingPage.css";
 
 const LandingPage = () => {
@@ -8,10 +12,25 @@ const LandingPage = () => {
   const crystalContainerRef = useRef(null);
   const heroRef = useRef(null);
   const [currentFilter, setCurrentFilter] = useState("all");
+<<<<<<< HEAD
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
   // Data matches horizon-landing.html exactly
+=======
+  const [currentTagFilter, setCurrentTagFilter] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+
+  // State for dynamic content
+  const [siteContent, setSiteContent] = useState(null);
+  const [cards, setCards] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Default ERAS (fallback)
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
   const ERAS = {
     awakening: { start: 2026, end: 2040, name: "Awakening" },
     transformation: { start: 2041, end: 2070, name: "Transformation" },
@@ -54,6 +73,7 @@ const LandingPage = () => {
       "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
   };
 
+<<<<<<< HEAD
   // All 24 articles from horizon-landing.html
   const ARTICLES = [
     {
@@ -288,16 +308,91 @@ const LandingPage = () => {
   ];
 
   const getEraKey = (year) => {
+=======
+  // Fetch dynamic content from API
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        setLoading(true);
+        const [contentData, cardsData, tagsData] = await Promise.all([
+          siteContentService.getPublicSiteContent(),
+          siteContentService.getPublicCards(),
+          siteContentService.getPublicTags(),
+        ]);
+        setSiteContent(contentData);
+        setCards(cardsData);
+        setTags(tagsData);
+      } catch (err) {
+        console.error("Failed to fetch site content:", err);
+        setError("Failed to load content");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  // Get filters from site content or use defaults
+  const filters = siteContent?.filters || [
+    { name: "All Reports", key: "all" },
+    { name: "Awakening", key: "awakening", start_year: 2026, end_year: 2040 },
+    {
+      name: "Transformation",
+      key: "transformation",
+      start_year: 2041,
+      end_year: 2070,
+    },
+    {
+      name: "Transcendence",
+      key: "transcendence",
+      start_year: 2071,
+      end_year: 2100,
+    },
+    { name: "Horizon", key: "horizon", start_year: 2101, end_year: 2126 },
+  ];
+
+  // Cards are now fetched dynamically from API
+
+  const getEraKey = (year) => {
+    // First try dynamic filters
+    for (const filter of filters) {
+      if (filter.start_year && filter.end_year) {
+        if (year >= filter.start_year && year <= filter.end_year)
+          return filter.key;
+      }
+    }
+    // Fallback to static ERAS
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
     for (const [key, era] of Object.entries(ERAS)) {
       if (year >= era.start && year <= era.end) return key;
     }
     return "awakening";
   };
 
+<<<<<<< HEAD
   const getEraName = (year) => ERAS[getEraKey(year)].name;
 
   const getImage = (category) =>
     IMAGES[category.toLowerCase()] || IMAGES.technology;
+=======
+  const getEraName = (year) => {
+    // First try dynamic filters
+    const filter = filters.find((f) => {
+      if (f.start_year && f.end_year) {
+        return year >= f.start_year && year <= f.end_year;
+      }
+      return false;
+    });
+    if (filter) return filter.name;
+    // Fallback to static ERAS
+    return ERAS[getEraKey(year)]?.name || "Awakening";
+  };
+
+  const getImage = (category, imageUrl) => {
+    if (imageUrl) return imageUrl;
+    return IMAGES[category?.toLowerCase()] || IMAGES.technology;
+  };
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 
   // Hero particles animation
   useEffect(() => {
@@ -560,6 +655,7 @@ const LandingPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+<<<<<<< HEAD
   // Filter handling
   const filteredArticles =
     currentFilter === "all"
@@ -575,15 +671,94 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       {/* Masthead - matches HTML exactly */}
+=======
+  // Filter handling - by era and tag
+  const filteredCards = cards.filter((card) => {
+    // Era filter
+    if (currentFilter !== "all") {
+      const filter = filters.find((f) => f.key === currentFilter);
+      if (filter && filter.start_year && filter.end_year) {
+        if (card.year < filter.start_year || card.year > filter.end_year) {
+          return false;
+        }
+      }
+    }
+
+    // Tag filter
+    if (currentTagFilter) {
+      if (!card.tags || !card.tags.includes(currentTagFilter)) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  const featuredCard =
+    filteredCards.find((c) => c.featured) ||
+    filteredCards[filteredCards.length - 1];
+  const regularCards = filteredCards.filter((c) => c !== featuredCard);
+
+  // Get dynamic content from API with fallbacks
+  const hero = siteContent?.hero || {
+    badge: "Strategic Foresight Series",
+    title: "The Horizon <em>Scanning</em> Series",
+    subtitle:
+      "Strategic foresight reports mapping the transformation of human work across the next century.",
+    stats: [],
+  };
+
+  const navLinks = siteContent?.nav_links || [
+    { label: "Intelligence", url: "/horizon" },
+    { label: "Industries", url: "/reports/goa-hospitality-2064" },
+    { label: "Research", url: "/horizon" },
+  ];
+
+  const cta = siteContent?.cta || {
+    title: "Ready to map <em>your</em> future?",
+    description: "Commission a custom Horizon Scan for your organization.",
+    button_text: "Commission a Report →",
+    button_link: "/horizon",
+  };
+
+  const footer = siteContent?.footer || {
+    logo_text: "Replace<span class='accent'>able</span>.ai",
+    copyright: "© 2026 Replaceable.ai · All rights reserved",
+  };
+
+  const execution = siteContent?.execution || {
+    title: "",
+    subtitle: "",
+    items: [],
+  };
+  const analytics = siteContent?.analytics || {
+    title: "",
+    subtitle: "",
+    metrics: [],
+    charts_enabled: true,
+  };
+
+  return (
+    <div className="landing-page">
+      {/* Masthead - now dynamic */}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
       <header className={`masthead ${isScrolled ? "scrolled" : ""}`}>
         <div className="masthead-inner">
           <Link to="/" className="logo">
             Replace<span className="accent">able</span>.ai
           </Link>
           <nav className="nav">
+<<<<<<< HEAD
             <Link to="/horizon">Intelligence</Link>
             <Link to="/reports/goa-hospitality-2064">Industries</Link>
             <Link to="/horizon">Research</Link>
+=======
+            {navLinks.map((link, index) => (
+              <Link key={index} to={link.url}>
+                {link.label}
+              </Link>
+            ))}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
             <Link to="/horizon" className="nav-cta">
               Commission Report
             </Link>
@@ -599,6 +774,7 @@ const LandingPage = () => {
           ref={canvasRef}
         ></canvas>
         <div className="hero-content">
+<<<<<<< HEAD
           <div className="hero-badge">Strategic Foresight Series</div>
           <h1 className="hero-title">
             The Horizon <em>Scanning</em> Series
@@ -607,6 +783,27 @@ const LandingPage = () => {
             Strategic foresight reports mapping the transformation of human work
             across the next century.
           </p>
+=======
+          <div className="hero-badge">{hero.badge}</div>
+          <h1
+            className="hero-title"
+            dangerouslySetInnerHTML={{ __html: hero.title }}
+          ></h1>
+          <p className="hero-subtitle">{hero.subtitle}</p>
+
+          {/* Hero Stats - Dynamic */}
+          {hero.stats && hero.stats.length > 0 && (
+            <div className="hero-stats">
+              {hero.stats.map((stat, index) => (
+                <div key={index} className="hero-stat">
+                  <span className="hero-stat-value">{stat.value}</span>
+                  <span className="hero-stat-label">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           <div className="crystal-wrapper" id="crystalWrapper">
             <div className="crystal-glow"></div>
             <div id="crystal-container" ref={crystalContainerRef}></div>
@@ -624,6 +821,7 @@ const LandingPage = () => {
       </section>
 
       <div className="content-area" id="contentArea">
+<<<<<<< HEAD
         <section className="filters-section">
           <div className="filters-inner">
             <div className="filter-tabs">
@@ -670,24 +868,147 @@ const LandingPage = () => {
             </div>
             <div className="results-count">
               Showing <strong>{filteredArticles.length}</strong> reports
+=======
+        {/* Execution Section - Dynamic */}
+        {execution.title && (
+          <section className="execution-section">
+            <div className="execution-inner">
+              <h2 className="section-title">{execution.title}</h2>
+              {execution.subtitle && (
+                <p className="section-subtitle">{execution.subtitle}</p>
+              )}
+              {execution.items && execution.items.length > 0 && (
+                <div className="execution-grid">
+                  {execution.items.map((item, index) => (
+                    <div key={index} className="execution-item">
+                      {item.icon && (
+                        <div className="execution-icon">{item.icon}</div>
+                      )}
+                      {item.value && (
+                        <div className="execution-value">{item.value}</div>
+                      )}
+                      <h3 className="execution-item-title">{item.title}</h3>
+                      <p className="execution-item-desc">{item.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Analytics Section - Dynamic */}
+        {analytics.title &&
+          analytics.metrics &&
+          analytics.metrics.length > 0 && (
+            <section className="analytics-section">
+              <div className="analytics-inner">
+                <h2 className="section-title">{analytics.title}</h2>
+                {analytics.subtitle && (
+                  <p className="section-subtitle">{analytics.subtitle}</p>
+                )}
+                <div className="analytics-grid">
+                  {analytics.metrics.map((metric, index) => (
+                    <div key={index} className="analytics-card">
+                      <div className="analytics-value">{metric.value}</div>
+                      <div className="analytics-label">{metric.label}</div>
+                      {metric.change && (
+                        <div
+                          className={`analytics-change ${
+                            metric.changeType || "neutral"
+                          }`}
+                        >
+                          {metric.change}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+        <section className="filters-section">
+          <div className="filters-inner">
+            {/* Era Filters - Dynamic */}
+            <div className="filter-tabs">
+              {filters.map((filter) => (
+                <button
+                  key={filter.key}
+                  className={`filter-tab ${
+                    currentFilter === filter.key ? "active" : ""
+                  }`}
+                  onClick={() => setCurrentFilter(filter.key)}
+                >
+                  {filter.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Tag Filters - Dynamic */}
+            {tags.length > 0 && (
+              <div className="tag-filters">
+                <button
+                  className={`tag-filter ${!currentTagFilter ? "active" : ""}`}
+                  onClick={() => setCurrentTagFilter(null)}
+                >
+                  All Tags
+                </button>
+                {tags.map((tag) => (
+                  <button
+                    key={tag.id}
+                    className={`tag-filter ${
+                      currentTagFilter === tag.slug ? "active" : ""
+                    }`}
+                    onClick={() => setCurrentTagFilter(tag.slug)}
+                    style={{
+                      "--tag-color": tag.color,
+                      backgroundColor:
+                        currentTagFilter === tag.slug
+                          ? tag.color
+                          : "transparent",
+                      color:
+                        currentTagFilter === tag.slug ? "white" : tag.color,
+                      borderColor: tag.color,
+                    }}
+                  >
+                    {tag.name}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div className="results-count">
+              Showing <strong>{filteredCards.length}</strong> reports
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
             </div>
           </div>
         </section>
 
         <section className="reports-section">
           {/* Featured Card */}
+<<<<<<< HEAD
           {featuredArticle && (
             <div className="featured-card visible">
               <div className="featured-image">
                 <img
                   src={getImage(featuredArticle.category)}
                   alt={featuredArticle.title}
+=======
+          {featuredCard && (
+            <div className="featured-card visible">
+              <div className="featured-image">
+                <img
+                  src={getImage(featuredCard.category, featuredCard.image_url)}
+                  alt={featuredCard.title}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 />
                 <div className="featured-image-overlay"></div>
                 <div className="featured-badge">Latest Report</div>
               </div>
               <div className="featured-content">
                 <div className="featured-meta">
+<<<<<<< HEAD
                   <div className="featured-year">{featuredArticle.year}</div>
                   <div className="featured-era">
                     {getEraName(featuredArticle.year)}
@@ -702,6 +1023,42 @@ const LandingPage = () => {
                   <div>
                     <div className="featured-stat-value">
                       {featuredArticle.rpi}
+=======
+                  <div className="featured-year">{featuredCard.year}</div>
+                  <div className="featured-era">
+                    {getEraName(featuredCard.year)}
+                  </div>
+                </div>
+                <div className="featured-category">{featuredCard.category}</div>
+                <h2 className="featured-title">{featuredCard.title}</h2>
+                <p className="featured-summary">{featuredCard.summary}</p>
+
+                {/* Tags */}
+                {featuredCard.tags && featuredCard.tags.length > 0 && (
+                  <div className="featured-tags">
+                    {featuredCard.tags.map((tagSlug) => {
+                      const tag = tags.find((t) => t.slug === tagSlug);
+                      return tag ? (
+                        <span
+                          key={tagSlug}
+                          className="card-tag"
+                          style={{
+                            backgroundColor: tag.color + "20",
+                            color: tag.color,
+                          }}
+                        >
+                          {tag.name}
+                        </span>
+                      ) : null;
+                    })}
+                  </div>
+                )}
+
+                <div className="featured-stats">
+                  <div>
+                    <div className="featured-stat-value">
+                      {featuredCard.rpi}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                       <span
                         style={{ fontSize: "14px", color: "var(--text-muted)" }}
                       >
@@ -712,7 +1069,11 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <div className="featured-stat-value">
+<<<<<<< HEAD
                       {featuredArticle.augment}
+=======
+                      {featuredCard.augment}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                       <span
                         style={{ fontSize: "14px", color: "var(--text-muted)" }}
                       >
@@ -723,23 +1084,41 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <div className="featured-stat-value">
+<<<<<<< HEAD
                       {featuredArticle.roles.toLocaleString()}
+=======
+                      {featuredCard.roles?.toLocaleString()}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     </div>
                     <div className="featured-stat-label">Roles Analyzed</div>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <Link
                   to={`/reports/goa-hospitality-2064`}
                   className="featured-cta"
                 >
                   Read Full Report →
                 </Link>
+=======
+                {featuredCard.linked_report_slug ? (
+                  <Link
+                    to={`/reports/${featuredCard.linked_report_slug}`}
+                    className="featured-cta"
+                  >
+                    Read Full Report →
+                  </Link>
+                ) : (
+                  <span className="featured-cta disabled">Coming Soon</span>
+                )}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
               </div>
             </div>
           )}
 
           {/* Regular Reports Grid */}
           <div className="reports-grid">
+<<<<<<< HEAD
             {regularArticles.map((article, i) => {
               const rpiClass =
                 article.rpi >= 70
@@ -752,6 +1131,16 @@ const LandingPage = () => {
                   key={i}
                   className="paper-card visible"
                   data-era={getEraKey(article.year)}
+=======
+            {regularCards.map((card, i) => {
+              const rpiClass =
+                card.rpi >= 70 ? "high" : card.rpi >= 40 ? "medium" : "low";
+              return (
+                <article
+                  key={card.id || i}
+                  className="paper-card visible"
+                  data-era={getEraKey(card.year)}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                 >
                   <div className="paper-stack"></div>
                   <div className="paper-stack-2"></div>
@@ -767,6 +1156,7 @@ const LandingPage = () => {
                     </div>
                     <div className="paper-image">
                       <img
+<<<<<<< HEAD
                         src={getImage(article.category)}
                         alt={article.title}
                         loading="lazy"
@@ -781,6 +1171,41 @@ const LandingPage = () => {
                       <div className="paper-category">{article.category}</div>
                       <h3 className="paper-title">{article.title}</h3>
                       <p className="paper-summary">{article.summary}</p>
+=======
+                        src={getImage(card.category, card.image_url)}
+                        alt={card.title}
+                        loading="lazy"
+                      />
+                      <div className="paper-image-overlay"></div>
+                      <div className="paper-year">{card.year}</div>
+                    </div>
+                    <div className="paper-content">
+                      <span className="paper-era">{getEraName(card.year)}</span>
+                      <div className="paper-category">{card.category}</div>
+                      <h3 className="paper-title">{card.title}</h3>
+                      <p className="paper-summary">{card.summary}</p>
+
+                      {/* Tags */}
+                      {card.tags && card.tags.length > 0 && (
+                        <div className="paper-tags">
+                          {card.tags.slice(0, 2).map((tagSlug) => {
+                            const tag = tags.find((t) => t.slug === tagSlug);
+                            return tag ? (
+                              <span
+                                key={tagSlug}
+                                className="card-tag small"
+                                style={{
+                                  backgroundColor: tag.color + "20",
+                                  color: tag.color,
+                                }}
+                              >
+                                {tag.name}
+                              </span>
+                            ) : null;
+                          })}
+                        </div>
+                      )}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                     </div>
                     <div className="paper-footer">
                       <div className="paper-metrics">
@@ -790,22 +1215,37 @@ const LandingPage = () => {
                             <div className="metric-bar-track">
                               <div
                                 className={`metric-bar-fill ${rpiClass}`}
+<<<<<<< HEAD
                                 style={{ width: `${article.rpi}%` }}
                               ></div>
                             </div>
                             <span className="metric-value">{article.rpi}</span>
+=======
+                                style={{ width: `${card.rpi}%` }}
+                              ></div>
+                            </div>
+                            <span className="metric-value">{card.rpi}</span>
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                           </div>
                         </div>
                         <div className="metric">
                           <span className="metric-label">Augment</span>
+<<<<<<< HEAD
                           <span className="metric-value">
                             {article.augment}%
                           </span>
+=======
+                          <span className="metric-value">{card.augment}%</span>
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                         </div>
                         <div className="metric">
                           <span className="metric-label">Roles</span>
                           <span className="metric-value">
+<<<<<<< HEAD
                             {article.roles.toLocaleString()}
+=======
+                            {card.roles?.toLocaleString()}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
                           </span>
                         </div>
                       </div>
@@ -821,6 +1261,7 @@ const LandingPage = () => {
       <section className="cta-section">
         <div className="cta-gradient"></div>
         <div className="cta-inner">
+<<<<<<< HEAD
           <h2 className="cta-title">
             Ready to map <em>your</em> future?
           </h2>
@@ -831,18 +1272,35 @@ const LandingPage = () => {
           </p>
           <Link to="/horizon" className="cta-btn">
             Commission a Report →
+=======
+          <h2
+            className="cta-title"
+            dangerouslySetInnerHTML={{ __html: cta.title }}
+          ></h2>
+          <p className="cta-desc">{cta.description}</p>
+          <Link to={cta.button_link} className="cta-btn">
+            {cta.button_text}
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
           </Link>
         </div>
       </section>
 
       <footer>
         <div className="footer-inner">
+<<<<<<< HEAD
           <div className="footer-logo">
             Replace<span className="accent">able</span>.ai
           </div>
           <div className="footer-copy">
             © 2026 Replaceable.ai · All rights reserved
           </div>
+=======
+          <div
+            className="footer-logo"
+            dangerouslySetInnerHTML={{ __html: footer.logo_text }}
+          ></div>
+          <div className="footer-copy">{footer.copyright}</div>
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
         </div>
       </footer>
     </div>

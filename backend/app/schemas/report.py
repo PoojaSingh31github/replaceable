@@ -14,6 +14,10 @@ class RoleAnalysisSchema(BaseModel):
     gauge_info: Optional[Dict[str, str]] = None
     causal_chain: Optional[List[str]] = None
     skills: Optional[Dict[str, List[str]]] = None
+    key_responsibilities: Optional[List[str]] = None
+    required_qualifications: Optional[List[str]] = None
+    career_progression: Optional[str] = None
+    salary_range: Optional[Dict[str, Any]] = None
 
 class ScenarioSchema(BaseModel):
     type: str
@@ -48,6 +52,12 @@ class ReportCreate(BaseModel):
     target_year: Optional[int] = None
     region: Optional[str] = None
     industry: Optional[str] = None
+    tags: List[str] = []
+    card_category: Optional[str] = None
+    card_rpi: Optional[int] = None
+    card_augment: Optional[int] = None
+    card_roles_count: Optional[int] = None
+    card_summary: Optional[str] = None
 
 class ReportUpdate(BaseModel):
     slug: Optional[str] = None
@@ -70,6 +80,12 @@ class ReportUpdate(BaseModel):
     target_year: Optional[int] = None
     region: Optional[str] = None
     industry: Optional[str] = None
+    tags: Optional[List[str]] = None
+    card_category: Optional[str] = None
+    card_rpi: Optional[int] = None
+    card_augment: Optional[int] = None
+    card_roles_count: Optional[int] = None
+    card_summary: Optional[str] = None
 
 class ReportResponse(BaseModel):
     id: str
@@ -93,6 +109,12 @@ class ReportResponse(BaseModel):
     target_year: Optional[int]
     region: Optional[str]
     industry: Optional[str]
+    tags: List[str] = []
+    card_category: Optional[str] = None
+    card_rpi: Optional[int] = None
+    card_augment: Optional[int] = None
+    card_roles_count: Optional[int] = None
+    card_summary: Optional[str] = None
     created_at: datetime
     updated_at: datetime
     published_at: Optional[datetime]
@@ -109,4 +131,10 @@ class ReportListResponse(BaseModel):
     target_year: Optional[int]
     region: Optional[str]
     industry: Optional[str]
+    tags: List[str] = []
+    card_category: Optional[str] = None
+    card_rpi: Optional[int] = None
+    card_augment: Optional[int] = None
+    card_roles_count: Optional[int] = None
+    card_summary: Optional[str] = None
     created_at: datetime

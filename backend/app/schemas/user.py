@@ -1,33 +1,11 @@
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field
 
 class UserCreate(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
     full_name: str
-
-    @field_validator('email', mode='before')
-    @classmethod
-    def validate_organization_email(cls, v):
-        """Ensure email is an organization email (not free/personal email providers)."""
-        if not v:
-            raise ValueError('Email is required')
-        
-        # List of free/personal email domains
-        free_email_domains = [
-            'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com', 'yopmail.com',
-            'mail.com', 'protonmail.com', 'icloud.com', 'gmx.com', 'yandex.com',
-            'mail.ru', 'inbox.com', 'zoho.com', '163.com', 'qq.com'
-        ]
-        
-        email_lower = v.lower()
-        domain = email_lower.split('@')[1] if '@' in email_lower else ''
-        
-        if domain in free_email_domains:
-            raise ValueError(f'Organization email required. {domain} is a personal email provider.')
-        
-        return v
 
 class UserLogin(BaseModel):
     email: EmailStr

@@ -15,6 +15,12 @@ class RoleAnalysis(BaseModel):
     gauge_info: Optional[Dict[str, str]] = None
     causal_chain: Optional[List[str]] = None
     skills: Optional[Dict[str, List[str]]] = None
+    
+    # Additional editable fields for admin control
+    key_responsibilities: Optional[List[str]] = None
+    required_qualifications: Optional[List[str]] = None
+    career_progression: Optional[str] = None
+    salary_range: Optional[Dict[str, Any]] = None
 
 class Scenario(BaseModel):
     type: str  # "acceleration", "baseline", "disruption"
@@ -74,6 +80,16 @@ class Report(BaseModel):
     target_year: Optional[int] = None
     region: Optional[str] = None
     industry: Optional[str] = None
+    
+    # Tags for filtering
+    tags: List[str] = []  # List of tag slugs
+    
+    # Landing page card display settings
+    card_category: Optional[str] = None  # Category shown on card
+    card_rpi: Optional[int] = None  # RPI score for card
+    card_augment: Optional[int] = None  # Augmentation % for card
+    card_roles_count: Optional[int] = None  # Roles count for card
+    card_summary: Optional[str] = None  # Short summary for card
     
     # Timestamps
     created_at: datetime = Field(default_factory=datetime.utcnow)

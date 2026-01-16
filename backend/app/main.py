@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .config import settings
 from .database import connect_to_database, close_database_connection
-from .routes import auth_router, reports_router, consultations_router, admin_router
+from .routes import auth_router, reports_router, consultations_router, admin_router, site_content_router
 from .services.auth_service import AuthService
 
 @asynccontextmanager
@@ -45,6 +45,7 @@ app.include_router(auth_router, prefix="/api")
 app.include_router(reports_router, prefix="/api")
 app.include_router(consultations_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
+app.include_router(site_content_router, prefix="/api")
 
 # Static files for uploads
 if os.path.exists(settings.UPLOAD_DIR):

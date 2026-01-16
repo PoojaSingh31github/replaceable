@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
 import "./AdminNews.css";
 
 const AdminNewsNew = () => {
@@ -47,11 +46,10 @@ const AdminNewsNew = () => {
       // Simulating API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
+<<<<<<< HEAD
       toast.success("News card created successfully!");
-      setMessage({
-        type: "success",
-        text: "News card created successfully!",
-      });
+=======
+>>>>>>> 1055df777e5d1d621b49525d27396c396e695208
 
       // Reset form
       setFormData({
@@ -65,19 +63,17 @@ const AdminNewsNew = () => {
         status: "draft",
       });
     } catch (error) {
+<<<<<<< HEAD
       const errorMsg = error.message || "Failed to create news card";
       toast.error(errorMsg);
       setMessage({
         type: "error",
         text: errorMsg,
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+=======
+      setMessage({
   };
 
   return (
-    <div className="admin-news-new">
       <div className="page-header">
         <h1>Create News Card</h1>
         <p>Add a new news card or industry update</p>
